@@ -22,7 +22,25 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  if(dinosaurs.length===0) return {}
+  
+  let maxDino ={}
+  let maxLength = 0
+  let dinoName = ''
+  dinosaurs.forEach(dino =>{
+    if(dino.lengthInMeters>maxLength){
+      maxLength=dino.lengthInMeters
+      dinoName = dino.name
+    }
+  } )
+  maxLength = maxLength * 3.281
+
+  maxDino[dinoName] = maxLength
+  return maxDino
+
+}
+// console.log(getLongestDinosaur(exampleDinosaurData))
 
 /**
  * getDinosaurDescription()
@@ -44,7 +62,13 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  let dinosaur = dinosaurs.filter(dino => dino.dinosaurId == id) [0]
+  if(dinosaur == undefined ) return `A dinosaur with an ID of '${id}' cannot be found.`
+  
+  return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${dinosaur.mya[dinosaur.mya.length-1]} million years ago.`
+}
+// console.log(getDinosaurDescription(exampleDinosaurData,'U9vuZmgKwUr'))
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +95,22 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let filterDinosaurs = dinosaurs.filter(dino=>{
+    if (dino.mya.length==1 && (dino.mya == mya || dino.mya-1 == mya)) return dino.dinosaurId
+    else if(mya <= dino.mya[0] && mya >= dino.mya[1] ) return dino.dinosaurId
+  })
+  let arrOfIds =[]
+  if(key=='name'){
+    filterDinosaurs.forEach(dino => arrOfIds.push(dino.name)) 
+  }else{
+    filterDinosaurs.forEach(dino => arrOfIds.push(dino.dinosaurId))
+  }
+  console.log(arrOfIds)
+  return arrOfIds
+
+}
+getDinosaursAliveMya(exampleDinosaurData,65,'name')
 
 module.exports = {
   getLongestDinosaur,
