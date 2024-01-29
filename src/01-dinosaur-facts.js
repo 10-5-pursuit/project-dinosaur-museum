@@ -6,6 +6,7 @@
   Keep in mind that your functions must still have and use a parameter for accepting all dinosaurs.
 */
 const exampleDinosaurData = require("../data/dinosaurs");
+const {metersToFeet} = require('./helperFunctions');
 // Do not change the line above.
 
 /**
@@ -22,7 +23,18 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  let longestDinosaur = {};
+  let currLongest = 0;
+  dinosaurs.forEach(dino =>{
+    const {name, lengthInMeters} = dino;
+    if(metersToFeet(lengthInMeters) > currLongest){
+      currLongest = metersToFeet(lengthInMeters);
+      longestDinosaur = {[name]: currLongest};
+    }
+  })
+  return longestDinosaur;
+}
 
 /**
  * getDinosaurDescription()
