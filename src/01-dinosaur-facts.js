@@ -6,7 +6,7 @@
   Keep in mind that your functions must still have and use a parameter for accepting all dinosaurs.
 */
 const exampleDinosaurData = require("../data/dinosaurs");
-const {metersToFeet, displayMessage} = require('./helperFunctions');
+const {metersToFeet, displayMessage, isDinosaurAlive} = require('./helperFunctions');
 // Do not change the line above.
 
 /**
@@ -86,7 +86,9 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  return dinosaurs.filter(dino => isDinosaurAlive(dino, mya)).map(dino => (key in dino ? dino[key] : dino.dinosaurId));
+}
 
 module.exports = {
   getLongestDinosaur,

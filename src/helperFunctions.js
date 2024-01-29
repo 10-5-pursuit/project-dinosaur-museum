@@ -8,7 +8,15 @@ const displayMessage = (dino, id) => {
         return `${name} (${pronunciation})\n${info} It lived in the ${period} period, over ${mya[mya.length - 1]} million years ago.`
     }
 }
+const isDinosaurAlive = (dino, mya) => {
+    const { mya: dinoMya } = dino;
+    return (
+      (mya >= dinoMya[dinoMya.length - 1] && mya <= dinoMya[0]) ||
+      (dinoMya.length === 1 && dinoMya[0] - 1 === mya)
+    );
+  }
 module.exports = {
     metersToFeet,
-    displayMessage
+    displayMessage,
+    isDinosaurAlive
 }
