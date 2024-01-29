@@ -5,6 +5,7 @@
 */
 const exampleDinosaurData = require("../data/dinosaurs");
 const exampleRoomData = require("../data/rooms");
+const {displayRoom} = require('./helperFunctions');
 // Do not change the lines above.
 
 /**
@@ -25,7 +26,11 @@ const exampleRoomData = require("../data/rooms");
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
+function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  let dinosaur = dinosaurs.find(dino => dino.name == dinosaurName)
+  let roomLocation = rooms.find(room => room.dinosaurs.includes(dinosaur?.dinosaurId));
+  return displayRoom(dinosaur, roomLocation, dinosaurName);
+}
 
 /**
  * getConnectedRoomNamesById()

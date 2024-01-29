@@ -14,9 +14,19 @@ const isDinosaurAlive = (dino, mya) => {
       (mya >= dinoMya[dinoMya.length - 1] && mya <= dinoMya[0]) ||
       (dinoMya.length === 1 && dinoMya[0] - 1 === mya)
     );
-  }
+}
+const displayRoom = (dino, room, dinoName) => {
+    if(dino == undefined){
+        return `Dinosaur with name '${dinoName}' cannot be found.`;
+    }
+    if(room == undefined){
+        return `Dinosaur with name '${dinoName}' cannot be found in any rooms.`;
+    }
+    return room.name
+}
 module.exports = {
     metersToFeet,
     displayMessage,
-    isDinosaurAlive
+    isDinosaurAlive,
+    displayRoom
 }
