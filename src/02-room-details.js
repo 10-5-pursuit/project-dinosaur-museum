@@ -5,7 +5,7 @@
 */
 const exampleDinosaurData = require("../data/dinosaurs");
 const exampleRoomData = require("../data/rooms");
-const {displayRoom} = require('./helperFunctions');
+const {displayRoom, displayConnectedRooms} = require('./helperFunctions');
 // Do not change the lines above.
 
 /**
@@ -54,7 +54,10 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) {}
+function getConnectedRoomNamesById(rooms, id) {
+  const roomInfo = rooms.find(room => room.roomId == id);
+  return displayConnectedRooms(roomInfo,rooms, id);
+}
 
 module.exports = {
   getRoomByDinosaurName,

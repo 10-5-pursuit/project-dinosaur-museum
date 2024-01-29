@@ -22,11 +22,21 @@ const displayRoom = (dino, room, dinoName) => {
     if(room == undefined){
         return `Dinosaur with name '${dinoName}' cannot be found in any rooms.`;
     }
-    return room.name
+    return room.name;
+}
+const displayConnectedRooms = (roomInfo, rooms, id) => {
+    if(roomInfo == undefined){
+        return `Room with ID of '${id}' could not be found.`;
+    }
+    const roomNames = roomInfo.connectsTo.reduce((names, id) => {
+        return names.concat(rooms.find(room => room.roomId == id)?.name);
+      },[]);
+    return roomNames.includes(undefined) ? `Room with ID of 'incorrect-id' could not be found.`: roomNames;
 }
 module.exports = {
     metersToFeet,
     displayMessage,
     isDinosaurAlive,
-    displayRoom
+    displayRoom,
+    displayConnectedRooms
 }
