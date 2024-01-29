@@ -6,7 +6,7 @@
   Keep in mind that your functions must still have and use a parameter for accepting all dinosaurs.
 */
 const exampleDinosaurData = require("../data/dinosaurs");
-const {metersToFeet} = require('./helperFunctions');
+const {metersToFeet, displayMessage} = require('./helperFunctions');
 // Do not change the line above.
 
 /**
@@ -56,7 +56,10 @@ function getLongestDinosaur(dinosaurs) {
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  const dinosaurInfo = dinosaurs.find(dino => dino.dinosaurId == id);
+  return displayMessage(dinosaurInfo, id);
+}
 
 /**
  * getDinosaursAliveMya()
