@@ -24,24 +24,35 @@ const exampleDinosaurData = require("../data/dinosaurs");
  */
   
 
+// Function to find and return the longest dinosaur based on length in meters
 function getLongestDinosaur(dinosaurs) {
 
+  // Check if the dinosaurs array is empty
   if (dinosaurs.length === 0) {
+    // If empty, return an empty object
     return {};
   }
 
+  // Initialize the longestDinosaur variable with the first dinosaur in the array
+  // Use accumulator pattern - probably can use reduce, will try it later 
   let longestDinosaur = dinosaurs[0];
 
+  // Iterate through the dinosaurs array
   for (let dinosaur of dinosaurs) {
+    // Check if the length of the current dinosaur is greater than the length of the longest dinosaur
     if (dinosaur.lengthInMeters > longestDinosaur.lengthInMeters) {
+      // If true, update the longestDinosaur variable with the current dinosaur
       longestDinosaur = dinosaur;
     }
   }
 
+  // Return an object with the name of the longest dinosaur as the key
+  // and its length converted from meters to feet as the value
   return {
     [longestDinosaur.name]: longestDinosaur.lengthInMeters * 3.281,
   };
 }
+
 
 /**
  * getDinosaurDescription()
@@ -102,19 +113,30 @@ function getLongestDinosaur(dinosaurs) {
  *  //> ["WHQcpcOj0G"]
  */
 
+// Function to filter dinosaurs based on their existence in a specified time range (in millions of years ago)
 function getDinosaursAliveMya(dinosaurs, mya, key) {
+  // Use the filter function to select dinosaurs that existed during the specified time (mya)
   return dinosaurs
     .filter(dinosaur => {
+      // Destructure the mya array into startMya and endMya variables
       const [startMya, endMya] = dinosaur.mya;
 
+      // Check if the mya array has only one element, indicating a single point in time
       if (dinosaur.mya.length === 1) {
+        // Return true if the specified mya is equal to the startMya or one million year earlier
         return mya === startMya || mya === startMya - 1;
-      } else if (dinosaur.mya.length === 2) {
+      } 
+      // Check if the mya array has two elements, indicating a time range
+      else if (dinosaur.mya.length === 2) {
+        // Return true if the specified mya is within the range of endMya to startMya
         return mya >= endMya && mya <= startMya;
       }
 
+      // If the mya array has neither one nor two elements, return false
       return false;
     })
+    // Use map to transform the result array, selecting a specific property (key) if provided
+    // or defaulting to the dinosaurId if key is not provided
     .map(dinosaur => (key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId));
 }
 
