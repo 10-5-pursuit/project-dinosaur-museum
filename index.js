@@ -1,56 +1,17 @@
 const exampleDinosaurData = require("./data/dinosaurs");
+const exampleRoomData = require("./data/rooms");
 /// Program your functions below //
-function getLongestDinosaur(dinosaurs) {
-    if(dinosaurs == []){
-      return {}
+function getConnectedRoomNamesById(rooms, id) {
+    let roomArray = rooms.filter(room => room.connectsTo.includes(id));
+    if(roomArray.length == 0){
+        return `Room with ID of '${id}' could not be found.`
     }
-    let sortedInfo = dinosaurs.sort((a, b) => b.lengthInMeters - a.lengthInMeters)
-    let longest = 0;
-    let obj = sortedInfo.reduce((obj, dino) => {
-      if(dino.lengthInMeters >= longest){
-        if(dino.lengthInMeters === longest){
-          obj[dino.name] = (dino.lengthInMeters * 3.281).toFixed(2)
-        }
-        longest = dino.lengthInMeters
-        obj[dino.name] = (dino.lengthInMeters * 3.281).toFixed(2)
-      }
-      return obj;
-    },{});
-    let resultArr = Object.entries(obj)[0];
-    return {[resultArr[0]]: +resultArr[1]}
+
+    let roomNameArray = roomArray.filter(room => room.name)
+    if(roomNameArray.length === 0){
+        return `Room with ID of '${id}' could not be found.`
+    }
+    return roomNameArray
 }
 
-// console.log(getLongestDinosaur(exampleDinosaurData))
-
-function getDinosaursAliveMya(dinosaurs, mya, key) {
-    let array = [];
-  
-    for(let dino of dinosaurs) {
-        if(dino.mya.length == 1){
-            if(mya == dino.mya[0] || mya == dino.mya[0] - 1){
-                if(key){
-                    if(!dino[key]){
-                        array.push(dino.dinosaurId)
-                    }else {
-                        array.push(dino[key]);
-                    }
-                }else {
-                    array.push(dino.dinosaurId);
-                }
-            }
-        }else if(mya <= dino.mya[0] && mya >= dino.mya[1]){
-            if(key){
-                if(!dino[key]){
-                    array.push(dino.dinosaurId)
-                }else {
-                    array.push(dino[key]);
-                }
-            }else{
-                array.push(dino.dinosaurId);
-            }
-        }
-    }
-    return array; 
-}
-
-console.log(getDinosaursAliveMya(exampleDinosaurData, 150))
+console.log(getConnectedRoomNamesById(exampleRoomData, "Gp6nCN1JGT"))
