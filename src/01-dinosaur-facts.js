@@ -73,12 +73,12 @@ function getDinosaurDescription(dinosaurs, id) {
 
   let errorMessage = `A dinosaur with an ID of '${id}' cannot be found.`
 
-  for (const dino of dinosaurs){
-    if(dino.dinosaurId === id){
+  for (const dino of dinosaurs) {
+    if (dino.dinosaurId === id) {
       return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${dino.mya[dino.mya.length - 1]} million years ago.`
     }
-    }
-    return errorMessage;
+  }
+  return errorMessage;
 }
 
 
@@ -107,7 +107,34 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+let dinoArr = [];
+
+for(let dino of dinosaurs){
+  let oneDate = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya) && mya <= dino.mya[0];
+
+  let twoDates = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0];
+
+  if(oneDate){
+    pushToArray(dinoArr, key, dino)
+  } else if (twoDates){
+    pushToArray(dinoArr, key, dino)
+  }
+}
+return dinoArr;
+}
+
+function pushToArray(dinoArr, key, dino){
+  if(!key || !(key in dino)){
+    dinoArr.push(dino.dinosaurId)
+  }else {
+  dinoArr.push(dino[key]) 
+  }
+}
+
+
+
+console.log(getDinosaursAliveMya(exampleDinosaurData, 150))
 
 module.exports = {
   getLongestDinosaur,
