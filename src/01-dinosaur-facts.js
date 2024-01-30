@@ -31,7 +31,7 @@ function getLongestDinosaur(dinosaurs) {
     let maxLength = 0;
     let dinoName = '';
     
-    //if the dinosaur length is > maxLength, update maxLength to dinosaur length and update dinoName to dinosaur's name
+    //look through all dinosaurs (loop or method)if the dinosaur length is > maxLength, update maxLength to dinosaur length and update dinoName to dinosaur's name
     dinosaurs.forEach(dino => {
       if(dino.lengthInMeters > maxLength){
         maxLength = dino.lengthInMeters;
@@ -41,9 +41,9 @@ function getLongestDinosaur(dinosaurs) {
     //convert length in meters to feet
     maxLength = maxLength * 3.281
 
-  
-  longestDinosaurObj[dinoName] = maxLength
-  return longestDinosaurObj
+    //new key + value pair
+    longestDinosaurObj[dinoName] = maxLength
+    return longestDinosaurObj
 
 }
 
@@ -69,15 +69,20 @@ function getLongestDinosaur(dinosaurs) {
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
+
 function getDinosaurDescription(dinosaurs, id) {
+  //init variable and assign the result of filter method => creates a new array with filtered elements. The filter checks for unique dinosaur Id meaning that it will return 1 element if id exists.
   let dinosaur = dinosaurs.filter (dino => dino.dinosaurId === id) [0]
-    if(dinosaur == undefined) return `A dinosaur with an ID of '${id}' cannot be found.`
-  
-    return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${dinosaur.mya[dinosaur.mya.length-1]} million years ago.`
+    
+  //if the id doesn't exist return an error msg. The error msg is in the test file and description.
+  if(dinosaur == undefined) return `A dinosaur with an ID of '${id}' cannot be found.`
+    
+  //if id exists return detailed description using template literal. Access the key/value pairs using dot notation. The specific string to pass the test is in the test and description.
+  return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${dinosaur.mya[dinosaur.mya.length-1]} million years ago.`
 
 }
 
-getDinosaurDescription(exampleDinosaurData, 'YLtkN9R37')
+// getDinosaurDescription(exampleDinosaurData, 'YLtkN9R37')
 
 /**
  * getDinosaursAliveMya()
