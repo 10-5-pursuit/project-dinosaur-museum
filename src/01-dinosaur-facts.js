@@ -8,6 +8,18 @@
 const exampleDinosaurData = require("../data/dinosaurs");
 // Do not change the line above.
 
+//Helper functions
+
+function getDinosaurId (dinosaurs, name){
+  let id =''
+  dinosaurs.forEach(dino =>{
+    if (dino.name ==name) id=dino.dinosaurId
+  })
+  return id
+}
+// console.log(getDinosaurId(exampleDinosaurData,'Tyrannosaurus'))
+
+
 /**
  * getLongestDinosaur()
  * ---------------------
@@ -23,6 +35,7 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 function getLongestDinosaur(dinosaurs) {
+  //initial validation in case that the input data is empty
   if(dinosaurs.length===0) return {}
   
   let maxDino ={}
@@ -95,24 +108,36 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {
-  let filterDinosaurs = dinosaurs.filter(dino=>{
-    if (dino.mya.length==1 && (dino.mya == mya || dino.mya-1 == mya)) return dino.dinosaurId
-    else if(mya <= dino.mya[0] && mya >= dino.mya[1] ) return dino.dinosaurId
-  })
-  let arrOfIds =[]
+
+function checkKey (obj, key){
   if(key=='name'){
-    filterDinosaurs.forEach(dino => arrOfIds.push(dino.name)) 
-  }else{
-    filterDinosaurs.forEach(dino => arrOfIds.push(dino.dinosaurId))
+    return obj.name 
+  }else{ 
+    return obj.dinosaurId
   }
-  console.log(arrOfIds)
+}
+
+
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let arrOfIds =[]
+  
+  dinosaurs.forEach(dino =>{
+    if (dino.mya.length==1 && (dino.mya == mya || dino.mya-1 == mya)){
+      arrOfIds.push(checkKey(dino,key))
+    } else if(mya <= dino.mya[0] && mya >= dino.mya[1] ){
+      arrOfIds.push(checkKey(dino,key))
+    }
+  })
+
   return arrOfIds
 
 }
-getDinosaursAliveMya(exampleDinosaurData,65,'name')
+
+
+getDinosaursAliveMya(exampleDinosaurData,150)
 
 module.exports = {
+  getDinosaurId,
   getLongestDinosaur,
   getDinosaurDescription,
   getDinosaursAliveMya,

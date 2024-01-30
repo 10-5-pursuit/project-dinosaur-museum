@@ -5,6 +5,8 @@
 */
 const exampleDinosaurData = require("../data/dinosaurs");
 const exampleRoomData = require("../data/rooms");
+
+const dinoFacts = require("../src/01-dinosaur-facts");
 // Do not change the lines above.
 
 /**
@@ -25,7 +27,24 @@ const exampleRoomData = require("../data/rooms");
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
+function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+
+  let id = dinoFacts.getDinosaurId(dinosaurs,dinosaurName)
+
+  if (id== '') return `Dinosaur with name '${dinosaurName}' cannot be found.`
+
+  let DinosaurRoom = ''
+
+  rooms.forEach(room =>{
+    if(room.dinosaurs.includes(id)){
+      DinosaurRoom = room.name
+    }
+  })
+  if(DinosaurRoom == '') return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`
+
+  return DinosaurRoom
+}
+getRoomByDinosaurName(exampleDinosaurData,exampleRoomData,'Tyrannosaurus')
 
 /**
  * getConnectedRoomNamesById()
@@ -49,7 +68,47 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) {}
+
+function checkRoomId (rooms, id){
+  let result = false
+  rooms.forEach(room =>{
+    if(room.roomId==id) result=true
+  })
+  return result
+}
+
+function checkConnectedRooms (rooms){
+  let roomDoesNotExist = false
+  let roomName = ''
+  rooms.forEach(room =>{
+    room.connectsTo.forEach(connectedId=>{
+      if(!checkRoomId(rooms,connectedId)){
+        roomDoesNotExist = true
+        roomName = connectedId
+      } 
+    })
+  })
+  return [roomDoesNotExist, roomName]
+
+}
+
+function getConnectedRoomNamesById(rooms, id) {
+
+  if(checkConnectedRooms(rooms)[0]) return `Room with ID of '${checkConnectedRooms(rooms)[1]}' could not be found.`
+
+  if(!checkRoomId(rooms, id)) return `Room with ID of '${id}' could not be found.`
+
+
+  let connectedRooms = []
+  rooms.forEach(room=>{
+    if(room.connectsTo.includes(id)){
+      connectedRooms.push(room.name)
+    }
+  })
+
+  return connectedRooms
+}
+// console.log(getConnectedRoomNamesById(exampleRoomData,"A6QaYdyKra"))
 
 module.exports = {
   getRoomByDinosaurName,
