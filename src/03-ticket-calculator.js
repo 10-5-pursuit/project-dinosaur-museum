@@ -58,7 +58,12 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   let price = 0;
   const { ticketType, entrantType, extras } = ticketInfo;
   price += ticketData[ticketType].priceInCents[entrantType];
-  
+
+// calculate price of extras
+  for (const extra of extras){
+    price += ticketData.extras[extra].priceInCents[entrantType];
+  }
+
   return price;
 }
 
