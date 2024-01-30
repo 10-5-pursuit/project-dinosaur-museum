@@ -27,7 +27,7 @@ function getLongestDinosaur(dinosaurs) {
     return {}
   }
 
-  let sortedInfo = dinosaurs.sort((a, b) => b.lengthInMeters - a.lengthInMeters)
+  let sortedInfo = dinosaurs.slice().sort((a, b) => b.lengthInMeters - a.lengthInMeters)
   let longest = 0;
   let obj = sortedInfo.reduce((obj, dino) => {
     if(dino.lengthInMeters >= longest){
@@ -40,6 +40,7 @@ function getLongestDinosaur(dinosaurs) {
     return obj;
   },{});
   let resultArr = Object.entries(obj)[0]; 
+
   return {[resultArr[0]]: +resultArr[1]}
 }
 
@@ -77,15 +78,14 @@ function getLongestDinosaur(dinosaurs) {
  *  > "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
-  let description;
 
   for(let i = 0; i < dinosaurs.length; i++) {
-    if (dinosaurs[i].dinosaurId === id) {
-      description = `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${dinosaurs[i].mya.length === 1 ? dinosaurs[i].mya[0] : dinosaurs[i].mya[1]} million years ago.`
+    if(dinosaurs[i].dinosaurId === id) {
+      return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${dinosaurs[i].mya.length === 1 ? dinosaurs[i].mya[0] : dinosaurs[i].mya[1]} million years ago.`
     }
   }
 
-  return description ? description : `A dinosaur with an ID of 'incorrect-id' cannot be found.`
+  return `A dinosaur with an ID of 'incorrect-id' cannot be found.`
 }
 
 /**
