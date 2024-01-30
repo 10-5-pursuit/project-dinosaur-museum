@@ -6,7 +6,7 @@
   Keep in mind that your functions must still have and use a parameter for accepting all dinosaurs.
 */
 const exampleDinosaurData = require("../data/dinosaurs");
-const {metersToFeet, displayMessage, isDinosaurAlive} = require('./helperFunctions');
+const {metersToFeet, displayDinosaurInfo, isDinosaurAlive} = require('./helperFunctions');
 // Do not change the line above.
 
 /**
@@ -58,7 +58,7 @@ function getLongestDinosaur(dinosaurs) {
  */
 function getDinosaurDescription(dinosaurs, id) {
   const dinosaurInfo = dinosaurs.find(dino => dino.dinosaurId == id);
-  return displayMessage(dinosaurInfo, id);
+  return displayDinosaurInfo(dinosaurInfo, id);
 }
 
 /**
@@ -87,7 +87,8 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  return dinosaurs.filter(dino => isDinosaurAlive(dino, mya)).map(dino => (key in dino ? dino[key] : dino.dinosaurId));
+  return dinosaurs.filter(dino => isDinosaurAlive(dino, mya))
+                  .map(dino => (key in dino ? dino[key] : dino.dinosaurId));
 }
 
 module.exports = {

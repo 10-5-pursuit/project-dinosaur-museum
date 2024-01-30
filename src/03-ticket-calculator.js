@@ -6,6 +6,7 @@
   Keep in mind that your functions must still have and use a parameter for accepting all tickets.
 */
 const exampleTicketData = require("../data/tickets");
+const {calculateTicketPriceForEachCustomer, createReceipt, } = require('./helperFunctions');
 // Do not change the line above.
 
 /**
@@ -63,9 +64,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
       if(extras.length){
         for(const extra of extras){
           if(extra in ticketData.extras){
-            // if(entrantType in ticketData.extras[extra].priceInCents){
               totalPrice += ticketData.extras[extra].priceInCents[entrantType];
-            // }
           }
           else{
             return "Extra type 'incorrect-extra' cannot be found.";
@@ -137,7 +136,11 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     //> "Ticket type 'discount' cannot be found."
  */
 function purchaseTickets(ticketData, purchases) {
-  
+  const receiptInfo = purchases.map(ticketInfo => calculateTicketPriceForEachCustomer(ticketData, ticketInfo));
+  if(typeof(receiptInfo[0]) == 'string'){
+    return receiptInfo[0];
+  }
+  return createReceipt(receiptInfo);
 }
 
 // Do not change anything below this line.
