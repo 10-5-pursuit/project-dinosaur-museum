@@ -63,7 +63,7 @@ const dinosaurs = [
     lengthInMeters: 14,
     period: "Late Cretaceous",
     mya: [80.5],
-    info: "Elasmosaurus was an aquatic dinosaur with an extremely long neck that likely fed on other smaller aquatic fauna like fish, molluscs, and squid. E.D. Cope mistakenly placed the skull of an Elasmosaurus on the much shorter tail rather than the extremely long neck.",
+    info: "Elasmosaurus was an aquatic dinosaur with an extremely long neck that likely fed on other smaller aquatic fauna like fish, molluscs, and squid. E.D. Cope mistakenly placed the skull of an Elasmosaurus on the much shorter tail rather than the extremely long neck. It lived in the Late Cretaceous period, over 80.5 million years ago.",
   },
   {
     dinosaurId: "V53DvdhV2A",
@@ -195,7 +195,7 @@ const dinosaurs = [
     lengthInMeters: 6,
     period: "Early Cretaceous",
     mya: [78.5, 77.5],
-    info: "Xenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes.",
+    info: "Xenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago.",
   },
   {
     dinosaurId: "k-fVc9G-5Gm",
