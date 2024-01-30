@@ -11,14 +11,16 @@ const exampleTicketData = require("../data/tickets");
 /**
  * calculateTicketPrice()
  * ---------------------
- * Returns the ticket price based on the ticket information supplied to the function. The `ticketInfo` will be in the following shape. See below for more details on each key.
+ * Returns the ticket price based on the ticket information supplied to the function. The `ticketInfo` 
+ * will be in the following shape. See below for more details on each key.
  * const ticketInfo = {
     ticketType: "general",
     entrantType: "child",
     extras: ["movie"],
   };
  *
- * If either the `ticketInfo.ticketType` value or `ticketInfo.entrantType` value is incorrect, or any of the values inside of the `ticketInfo.extras` key is incorrect, an error message should be returned.
+ * If either the `ticketInfo.ticketType` value or `ticketInfo.entrantType` value is incorrect, or any of 
+ * the values inside of the `ticketInfo.extras` key is incorrect, an error message should be returned.
  *
  * @param {Object} ticketData - An object containing data about prices to enter the museum. See the `data/tickets.js` file for an example of the input.
  * @param {Object} ticketInfo - An object representing data for a single ticket.
