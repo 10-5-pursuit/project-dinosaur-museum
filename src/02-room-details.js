@@ -114,8 +114,6 @@ function getConnectedRoomNamesById(rooms, id) {
 }
  
   
-
-  
 module.exports = {
   getRoomByDinosaurName,
   getConnectedRoomNamesById,

@@ -5,6 +5,7 @@
 
   Keep in mind that your functions must still have and use a parameter for accepting all tickets.
 */
+const tickets = require("../data/tickets");
 const exampleTicketData = require("../data/tickets");
 // Do not change the line above.
 
@@ -57,18 +58,22 @@ const exampleTicketData = require("../data/tickets");
     function calculateTicketPrice(ticketData, ticketInfo) {
       const { ticketType, entrantType, extras } = ticketInfo;
     
+      // Check if the ticket type is valid and not "extras"
       if (!(ticketType in ticketData) || ticketType === "extras") {
         return "Ticket type 'incorrect-type' cannot be found.";
       }
     
+      // Check if the entrant type is valid for the specified ticket type
       if (!(entrantType in ticketData[ticketType].priceInCents)) {
         return `Entrant type '${entrantType}' cannot be found.`;
       }
     
+      // Check if all extras are valid
       if (extras.some(extra => !ticketData.extras[extra])) {
         return "Extra type 'incorrect-extra' cannot be found.";
       }
     
+      // Calculate the total price including base price and extras
       const basePrice = ticketData[ticketType].priceInCents[entrantType];
       const extrasPrice = extras.reduce((total, extra) => total + ticketData.extras[extra].priceInCents[entrantType], 0);
     
@@ -128,11 +133,44 @@ const exampleTicketData = require("../data/tickets");
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
- 
-    function purchaseTickets(ticketData, purchases) {}
-    
 
+function purchaseTickets(ticketData, purchases) {
+  let total = 0;
+  let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
 
+  // Loop through each purchase to calculate total price and generate receipt lines
+  for (const purchase of purchases) {
+    const priceInCents = calculateTicketPrice(ticketData, purchase);
+
+    // Check for errors in ticket price calculation
+    if (typeof priceInCents === "string") {
+      return priceInCents;
+    }
+
+    total += priceInCents;
+    receipt += getReceiptLine(ticketData, purchase, priceInCents);
+  }
+
+  // Generate the final receipt with total price
+  return `${receipt}-------------------------------------------
+TOTAL: $${(total / 100).toFixed(2)}`;
+}
+
+//used another helper function to print reciepts
+function getReceiptLine(ticketData, purchase, priceInCents) {
+  const { entrantType, ticketType, extras } = purchase;
+  const entrant = entrantType[0].toUpperCase() + entrantType.slice(1);
+  const ticketTypeDescription = ticketData[ticketType].description;
+  const price = (priceInCents / 100).toFixed(2);
+  let line = `${entrant} ${ticketTypeDescription}: $${price}`;
+
+  // Add extras to the line if there are any
+  if (extras.length > 0) {
+    line += " (" + extras.map(extra => ticketData.extras[extra].description).join(", ") + ")";
+  }
+
+  return `${line}\n`;
+}
 
 
 // Do not change anything below this line.
