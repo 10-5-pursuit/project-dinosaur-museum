@@ -37,9 +37,6 @@ function getLongestDinosaur(dinosaurs){
   return longestDinoObj;
 }
 
-
-
-
 /**
  * getDinosaurDescription()
  * ---------------------
@@ -63,23 +60,17 @@ function getLongestDinosaur(dinosaurs){
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-
-
-
-
-// function getDinosaurDescription(dinosaurs, id) {
-//   dinosaurs.forEach(dinobot =>{
-//     if (dinobot.dinosaurId === id){
-//       return (dinobot.info)
-//     } else {return (`A dinosaur with an ID of ${id} cannot be found.`)}
-//   })
+function getDinosaurDescription(dinosaurs, id) {
+  const targetDino = dinosaurs.find(dinobot => dinobot.dinosaurId == id);
+  if(targetDino == undefined){
+    return `A dinosaur with an ID of '${id}' cannot be found.`;
+  }
+  else{
+    const {name, pronunciation, info, period, mya} = targetDino;
+    return `${name} (${pronunciation})\n${info} It lived in the ${period} period, over ${mya[mya.length - 1]} million years ago.`
+  }
+}
   
-// }
-
-
-
-
-
 /**
  * getDinosaursAliveMya()
  * ---------------------
@@ -114,10 +105,8 @@ function getLongestDinosaur(dinosaurs){
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  let aliveDinoAtMya = [];
-  dinosaurs.forEach(dinobot =>{
 
-//USE INCLUDES METHOD WHICH RETURNS BOOLEAN  
+ 
 }
   
 module.exports = {
