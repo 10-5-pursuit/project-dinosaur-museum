@@ -57,10 +57,13 @@ const exampleTicketData = require("../data/tickets");
 function calculateTicketPrice(ticketData, ticketInfo) {
   let price = 0;
   const { ticketType, entrantType, extras } = ticketInfo;
+  if (!(ticketType in ticketData)) return `Ticket type '${ticketType}' cannot be found.`;
+  if (!(entrantType in ticketData[ticketType].priceInCents)) return `Entrant type '${entrantType}' cannot be found.`;
   price += ticketData[ticketType].priceInCents[entrantType];
 
 // calculate price of extras
   for (const extra of extras){
+    if (!(extra in ticketData.extras)) return `Extra type '${extra}' cannot be found.`
     price += ticketData.extras[extra].priceInCents[entrantType];
   }
 
