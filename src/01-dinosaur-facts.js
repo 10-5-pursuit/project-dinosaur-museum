@@ -71,14 +71,15 @@ console.log(getLongestDinosaur(exampleDinosaurData))
  */
 function getDinosaurDescription(dinosaurs, id) {
 
-  for (let dino of dinosaurs){
-    let newDino = dino.id
-    if(newDino == id){
-      return `${dino.name} ${dino.pronunciation}\n${dino.info} It lived in the ${dinosaurs.period}, over ${dino.mya}.`
-    }else{
-      return `A dinosaur with an ID of ${dino.id} cannot be found.`
+  let errorMessage = `A dinosaur with an ID of '${id}' cannot be found.`
+
+  for (const dino of dinosaurs){
+    if(dino.dinosaurId === id){
+      return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${dino.mya[dino.mya.length - 1]} million years ago.`
     }
-}}
+    }
+    return errorMessage;
+}
 
 
 /**
