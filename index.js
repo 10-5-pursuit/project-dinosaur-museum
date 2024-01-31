@@ -76,6 +76,42 @@ return result;
     return result;
     }
     
+
+
+    function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+      let foundDino = dinosaurs.find(dino => dino.name === dinosaurName);  //find just the name of the dinosaur
+      if(!foundDino){
+        return `Dinosaur with name '${dinosaurName}' cannot be found.`;
+      } 
+      
+      for (let room of rooms){
+        if (room.dinosaurs.includes(foundDino.dinosaurId)){
+      return room.name;
+    }  
+    }
+      return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
+    
+    }
+
+
+    function getConnectedRoomNamesById(rooms, id) {
+      const startingRoom = rooms.find(room => room.roomId === id);
+    
+    }
+    if (!startingRoom){
+      return `Room with ID '${id} could not be found.`;
+    }
+    
+    const connectedRoomNames= [];
+    
+    for (const connectedRoomId of startingRoom.connectsTo){
+      const connectedRoom = rooms.find(room => room.roomId === connectedRoomId);
+      if (!connectedRoom){
+        return `Room with ID '${connectedRoomId}' could not be found.`;
+      }
+      connectedRoomNames.push(connectedRoom.name);
+    }
+    
 // /// Program your functions below //
 
 // function getLongestDinosaur(dinosaurs) {

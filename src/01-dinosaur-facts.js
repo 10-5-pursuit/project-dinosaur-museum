@@ -74,7 +74,7 @@ function getDinosaurDescription(dinosaurs, id) {
       if (dinoObj.mya.length > 1) {
         myaIndex = dinoObj.mya.length - 1;
       }
-      return `${dinoObj.name} (${dinoObj.pronunciation}), lived during the ${dinoObj.period} period, about ${dinoObj.mya[myaIndex]} million years ago.`;
+      return `${dinoObj.name} (${dinoObj.pronunciation})\n${dinoObj.info} It lived in the ${dinoObj.period} period, over ${dinoObj.mya[myaIndex]} million years ago.`;
     }
   }
   return `A dinosaur with an ID of '${id}' cannot be found.`;
