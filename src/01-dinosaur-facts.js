@@ -71,13 +71,13 @@ function getLongestDinosaur(dinosaurs) {
  */
 
 function getDinosaurDescription(dinosaurs, id) {
-  //init variable and assign the result of filter method => creates a new array with filtered elements. The filter checks for unique dinosaur Id meaning that it will return 1 element if id exists.
+  //init variable and assign it to the result of filter method => creates a new array with filtered elements. The filter checks for unique dinosaur Id meaning that it will return 1 element if id exists.
   let dinosaur = dinosaurs.filter (dino => dino.dinosaurId === id) [0]
     
-  //if the id doesn't exist return an error msg. The error msg is in the test file and description.
+  //if the dinosaur doesn't exist return an error msg. The error msg is in the test file and description.
   if(dinosaur == undefined) return `A dinosaur with an ID of '${id}' cannot be found.`
     
-  //if id exists return detailed description using template literal. Access the key/value pairs using dot notation. The specific string to pass the test is in the test and description.
+  //if dinosaur id exists, return detailed description using template literal. Access the key/value pairs using dot notation. The specific string to pass the test is in the test and description.
   return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${dinosaur.mya[dinosaur.mya.length-1]} million years ago.`
 
 }
@@ -110,6 +110,9 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 
+
+// this is my helper function to be able to complete specified test conditions. 
+// the function takes two params and checks if the specified key is "name". If it is, it returns the name property of the object. If the key is not "name" it returns the Id property of the object.
 function getNameOrId(key, obj){
   if(key === 'name') return obj.name
   else return obj.dinosaurId
@@ -117,32 +120,26 @@ function getNameOrId(key, obj){
 
 
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  let filteredDinoArr = []
+  //init an empty arr
+  let myaDinoArr = []
   
+  //loop through the dinosaurs array
+  //check if the array has one element and if that element is equal to the input mya or one less 
   for (let i = 0; i < dinosaurs.length; i ++){
     if (dinosaurs[i].mya.length === 1 && (dinosaurs[i].mya[0] === mya || dinosaurs[i].mya[0]-1 === mya)){
-      // if(key === 'name'){
-      //   filteredDinoArr.push(dinosaurs[i].name)
-      // } else {
-      //   filteredDinoArr.push(dinosaurs[i].dinosaurId)
-      // }
-      filteredDinoArr.push(getNameOrId(key,dinosaurs[i]))
       
+      //push the return value of the helper function to myaDinoArr. It's using the input key and the element from the array that matches either by name or Id
+      myaDinoArr.push(getNameOrId(key,dinosaurs[i]))
+      
+    //check if the array has more than one element and create a range for the input mya 
     } else if (dinosaurs[i].mya[0] >= mya && dinosaurs[i].mya[1] <= mya){
-      // if(key === 'name'){
-      //   filteredDinoArr.push(dinosaurs[i].name)
-      // } else {
-      //   filteredDinoArr.push(dinosaurs[i].dinosaurId)
-      // }
-      filteredDinoArr.push(getNameOrId(key,dinosaurs[i]))
+      
+      //this is doing exactly the same process as before
+      myaDinoArr.push(getNameOrId(key,dinosaurs[i]))
     }
   }
-
-
-
-
-return filteredDinoArr;
-
+    //after loops and all dinosaurs have been checked, return new arr
+    return myaDinoArr;
 
 }
 
