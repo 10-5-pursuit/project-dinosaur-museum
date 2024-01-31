@@ -2,47 +2,125 @@ const exampleDinosaurData = require("./data/dinosaurs");
 const exampleRoomData = require("./data/rooms");
 const exampleTicketData = require("./data/tickets");
 /// Program your functions below //
-function calculateTicketPrice(ticketData, ticketInfo) {
-    if(!ticketData.hasOwnProperty(ticketInfo.ticketType)){
-        return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
+/*
+* EXAMPLE:
+const purchases = [
+  {
+    ticketType: "general", // Incorrect
+    entrantType: "adult",
+    extras: ["movie", "terrace"],
+  }
+]
+*/
+// Helper Function To Convert The string Number to US currency
+const moneyConverter = (strNum) => {
+    if(strNum.length > 4){
+      return `$${strNum.slice(0, 3)}.${strNum.slice(3)}`
     }
-    if(!ticketData.general.priceInCents.hasOwnProperty(ticketInfo.entrantType)){
-        return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
+    if(strNum.length > 5){
+      return `$${strNum.slice(0, 4)}.${strNum.slice(4)}`
     }
-    if(!ticketData.membership.priceInCents.hasOwnProperty(ticketInfo.entrantType)){
-        return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
-    }
-    if(!ticketData.extras.hasOwnProperty(ticketInfo.extras)){
-        return `Extra type '${ticketInfo.extras}' cannot be found.`
-    }
-    
-
+    return `$${strNum.slice(0, 2)}.${strNum.slice(2)}`
+  }
+        
+  function purchaseTickets(ticketData, purchases) {
+    let receipt = `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n`;
+    let receiptDescription = "";
     let total = 0;
-    let entrant = ticketInfo.entrantType
-    if(ticketInfo.ticketType === "general"){
-        if(ticketData.general.priceInCents[entrant]){
-            total += ticketData.general.priceInCents[entrant]
+    
+    // Sinlge Purchase Ticket 
+    if(purchases.length === 1){
+      if(!ticketData.hasOwnProperty(purchases[0].ticketType)) {
+        return `Ticket type '${purchases[0].ticketType}' cannot be found.`
+      }
+      let price = ticketData[purchases[0].ticketType].priceInCents[purchases[0].entrantType]
+      let description = `${ticketData[purchases[0].ticketType].description}`;
+      let entrant = purchases[0].entrantType.slice(0,1).toUpperCase() + purchases[0].entrantType.slice(1).toLowerCase()
+      let extrasArr = purchases[0].extras;
+      
+      if(extrasArr.length === 0) {
+          receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
+          total += price;
+      }else {
+        let extraStr = extrasArr.reduce((str, item, _, arr) => {
+        if(item === arr[arr.length - 1]){
+          str += `${ticketData.extras[item].description}`
+          price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
+          return str
+        }else {
+          str += `${ticketData.extras[item].description}, `
+          price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
+          return str
         }
-    }else {
-        if(ticketData.membership.priceInCents[entrant]){
-            total += ticketData.membership.priceInCents[entrant]
-        }
-    }
-    if(ticketInfo.extras.length == 0){
-        return total
-    }else{
-        for(const x of ticketInfo.extras){
-            if(ticketData.extras.hasOwnProperty(x)){
-                total += ticketData.extras[x].priceInCents[entrant]
-            }
-        }
-    }
-    return total
+        },"")
+        total += price;
+        receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})`
+      }
+  
+    return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`
 }
+  
+  // Multiple Purchases 
+  for(let i = 0; i < purchases.length; i++) {
+    let price = ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType]
+    let entrant = purchases[i].entrantType.slice(0,1).toUpperCase() + purchases[i].entrantType.slice(1).toLowerCase()
+    let description = `${ticketData[purchases[i].ticketType].description}`;
+    let extrasArr = purchases[i].extras
+    let extrasStrOfArrays = []
+    for(let i = 0; i < extrasArr.length; i++){
+      if(i === extrasArr.length - 1){
+        extrasStrOfArrays.push(`${ticketData.extras[extrasArr[i]].description}`)
+      }else if(extrasArr.length === 1){
+        extrasStrOfArrays.push(`${ticketData.extras[extrasArr[i]].description}`)
+      }else {
+        extrasStrOfArrays.push(`${ticketData.extras[extrasArr[i]].description}, `)
+      }
+      total += ticketData.extras[extrasArr[i]].priceInCents[purchases[i].entrantType]
+    }
+    total += price
+    let extraStr = extrasStrOfArrays.reduce((str, item, _, arr) => {
+      if(item === arr[arr.length - 1]){
+        str += `${item}`
+        return str
+      }else {
+        str += `${item}, `
+        return str
+      }
+    },"")
+    if(i === purchases.length - 1){
+        receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})`
+        continue;
+    }
+    receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})\n`
+    }
+    return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`// Total converted
+  }
 
-const ticketInfo = {
-    ticketType: "general",
-    entrantType: "child",
-    extras: ["movie"],
-};
-console.log(calculateTicketPrice(exampleTicketData, ticketInfo))
+const purchases = [
+    {
+      ticketType: "genef",
+      entrantType: "adult",
+      extras: [],
+    },
+]
+    // {
+    //   ticketType: "general",
+    //   entrantType: "senior",
+    //   extras: ["terrace"],
+    // },
+    // {
+    //   ticketType: "general",
+    //   entrantType: "child",
+    //   extras: ["education", "movie", "terrace"],
+    // },
+    // {
+    //   ticketType: "general",
+    //   entrantType: "child",
+    //   extras: ["education", "movie", "terrace"],
+    // },
+                
+// ];
+console.log(purchaseTickets(exampleTicketData, purchases))
+
+//     purchaseTickets(tickets, purchases);
+ //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n-------------------------------------------\nTOTAL: $175.00"

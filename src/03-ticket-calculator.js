@@ -55,32 +55,32 @@ const exampleTicketData = require("../data/tickets");
     //> "Entrant type 'kid' cannot be found."
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
-  
-  if(!ticketData.hasOwnProperty(ticketInfo.ticketType)){
+
+  if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
   }
 
   let total = 0;
   let entrant = ticketInfo.entrantType
 
-  if(ticketInfo.ticketType === "general"){
-    if(!ticketData.general.priceInCents.hasOwnProperty(ticketInfo.entrantType)){
-      return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
+  if(ticketInfo.ticketType === "general") {
+    if(!ticketData.general.priceInCents.hasOwnProperty(entrant)) {
+      return `Entrant type '${entrant}' cannot be found.`
     }
     total += ticketData.general.priceInCents[entrant]
+  }else if(!ticketData.membership.priceInCents.hasOwnProperty(entrant)) {
+    return `Entrant type '${entrant}' cannot be found.`
   }else {
-    if(ticketData.membership.priceInCents[entrant]){
-      total += ticketData.membership.priceInCents[entrant]
-    }
+    total += ticketData.membership.priceInCents[entrant]
   }
 
-  if(ticketInfo.extras.length == 0){
+  if(ticketInfo.extras.length == 0) {
     return total
-  }else{
-    for(const x of ticketInfo.extras){
-      if(ticketData.extras.hasOwnProperty(x)){
+  }else {
+    for(const x of ticketInfo.extras) {
+      if(ticketData.extras.hasOwnProperty(x)) {
         total += ticketData.extras[x].priceInCents[entrant]
-      }else{
+      }else {
         return `Extra type '${ticketInfo.extras}' cannot be found.`
       }
     }
@@ -142,7 +142,98 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+const moneyConverter = (strNum) => {
+  if(strNum.length > 4){
+    return `$${strNum.slice(0, 3)}.${strNum.slice(3)}`
+  }
+  if(strNum.length > 5){
+    return `$${strNum.slice(0, 4)}.${strNum.slice(4)}`
+  }
+  return `$${strNum.slice(0, 2)}.${strNum.slice(2)}`
+}
+      
+function purchaseTickets(ticketData, purchases) {
+  let receipt = `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n`;
+  let receiptDescription = "";
+  let total = 0;
+  
+  // Sinlge Purchase Ticket 
+  if(purchases.length === 1){
+    if(!ticketData.hasOwnProperty(purchases[0].ticketType)) {
+      return `Entrant type '${purchases[0].ticketType}' cannot be found.`
+    }
+    let price = ticketData[purchases[0].ticketType].priceInCents[purchases[0].entrantType]
+    let description = `${ticketData[purchases[0].ticketType].description}`;
+    let entrant = purchases[0].entrantType.slice(0,1).toUpperCase() + purchases[0].entrantType.slice(1).toLowerCase()
+    let extrasArr = purchases[0].extras;
+    
+    if(extrasArr.length === 0) {
+        receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
+        total += price;
+    }else {
+      let extraStr = extrasArr.reduce((str, item, _, arr) => {
+      if(item === arr[arr.length - 1]){
+        str += `${ticketData.extras[item].description}`
+        price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
+        return str
+      }else {
+        str += `${ticketData.extras[item].description}, `
+        price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
+        return str
+      }
+      },"")
+      total += price;
+      receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})`
+    }
+
+    return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`
+  }
+
+  // Multiple Purchases 
+  for(let i = 0; i < purchases.length; i++) {
+    if(!ticketData.hasOwnProperty(purchases[i].ticketType)) {
+      return `Entrant type '${purchases[i].ticketType}' cannot be found.`
+    }
+
+    let price = ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType]
+    let entrant = purchases[i].entrantType.slice(0,1).toUpperCase() + purchases[i].entrantType.slice(1).toLowerCase()
+    let description = `${ticketData[purchases[i].ticketType].description}`;
+    let extrasArr = purchases[i].extras
+    let extrasStrOfArrays = []
+    // Checking if extrasArray is empty or not. If empty process the description and add to the total
+    if(extrasArr.length === 0) {
+      if(i === purchases.length - 1){
+        receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
+        total += price;
+        break;
+      }
+      receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}\n`
+      total += price;
+    }else{
+      for(let j = 0; j < extrasArr.length; j++){
+        if(j === extrasArr.length - 1){
+          extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}`)
+        }else if(extrasArr.length === 1){
+          extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}`)
+        }else {
+          extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}, `)
+        }
+        price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
+      }
+      total += price
+      let extraStr = extrasStrOfArrays.reduce((str, item, _, arr) => {
+        str += `${item}`
+        return str   
+      },"")
+      if(i === purchases.length - 1){
+        receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})`
+        break;
+      }
+      receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})\n`
+    }
+  }
+  return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`// Total converted
+}
 
 // Do not change anything below this line.
 module.exports = {

@@ -69,6 +69,9 @@ function getConnectedRoomNamesById(rooms, id) {
     return `Room with ID of '${id}' could not be found.`
   }
   return roomArray.reduce((arr, room) => {
+    if(!room.connectsTo.includes(id)){
+      return `Room with ID of '${id}' could not be found.`
+    }
     arr.push(room.name)
     return arr
   },[]) 
