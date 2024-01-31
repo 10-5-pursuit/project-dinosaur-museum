@@ -150,6 +150,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
     .map(dinosaur => (key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId));
 }
 
+
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
