@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Pursuit TicketMaster</title>
+
+    </head>
+    <body id="display">
+        <form name="getOrder" onsubmit="return false;">
+            <p>
+                Choose Admission Type: <br>
+                <input type="radio" name="ticketType" id="general" value="general">
+                <label for="general">General</label><br>
+                <input type="radio" name="ticketType" id="membership" value="membership">
+                <label for="membership">Membership</label><br>
+                Choose Age Group: <br>
+                <input type="radio" name="entrantType" id="child" value="child">
+                <label for="child">Child</label><br>
+                <input type="radio" name="entrantType" id="adult" value="adult">
+                <label for="adult">Adult</label><br>
+                <input type="radio" name="entrantType" id="senior" value="senior">
+                <label for="senior">Senior</label><br>
+                Any Extras? <br>
+                <input type="checkbox" name="extras" id="movies" value="movies">
+                <label for="movies">Movie Access</label><br>
+                <input type="checkbox" name="extras" id="education" value="education">
+                <label for="education">Education Access</label><br>
+                <input type="checkbox" name="extras" id="terrace" value="terrace">
+                <label for="terrace">Terrace Access</label><br>
+                <button id="getEstimate">Continue</button>
+                <button id="addCart">Add</button>
+            </p>
+        </form>
+        <script src="index.js"></script>
+        
+        <div id="displaySelections"></div>
+
+    </body>
+</html>

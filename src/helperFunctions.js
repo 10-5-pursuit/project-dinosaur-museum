@@ -14,7 +14,7 @@ const isDinosaurAlive = (dino, mya) => {
     const { mya: dinoMya } = dino;
     return (
       (mya >= dinoMya[dinoMya.length - 1] && mya <= dinoMya[0]) ||
-      (dinoMya.length === 1 && dinoMya[0] - 1 === mya);
+      (dinoMya.length === 1 && dinoMya[0] - 1 === mya)
     );
 }
 
