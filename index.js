@@ -22,6 +22,10 @@ const moneyConverter = (strNum) => {
     }
     return `$${strNum.slice(0, 2)}.${strNum.slice(2)}`
   }
+
+function applyDiscount(price) {
+    return price - (price / 10);
+}
         
   function purchaseTickets(ticketData, purchases) {
     let receipt = `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n`;
@@ -53,6 +57,9 @@ const moneyConverter = (strNum) => {
           return str
         }
         },"")
+        if(purchases[0].discount === true){
+            price = applyDiscount(price)
+        }
         total += price;
         receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})`
       }
@@ -75,7 +82,10 @@ const moneyConverter = (strNum) => {
       }else {
         extrasStrOfArrays.push(`${ticketData.extras[extrasArr[i]].description}, `)
       }
-      total += ticketData.extras[extrasArr[i]].priceInCents[purchases[i].entrantType]
+      price += ticketData.extras[extrasArr[i]].priceInCents[purchases[i].entrantType]
+    }
+    if(purchases[i].discount === true){
+        price = applyDiscount(price)
     }
     total += price
     let extraStr = extrasStrOfArrays.reduce((str, item, _, arr) => {
@@ -94,32 +104,35 @@ const moneyConverter = (strNum) => {
     receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})\n`
     }
     return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`// Total converted
-  }
+}
 
 const purchases = [
     {
-      ticketType: "genef",
+      ticketType: "general",
       entrantType: "adult",
-      extras: [],
+      extras: ["movie"],
+      discount: true
     },
-]
-    // {
-    //   ticketType: "general",
-    //   entrantType: "senior",
-    //   extras: ["terrace"],
-    // },
-    // {
-    //   ticketType: "general",
-    //   entrantType: "child",
-    //   extras: ["education", "movie", "terrace"],
-    // },
-    // {
-    //   ticketType: "general",
-    //   entrantType: "child",
-    //   extras: ["education", "movie", "terrace"],
-    // },
+    {
+      ticketType: "general",
+      entrantType: "senior",
+      extras: ["terrace"],
+      discount: false
+    },
+    {
+      ticketType: "general",
+      entrantType: "child",
+      extras: ["education", "movie", "terrace"],
+      discount: true
+    },
+    {
+      ticketType: "general",
+      entrantType: "child",
+      extras: ["education", "movie", "terrace"],
+      discount: false
+    },
                 
-// ];
+];
 console.log(purchaseTickets(exampleTicketData, purchases))
 
 //     purchaseTickets(tickets, purchases);

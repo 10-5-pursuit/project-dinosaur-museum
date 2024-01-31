@@ -137,11 +137,15 @@ function calculateTicketPrice(ticketData, ticketInfo) {
         ticketType: "discount", // Incorrect
         entrantType: "adult",
         extras: ["movie", "terrace"],
+        discount: true
       }
     ]
     purchaseTickets(tickets, purchases);
-    //> "Ticket type 'discount' cannot be found."
+    //> "Ticket type 'discount' cannot be found.
  */
+
+//! Create a Discount option, There is only 1 discount option. If discount is true take 10% off price. 
+// ? Helper Function to convert string(number) into dollars. 
 const moneyConverter = (strNum) => {
   if(strNum.length > 4){
     return `$${strNum.slice(0, 3)}.${strNum.slice(3)}`
@@ -150,6 +154,11 @@ const moneyConverter = (strNum) => {
     return `$${strNum.slice(0, 4)}.${strNum.slice(4)}`
   }
   return `$${strNum.slice(0, 2)}.${strNum.slice(2)}`
+}
+
+// ? Helper function to calculate discount
+function applyDiscount(price) {
+  return price - (price / 10);
 }
       
 function purchaseTickets(ticketData, purchases) {
@@ -188,6 +197,10 @@ function purchaseTickets(ticketData, purchases) {
         return str
       }
       },"")
+      // * apply a discount of 10% if discount is true
+      if(purchases[0].discount === true){
+        price = applyDiscount(price)
+      }
       total += price;
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})`
     }
@@ -218,7 +231,7 @@ function purchaseTickets(ticketData, purchases) {
       }
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}\n`
       total += price;
-      // If the extrasArray is not empty Calculate the elements in the array. 
+    // If the extrasArray is not empty Calculate the elements in the array. 
     }else{
       for(let j = 0; j < extrasArr.length; j++){
         if(!ticketData.extras.hasOwnProperty(...purchases[i].extras)){
@@ -230,6 +243,9 @@ function purchaseTickets(ticketData, purchases) {
           extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}, `)
         }
         price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
+      }
+      if(purchases[i].discount === true){
+        price = applyDiscount(price)
       }
       total += price
       let extraStr = extrasStrOfArrays.reduce((str, item) => {
