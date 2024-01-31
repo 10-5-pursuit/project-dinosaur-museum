@@ -108,27 +108,27 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-let dinoArr = [];
+  let dinoArr = [];
 
-for(let dino of dinosaurs){
-  let oneDate = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya) && mya <= dino.mya[0];
+  for (let dino of dinosaurs) {
+    let oneDate = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya) && mya <= dino.mya[0];
 
-  let twoDates = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0];
+    let twoDates = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0];
 
-  if(oneDate){
-    pushToArray(dinoArr, key, dino)
-  } else if (twoDates){
-    pushToArray(dinoArr, key, dino)
+    if (oneDate) {
+      pushToArray(dinoArr, key, dino)
+    } else if (twoDates) {
+      pushToArray(dinoArr, key, dino)
+    }
   }
-}
-return dinoArr;
+  return dinoArr;
 }
 
-function pushToArray(dinoArr, key, dino){
-  if(!key || !(key in dino)){
+function pushToArray(dinoArr, key, dino) {
+  if (!key || !(key in dino)) {
     dinoArr.push(dino.dinosaurId)
-  }else {
-  dinoArr.push(dino[key]) 
+  } else {
+    dinoArr.push(dino[key])
   }
 }
 
