@@ -55,7 +55,7 @@ const exampleTicketData = require("../data/tickets");
     //> "Entrant type 'kid' cannot be found."
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
-
+  //  Checking to see if the 
   if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
   }
@@ -144,7 +144,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     //> "Ticket type 'discount' cannot be found.
  */
 
-//! Create a Discount option, There is only 1 discount option. If discount is true take 10% off price. 
+
 // ? Helper Function to convert string(number) into dollars. 
 const moneyConverter = (strNum) => {
   if(strNum.length > 4){
@@ -171,9 +171,11 @@ function purchaseTickets(ticketData, purchases) {
     if(!ticketData.hasOwnProperty(purchases[0].ticketType)) {
       return `Ticket type '${purchases[0].ticketType}' cannot be found.`
     }
+    
     if(!ticketData[purchases[0].ticketType].priceInCents.hasOwnProperty(purchases[0].entrantType)){
       return `Entrant type 'incorrect-entrant' cannot be found.`
     }
+
     let price = ticketData[purchases[0].ticketType].priceInCents[purchases[0].entrantType]
     let description = `${ticketData[purchases[0].ticketType].description}`;
     let entrant = purchases[0].entrantType.slice(0,1).toUpperCase() + purchases[0].entrantType.slice(1).toLowerCase()
@@ -197,7 +199,7 @@ function purchaseTickets(ticketData, purchases) {
         return str
       }
       },"")
-      // * apply a discount of 10% if discount is true
+      // * Apply a discount of 10% if discount is true
       if(purchases[0].discount === true){
         price = applyDiscount(price)
       }
@@ -208,7 +210,7 @@ function purchaseTickets(ticketData, purchases) {
     return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`
   }
 
-  // Multiple Purchases 
+  // ! Multiple Purchases 
   for(let i = 0; i < purchases.length; i++) {
     if(!ticketData.hasOwnProperty(purchases[i].ticketType)) {
       return `Ticket type '${purchases[i].ticketType}' cannot be found.`
@@ -222,7 +224,7 @@ function purchaseTickets(ticketData, purchases) {
     let description = `${ticketData[purchases[i].ticketType].description}`;
     let extrasArr = purchases[i].extras
     let extrasStrOfArrays = []
-    // Checking if extrasArray is empty or not. If empty process the description and add to the total
+    // * Checking if extrasArray is empty or not. If empty process the description and add to the total
     if(extrasArr.length === 0) {
       if(i === purchases.length - 1){
         receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
@@ -231,7 +233,7 @@ function purchaseTickets(ticketData, purchases) {
       }
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}\n`
       total += price;
-    // If the extrasArray is not empty Calculate the elements in the array. 
+    // * If the extrasArray is not empty Calculate the elements in the array, Along with the description. 
     }else{
       for(let j = 0; j < extrasArr.length; j++){
         if(!ticketData.extras.hasOwnProperty(...purchases[i].extras)){
@@ -244,6 +246,7 @@ function purchaseTickets(ticketData, purchases) {
         }
         price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
       }
+      // * If discount is true apply a 10% discount 
       if(purchases[i].discount === true){
         price = applyDiscount(price)
       }
@@ -259,6 +262,7 @@ function purchaseTickets(ticketData, purchases) {
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})\n`
     }
   }
+
   return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`// Total converted
 }
 

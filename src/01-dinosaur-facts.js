@@ -23,12 +23,14 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 function getLongestDinosaur(dinosaurs) {
+  // If dinosaurs array is empty return an empty obkect
   if(dinosaurs.length == 0){
     return {}
   }
-
+  // Create a copy of the array to not mutate the oringal array. Then sort the copy array by the lengthInMeters; Create a variable to hold the longest value
   let sortedInfo = dinosaurs.slice().sort((a, b) => b.lengthInMeters - a.lengthInMeters)
   let longest = 0;
+  // Use reduce on the sortedInfo to create an object with the longest dinosaurs
   let obj = sortedInfo.reduce((obj, dino) => {
     if(dino.lengthInMeters >= longest){
       if(dino.lengthInMeters === longest){
@@ -39,8 +41,8 @@ function getLongestDinosaur(dinosaurs) {
     }
     return obj;
   },{});
+  // extract the properties from the created object to return the first dinosaur we found that matched the condition
   let resultArr = Object.entries(obj)[0]; 
-
   return {[resultArr[0]]: +resultArr[1]}
 }
 
@@ -78,13 +80,13 @@ function getLongestDinosaur(dinosaurs) {
  *  > "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
-
+  // Loop through the dinosaurs array To match the given id with a dinosaur within the array. If the condition meets return the description of the dinosaur.
   for(let i = 0; i < dinosaurs.length; i++) {
     if(dinosaurs[i].dinosaurId === id) {
       return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${dinosaurs[i].mya.length === 1 ? dinosaurs[i].mya[0] : dinosaurs[i].mya[1]} million years ago.`
     }
   }
-  
+  // If no dinosaur met the given condition return an error message
   return `A dinosaur with an ID of 'incorrect-id' cannot be found.`
 }
 
@@ -115,8 +117,9 @@ function getDinosaurDescription(dinosaurs, id) {
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   let array = [];
-
+  // Loop through the dinosaur array
   for(let dino of dinosaurs) {
+    // If The mya array is 
     if(dino.mya.length == 1){
       if(mya == dino.mya[0] || mya == dino.mya[0] - 1){
         if(key){
@@ -128,7 +131,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
         }else {
           array.push(dino.dinosaurId);
         }
-      }
+      } 
     }else if(mya <= dino.mya[0] && mya >= dino.mya[1]){
       if(key){
         if(!dino[key]){
@@ -141,7 +144,6 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
       }
     }
   }
-
   return array; 
 }
 
