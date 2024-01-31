@@ -36,6 +36,7 @@ function getLongestDinosaur(dinosaurs) {
 }
 
 
+
 /**
  * getDinosaurDescription()
  * ---------------------
@@ -51,12 +52,21 @@ function getLongestDinosaur(dinosaurs) {
  *
  * EXAMPLE:
  *  getDinosaurDescription(dinosaurs, "U9vuZmgKwUr");
- *  //> "Xenoceratops (ZEE-no-SEH-ruh-tops)\nXenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago."
+ *  //> "Xenoceratops (ZEE-no-SEH-ruh-tops)\n Xenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago."
  *
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  const findDinosaur = dinosaurs.find((dinosaur) => dinosaur.dinosaurId === id);
+  
+  if (findDinosaur) {
+    console.log(`${findDinosaur.name} (${findDinosaur.pronunciation})\n${findDinosaur.info} It lived in the ${findDinosaur.period} period, over ${findDinosaur.mya[1]} million years ago.`)    
+  } else {
+    console.log(`A dinosaur with an ID of ${id} cannot be found.`)
+  }
+  
+}
 
 /**
  * getDinosaursAliveMya()
