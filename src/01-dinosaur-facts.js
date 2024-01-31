@@ -22,7 +22,29 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  let longestDinosaurName = dinosaurs[0];
+  let longestDinosaurLengthInFeet = 0;
+  if (dinosaurs.length === 0){
+    return {};
+  }
+
+  dinosaurs.forEach(dino => {  //
+    let lengthInFeet = dino.lengthInMeters * 3.281; //converts length in meters to feet
+    if (lengthInFeet > longestDinosaurLengthInFeet)
+    {
+      longestDinosaurLengthInFeet = lengthInFeet;
+      longestDinosaurName = dino.name;
+    }
+  });
+
+let result = {};
+result[longestDinosaurName] = longestDinosaurLengthInFeet;
+return result;
+  }
+
+
+
 
 /**
  * getDinosaurDescription()
@@ -44,7 +66,20 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+
+function getDinosaurDescription(dinosaurs, id) {
+  for (let dinoObj of dinosaurs) {
+    if (dinoObj.dinosaurId === id) {
+      let myaIndex = 0;
+      if (dinoObj.mya.length > 1) {
+        myaIndex = dinoObj.mya.length - 1;
+      }
+      return `${dinoObj.name} (${dinoObj.pronunciation}), lived during the ${dinoObj.period} period, about ${dinoObj.mya[myaIndex]} million years ago.`;
+    }
+  }
+  return `A dinosaur with an ID of '${id}' cannot be found.`;
+}
+
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +106,23 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+
+
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+const result = [];
+
+dinosaurs.forEach((dino) => {
+  const myaRange = dino.mya //the mya in the dinosaurs object
+  if (
+    (myaRange.length === 1 && (myaRange[0] === mya || myaRange[0] -1 === mya)) ||    // if mya has one value
+    (myaRange.length === 2 && mya <= myaRange[0] && mya >= myaRange[1])              // if mya has two values
+  ) {
+    result.push(key in dino ? dino[key] : dino.dinosaurId);  //the key is pushed into result
+  }
+});
+return result;
+}
+
 
 module.exports = {
   getLongestDinosaur,
