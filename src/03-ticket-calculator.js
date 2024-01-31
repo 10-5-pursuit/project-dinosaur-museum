@@ -160,7 +160,10 @@ function purchaseTickets(ticketData, purchases) {
   // Sinlge Purchase Ticket 
   if(purchases.length === 1){
     if(!ticketData.hasOwnProperty(purchases[0].ticketType)) {
-      return `Entrant type '${purchases[0].ticketType}' cannot be found.`
+      return `Ticket type '${purchases[0].ticketType}' cannot be found.`
+    }
+    if(!ticketData[purchases[0].ticketType].priceInCents.hasOwnProperty(purchases[0].entrantType)){
+      return `Entrant type 'incorrect-entrant' cannot be found.`
     }
     let price = ticketData[purchases[0].ticketType].priceInCents[purchases[0].entrantType]
     let description = `${ticketData[purchases[0].ticketType].description}`;
@@ -171,6 +174,9 @@ function purchaseTickets(ticketData, purchases) {
         receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
         total += price;
     }else {
+      if(!ticketData.extras.hasOwnProperty(purchases[0].extras[0])){
+        return `Extra type 'incorrect-extra' cannot be found.`
+      }
       let extraStr = extrasArr.reduce((str, item, _, arr) => {
       if(item === arr[arr.length - 1]){
         str += `${ticketData.extras[item].description}`
@@ -192,6 +198,9 @@ function purchaseTickets(ticketData, purchases) {
   // Multiple Purchases 
   for(let i = 0; i < purchases.length; i++) {
     if(!ticketData.hasOwnProperty(purchases[i].ticketType)) {
+      return `Ticket type '${purchases[i].ticketType}' cannot be found.`
+    }
+    if(!ticketData[purchases[i].ticketType].priceInCents.hasOwnProperty(purchases[i].entrantType)){
       return `Entrant type '${purchases[i].ticketType}' cannot be found.`
     }
 
@@ -209,11 +218,13 @@ function purchaseTickets(ticketData, purchases) {
       }
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}\n`
       total += price;
+      // If the extrasArray is not empty Calculate the elements in the array. 
     }else{
       for(let j = 0; j < extrasArr.length; j++){
-        if(j === extrasArr.length - 1){
-          extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}`)
-        }else if(extrasArr.length === 1){
+        if(!ticketData.extras.hasOwnProperty(...purchases[i].extras)){
+          return `Extra type 'incorrect-extra' cannot be found.`
+        }
+        if(j === extrasArr.length - 1 || extrasArr.length === 1){
           extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}`)
         }else {
           extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}, `)
@@ -221,7 +232,7 @@ function purchaseTickets(ticketData, purchases) {
         price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
       }
       total += price
-      let extraStr = extrasStrOfArrays.reduce((str, item, _, arr) => {
+      let extraStr = extrasStrOfArrays.reduce((str, item) => {
         str += `${item}`
         return str   
       },"")
