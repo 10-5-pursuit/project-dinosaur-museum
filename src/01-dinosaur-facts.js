@@ -103,37 +103,39 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {  /* (!!!) INCOMPLETE! */
-  let returnArr = [];
+
+
+function getDinosaursAliveMya(dinosaurs,mya,key){ 
+  let resultArr = [];
 
   dinosaurs.forEach(dino => {
-    if ((dino.mya).length === 1) {
+    if (dino.mya.length === 1 && ( mya === dino.mya[0] || mya === dino.mya[0] - 1 )) {
       if (key) {
-        if (!dino.hasOwnProperty(key)) {
-          returnArr.push(dino.dinosaurId);
-        } else if (dino.hasOwnProperty(key)) {
-          returnArr.push(dino[key]);
-        }
-      } else if (mya === dino.mya[0] || mya === dino.mya[0] - 1) {
-        returnArr.push(dino.dinosaurId);
-      }
-    } else if (mya <= dino.mya[0] && mya >= dino.mya[dino.mya.length - 1]) {
-      if (key) {
-        if (!dino.hasOwnProperty(key)) {
-          returnArr.push(dino.dinosaurId);
-        } else if (dino.hasOwnProperty(key)) {
-          returnArr.push(dino[key]);
+        if (dino.hasOwnProperty(key)) {
+          resultArr.push(dino[key]);
+        } else {
+          resultArr.push(dino.dinosaurId);
         }
       } else {
-        returnArr.push(dino.dinosaurId);
+        resultArr.push(dino.dinosaurId);
+      }
+    } else {
+      if (mya >= dino.mya[dino.mya.length -1] && mya <= dino.mya[0]) {
+        if (key) {
+          if (dino.hasOwnProperty(key)) {
+            resultArr.push(dino[key]);
+          } else {
+            resultArr.push(dino.dinosaurId)
+          }
+        } else {
+          resultArr.push(dino.dinosaurId);
+        }
       }
     }
   });
 
-  return returnArr;
+  return resultArr;
 }
-
-
 
 
 module.exports = {
