@@ -55,36 +55,43 @@ const exampleTicketData = require("../data/tickets");
     //> "Entrant type 'kid' cannot be found."
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
-  //  Checking to see if the 
+  // Checking to see if the ticket data does not have key from the given ticketInfo ticketType
   if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
   }
-
+  // Creating a variable Total to hold the total. Also creating a variable entrant to hold the value of the given ticketInfo entrantTypr
   let total = 0;
   let entrant = ticketInfo.entrantType
-
+  // Now we distingush between the different ticketTypes general and memebership.
   if(ticketInfo.ticketType === "general") {
     if(!ticketData.general.priceInCents.hasOwnProperty(entrant)) {
+      // If general does not have a key for the given entrant return given error message
       return `Entrant type '${entrant}' cannot be found.`
     }
+    // Else we add the priceInCents to the total variable
     total += ticketData.general.priceInCents[entrant]
   }else if(!ticketData.membership.priceInCents.hasOwnProperty(entrant)) {
+    // The tickettype was not general it was memebership so we run the same algorithm 
     return `Entrant type '${entrant}' cannot be found.`
   }else {
     total += ticketData.membership.priceInCents[entrant]
   }
-
+  // Now we check if the ticketInfo had any extras
   if(ticketInfo.extras.length == 0) {
+    // If the ticket info had no extras the lenegth of the array is 0 and we return the total.
     return total
   }else {
+    // Else we have to loop through the extras array and add that extras price to the total
     for(const x of ticketInfo.extras) {
       if(ticketData.extras.hasOwnProperty(x)) {
         total += ticketData.extras[x].priceInCents[entrant]
-      }else {
+      }else { 
+        // Else the current extra element is not an extra in the ticketdata we return the given error message
         return `Extra type '${ticketInfo.extras}' cannot be found.`
       }
     }
   }
+  // Return the total at the end
 
   return total
 }
@@ -158,10 +165,10 @@ const moneyConverter = (strNum) => {
 }
 
 // ? Helper function to calculate discount
-function applyDiscount(price) {
+function apply10Discount(price) {
+  // This function takes in the price and applies a 10% discount to the price
   return price - (price / 10);
-}
-      
+}    
 function purchaseTickets(ticketData, purchases) {
   let receipt = `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n`;
   let receiptDescription = "";
@@ -202,7 +209,7 @@ function purchaseTickets(ticketData, purchases) {
       },"")
       // * Apply a discount of 10% if discount is true
       if(purchases[0].discount === true){
-        price = applyDiscount(price)
+        price = apply10Discount(price)
       }
       total += price;
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})`
@@ -241,16 +248,12 @@ function purchaseTickets(ticketData, purchases) {
         if(!ticketData.extras.hasOwnProperty(...purchases[i].extras)){
           return `Extra type 'incorrect-extra' cannot be found.`
         }
-        if(j === extrasArr.length - 1 || extrasArr.length === 1){
-          extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}`)
-        }else {
-          extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}, `)
-        }
+        j === extrasArr.length - 1 || extrasArr.length === 1 ? extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}`) :extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}, `)
         price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
       }
       // * If discount is true apply a 10% discount.
       if(purchases[i].discount === true){
-        price = applyDiscount(price)
+        price = apply10Discount(price)
       }
       total += price
       let extraStr = extrasStrOfArrays.reduce((str, item) => {

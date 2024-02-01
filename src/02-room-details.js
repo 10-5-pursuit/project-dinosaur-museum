@@ -27,22 +27,25 @@ const exampleRoomData = require("../data/rooms");
  */
 
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  // Create variables to hold data
   let roomName;
   let dinoId;
   let dino;
   let room;
-  // 
-  dino = dinosaurs.filter(dino => dino.name == dinosaurName)
+  // Filtering through the dinosaurs array of dinosaurs objects to retrieve the Given dinosaurs information Object in an array and assiging that to the dino variable
+  dino = dinosaurs.filter(dino => dino.name == dinosaurName);
+  // Checking if the newly filtered dino array is empty. If empty return the given error message
   if(dino.length === 0){
     return `Dinosaur with name '${dinosaurName}' cannot be found.`;
-  }
+  } // Else assign the found dinosaurs ID to the dinoId variable
   dinoId = dino[0].dinosaurId;
-
-  room = rooms.filter(room => room.dinosaurs.includes(dinoId))
+  // Now filter through the rooms array of room objects to find the room the given dinosaur is located.
+  room = rooms.filter(room => room.dinosaurs.includes(dinoId));
+  // Checking if the newly filtered room array is empty. If empty return given error message.
   if(room.length === 0){
     return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
   }
-
+  // Else assign the found found to the roomName variable and return the found roomName.
   roomName = room[0].name;
   return roomName;
 }
@@ -71,19 +74,18 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
  */
 
 const getConnectedRoomNamesById = (rooms, id) => {
+  // Filtering through the rooms array of rooms object to find the rooms the given ID is connected to.
   let roomArray = rooms.filter(room => room.connectsTo.includes(id));
+  // Checking if the newly filtered room array is empty. If empty return given error message.
   if(roomArray.length == 0){
     return `Room with ID of '${id}' could not be found.`;
   }
-
-
+  // If the room array isnt empty it is connected to. So we want to create a an array that holds the room names the room is connected to and return that Array.
   return roomArray.reduce((arr, room) => {
-    if(!room.connectsTo.includes(id)){
-      return `Room with ID of '${id}' could not be found.`;
-    }
     arr.push(room.name);
     return arr;
   },[]);
+  return roomArray
 }
 
 module.exports = {
