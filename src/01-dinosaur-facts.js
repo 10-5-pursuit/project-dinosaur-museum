@@ -108,27 +108,27 @@ function getDinosaurDescription(dinosaurs, id) {
 function getDinosaursAliveMya(dinosaurs,mya,key){ 
   let resultArr = [];
 
-  dinosaurs.forEach(dino => {
-    if (dino.mya.length === 1 && ( mya === dino.mya[0] || mya === dino.mya[0] - 1 )) {
+  dinosaurs.forEach(dinoObj => {
+    if (dinoObj.mya.length === 1 && ( mya === dinoObj.mya[0] || mya === dinoObj.mya[0] - 1 )) {
       if (key) {
-        if (dino.hasOwnProperty(key)) {
-          resultArr.push(dino[key]);
+        if (dinoObj.hasOwnProperty(key)) {
+          resultArr.push(dinoObj[key]);
         } else {
-          resultArr.push(dino.dinosaurId);
+          resultArr.push(dinoObj.dinosaurId);
         }
       } else {
-        resultArr.push(dino.dinosaurId);
+        resultArr.push(dinoObj.dinosaurId);
       }
     } else {
-      if (mya >= dino.mya[dino.mya.length -1] && mya <= dino.mya[0]) {
+      if (mya >= dinoObj.mya[dinoObj.mya.length -1] && mya <= dinoObj.mya[0]) {
         if (key) {
-          if (dino.hasOwnProperty(key)) {
-            resultArr.push(dino[key]);
+          if (dinoObj.hasOwnProperty(key)) {
+            resultArr.push(dinoObj[key]);
           } else {
-            resultArr.push(dino.dinosaurId)
+            resultArr.push(dinoObj.dinosaurId)
           }
         } else {
-          resultArr.push(dino.dinosaurId);
+          resultArr.push(dinoObj.dinosaurId);
         }
       }
     }
