@@ -36,11 +36,17 @@ function getLongestDinosaur(dinosaurs) {
   
 
   dinosaurs.forEach(dino => {
+    
     if (dino.lengthInMeters > lengthOfDinosaur) {
+     
       lengthOfDinosaur = dino.lengthInMeters;
       dinosaursName = dino.name;
-      longestDinosaur = { [dinosaursName]: convertMetersToFeet(lengthOfDinosaur)}
-  }});
+      longestDinosaur = {[dinosaursName]: convertMetersToFeet(lengthOfDinosaur)}
+ 
+    }
+
+  });
+
   return longestDinosaur || {};
 }
 /**
@@ -66,9 +72,13 @@ function getLongestDinosaur(dinosaurs) {
 // Helper Function ~~~~~~~~~~~~~~~
 function minimalAmountOfYears (ArrayOfYears) {
   let minimalYears =  Infinity;
-  for(const years of ArrayOfYears) {
-  minimalYears = Math.min(years, minimalYears);
+  
+  for(const years of ArrayOfYears) { 
+
+   minimalYears = Math.min(years, minimalYears);
+
   }
+
   return minimalYears;
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,6 +86,7 @@ function getDinosaurDescription(dinosaurs, id) {
 let dinosaurDescription;
 
 dinosaurs.find(dinosaurById => {
+  
   if(dinosaurById.dinosaurId === id) {
     dinosaurDescription = `${dinosaurById.name} (${dinosaurById.pronunciation})\n${dinosaurById.info} It lived in the ${dinosaurById.period} period, over ${minimalAmountOfYears(dinosaurById.mya)} million years ago.`
   }
@@ -125,13 +136,99 @@ return dinosaurDescription || "A dinosaur with an ID of 'incorrect-id' cannot be
 // }
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   let dinosaursFromEra = [];
+  
+  for(const info of dinosaurs) {
+    let years = info.mya;
+    
+    if(years.length === 1 && years[0] - 1 === mya) {
+      if(info[key]) {
+        
+        dinosaursFromEra.push(info[key])
+      
+      } else {
 
+        dinosaursFromEra.push(info.dinosaurId)
+      
+      }
+    }
+    if(mya <= years[0] && mya >= years[years.length -1]) {
+      
+      if(info[key]) {
+        
+        dinosaursFromEra.push(info[key])
+     
+      } else {
 
+        dinosaursFromEra.push(info.dinosaurId)
+      
+      }
+    }
+  }
 
+  return dinosaursFromEra;
 
-return dinosaursFromEra;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // for(const info of dinosaurs) {
+  //     let years = info.mya
+  //     if(years.length === 1) {
+  //         if (years[0] === mya || mya === years[0] -1) {
+  //           if(key) {
+  //             if(!info.hasOwnProperty[key]) {
+  //               dinosaursFromEra.push(info.dinosaurId) 
+  //             }
+  //             dinosaursFromEra.push(info[key])
+  //           }
+  //           dinosaursFromEra.push(info[key]) 
+  //         }
+  //     } else {
+  //       if(years.length === 2) {
+  //         if (mya <= years[0] && mya >= years[1]) {
+  //           if(key) {
+  //             if (!info.hasOwnProperty[key]) {
+  //                 dinosaursFromEra.push(info.dinosaurId)
+  //             }
+  //             dinosaursFromEra.push(info[key])
+  //          }
+  //         }
+  //       }
+  //     }
+  // }
+  // return dinosaursFromEra;
+
+(exampleDinosaurData)
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
