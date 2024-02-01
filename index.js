@@ -176,4 +176,100 @@ function groupAndSortDinosaursByDietAndLength(dinosaurs) {
   
   const dinoStats = getDinoStats(exampleDinosaurData);
   console.log(dinoStats);
-  
+ 
+  const plotly = require('plotly')('renadatpursuit', 'MXtcX2gHDvvHi47olUb3');
+const dinosaurs = require('./data/dinosaurs');
+
+// Extracting relevant data for the analysis
+const data = dinosaurs.map(dino => ({
+  diet: dino.diet,
+  length: dino.lengthInMeters,
+}));
+
+// Creating arrays for each diet category
+const carnivorousData = data.filter(d => d.diet === 'carnivorous');
+const herbivorousData = data.filter(d => d.diet === 'herbivorous');
+const omnivorousData = data.filter(d => d.diet === 'omnivorous');
+
+// Create scatter plots
+const carnivorousTrace = {
+  x: carnivorousData.map(d => d.length),
+  y: carnivorousData.map(() => Math.random()), // Using random values for y to avoid overlap
+  mode: 'markers',
+  type: 'scatter',
+  name: 'Carnivorous',
+};
+
+const herbivorousTrace = {
+  x: herbivorousData.map(d => d.length),
+  y: herbivorousData.map(() => Math.random()),
+  mode: 'markers',
+  type: 'scatter',
+  name: 'Herbivorous',
+};
+
+const omnivorousTrace = {
+  x: omnivorousData.map(d => d.length),
+  y: omnivorousData.map(() => Math.random()),
+  mode: 'markers',
+  type: 'scatter',
+  name: 'Omnivorous',
+};
+
+// Define layout
+const layout = {
+  title: 'Dinosaur Diet vs. Length',
+  xaxis: { title: 'Length (meters)' },
+  yaxis: { title: 'Random Value' }, // You can customize or remove this axis
+};
+
+// Create regression lines
+const carnivorousRegression = createRegressionLine(carnivorousData);
+const herbivorousRegression = createRegressionLine(herbivorousData);
+const omnivorousRegression = createRegressionLine(omnivorousData);
+
+// Add regression lines to the traces
+carnivorousTrace.line = {
+  x: carnivorousRegression.x,
+  y: carnivorousRegression.y,
+  mode: 'lines',
+  type: 'scatter',
+  name: 'Carnivorous Regression',
+};
+
+herbivorousTrace.line = {
+  x: herbivorousRegression.x,
+  y: herbivorousRegression.y,
+  mode: 'lines',
+  type: 'scatter',
+  name: 'Herbivorous Regression',
+};
+
+omnivorousTrace.line = {
+  x: omnivorousRegression.x,
+  y: omnivorousRegression.y,
+  mode: 'lines',
+  type: 'scatter',
+  name: 'Omnivorous Regression',
+};
+
+// Plot the data
+const plotData = [carnivorousTrace, herbivorousTrace, omnivorousTrace];
+const plotOptions = { layout };
+
+plotly.plot(plotData, plotOptions, function (err, msg) {
+  if (err) return console.error(err);
+  console.log(msg);
+});
+
+// Function to create a regression line
+function createRegressionLine(data) {
+  const x = data.map(d => d.length);
+  const y = data.map(() => Math.random()); // Using random values for y to avoid overlap
+  // You can use a proper regression algorithm here
+  // For simplicity, I'm using random values as y for demonstration
+  return { x, y };
+}
+
+// On to room 2. 
+

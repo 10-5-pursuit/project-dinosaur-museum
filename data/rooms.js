@@ -172,6 +172,6 @@ const rooms = [
   },
 ];
 
-console.table(rooms);
+
 
 module.exports = rooms;

@@ -43,5 +43,5 @@ const tickets = {
   },
 };
 
-console.table(tickets);
+
 module.exports = tickets;

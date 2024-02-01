@@ -209,6 +209,6 @@ const dinosaurs = [
     info: "An ornithopod dinosaur known only by a partial skull and postcranial fragments, not much about Zephyrosaurus has been discovered.",
   },
 ];
-console.table(dinosaurs);
+
 
 module.exports = dinosaurs;

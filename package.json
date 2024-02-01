@@ -12,5 +12,11 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^27.0.6"
+  },
+  "dependencies": {
+    "anova": "^1.0.2",
+    "plotly": "^1.0.6",
+    "regression": "^2.0.1",
+    "simple-statistics": "^7.8.3"
   }
 }
