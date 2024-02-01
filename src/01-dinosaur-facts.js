@@ -108,7 +108,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   for(let dino of dinosaurs) {
     // checking If The mya array has 1 element 
     if(dino.mya.length == 1){
-      // Want to check if the given maya is equal to OR one less equal to the idicated mya
+      // Want to check if the given maya is equal to OR one less equal than the idicated mya
       if(mya == dino.mya[0] || mya == dino.mya[0] - 1){
         // checking If key exists within the parameter 
         if(key){
@@ -124,7 +124,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
         }
       } // If the mya array did not have 1 element it had 2. So we have to check if the given mya is within range of the 2 mya elemets.
     }else if(mya <= dino.mya[0] && mya >= dino.mya[1]){
-      // Follows the same algorithm on pushing to the array
+      // Follows the same algorithm on pushing to the array ^^^^^^^^
       if(key){
         if(!dino[key]){
           array.push(dino.dinosaurId)
