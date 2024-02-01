@@ -271,5 +271,47 @@ function createRegressionLine(data) {
   return { x, y };
 }
 
+
+function countDinosaursByPeriod(dinosaurs) {
+  // Create an object to store the count and details for each period
+  const periodInfo = {};
+
+  // Iterate through the dinosaurs array
+  dinosaurs.forEach(dino => {
+    const period = dino.period;
+
+    // Check if the period is already a key in the periodInfo object
+    if (periodInfo.hasOwnProperty(period)) {
+      // If yes, increment the count and add the dinosaur details
+      periodInfo[period].count++;
+      periodInfo[period].dinosaurs.push({ name: dino.name, diet: dino.diet, length: dino.lengthInMeters });
+    } else {
+      // If no, initialize the count to 1 and add the dinosaur details
+      periodInfo[period] = {
+        count: 1,
+        dinosaurs: [{ name: dino.name, diet: dino.diet, length: dino.lengthInMeters }],
+      };
+    }
+  });
+
+  // Output the results using console.table()
+  console.log('Dinosaurs count and details by period:');
+  for (const period in periodInfo) {
+    const formattedData = periodInfo[period].dinosaurs.map(dino => ({
+      Name: dino.name,
+      Diet: dino.diet,
+      Length: dino.length,
+    }));
+    console.log(`${period}:`);
+    console.log(`  Count: ${periodInfo[period].count}`);
+    console.table(formattedData);
+  }
+}
+
+// Call the function with your dinosaurs data
+countDinosaursByPeriod(exampleDinosaurData);
+
+
+
 // On to room 2. 
 
