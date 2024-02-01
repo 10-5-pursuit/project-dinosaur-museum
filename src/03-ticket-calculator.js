@@ -54,8 +54,67 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
 
+// function tickType(ticketInfo){
+//   if (ticketInfo.ticketType!="general" || ticketInfo.ticketType=="membership"){return true}
+//   else{
+//     return false
+//   }
+// }
+
+// function entrType(ticketInfo){
+//   if(ticketInfo.entrantType=="adult" ||ticketInfo.entrantType=="senior" || ticketInfo.entrantType=="child"   ){return true}
+//   else {return false}
+// }
+
+// function extraEntertain(ticketInfo){
+//   for(let i=0;i<ticketInfo[extras].length;i++)
+//   {
+//     if (ticketInfo.extras[i]==''||ticketInfo.extras[i]=='movie' ||ticketInfo.extras[i]=='education'||ticketInfo.extras[i]=='terrace'){
+//       return true
+//     }
+//   }
+//   return false
+// }
+
+function calculateTicketPrice(ticketData, ticketInfo) {
+  // if(tickType(ticketInfo)==false)
+  //   return "Ticket type 'incorrect-type' cannot be found."
+  // if(entrType(ticketInfo)==false)
+  //   return  "Entrant type 'incorrect-entrant' cannot be found."
+  // if(extraEntertain(ticketInfo==false))
+  //   return "Extra type 'incorrect-extra' cannot be found."
+//  if (ticketInfo.ticketType!="general" ){return "Ticket type 'incorrect-type' cannot be found."}
+// else if(ticketInfo.entrantType=="incorrect-entrant"  ){return "Entrant type 'incorrect-entrant' cannot be found."}
+// else if (ticketInfo.extras!=["incorrect-entrant"]||ticketInfo.extras==["movie", "education"]){return "Extra type 'incorrect-extra' cannot be found."}
+// else if( ticketInfo.ticketType== "general"&&ticketInfo.entrantType== "child"&&ticketInfo.extras==[]){return ticketData.priceInCents.child}
+
+if (ticketInfo.extras.length==0){
+    if(ticketInfo.ticketType=="general"){
+       if(ticketInfo.entrantType=='adult'){
+        return ticketData.general.priceInCents.adult
+       }
+       if(ticketInfo.entrantType=='senior'){
+        return ticketData.general.priceInCents.senior
+       }
+       if(ticketInfo.entrantType=='child'){
+        return ticketData.general.priceInCents.child
+       }
+}   if(ticketInfo.ticketType=="membership"){
+      if(ticketInfo.entrantType=='adult'){
+      return ticketData.membership.priceInCents.adult
+  }
+    if(ticketInfo.entrantType=='senior'){
+      return ticketData.membership.priceInCents.senior
+  }
+    if(ticketInfo.entrantType=='child'){
+       return ticketData.membership.priceInCents.child
+  }
+}
+}
+}
+//  ticketInfo.ticketType!="membership" 
+//|| ticketInfo.entrantType!='adult' || ticketInfo.entrantType!='senior
 /**
  * purchaseTickets()
  * ---------------------
