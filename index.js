@@ -4,180 +4,14 @@ const tickets = require("./data/tickets");
 const exampleTicketData = require("./data/tickets");
 
 
-/// Program your functions below //
+/// Program your functions below ///
 
-// Stretch Goals:
-// Dino Fun Facts
+// Room 1 Stretch Goals:
 
-// Get the Dinosaur Diets!
-function getDinoNamesAndDiets(dinosaurs) {
-    return dinosaurs.map(dinosaur => ({ name: dinosaur.name, diet: dinosaur.diet }));
-}
+// 1.  Learned how to install and use Plotly. Used it to make a scatter graph mapping diet to length.  Tried to do regression to find out if there was any correlation, it's not working as I think it only does a linear regression, the relationship both might not be linear.
 
-const dinoNamesAndDiets = getDinoNamesAndDiets(exampleDinosaurData);
-console.log('Dinosaur Names and Diets:', dinoNamesAndDiets);
-
-// Get the unique set of Dinosaur Diets!
-function getUniqueDiets(dinosaurs) {
-    const allDiets = dinosaurs.map(dinosaur => dinosaur.diet);
-    const uniqueDiets = [...new Set(allDiets)];
-    return uniqueDiets;
-}
-
-const uniqueDiets = getUniqueDiets(exampleDinosaurData);
-console.log('Unique Diets:', uniqueDiets);
-
-// Find the Herbivores!
-function getHerbivores(dinosaurs) {
-    return dinosaurs
-        .filter(dinosaur => dinosaur.diet === 'herbivorous')
-        .map(dinosaur => dinosaur.name);
-}
-const herbivores = getHerbivores(exampleDinosaurData);
-console.log('Plant-based!', herbivores);
-
-// Find the Carnivores!
-function getCarnivores(dinosaurs) {
-    return dinosaurs
-    .filter(dinosaur => dinosaur.diet === 'carnivorous')
-    .map(dinosaur => dinosaur.name);
-}
-
-const carnivores = getCarnivores(exampleDinosaurData);
-console.log('Meat! Meat! and More Meat!', carnivores);
-
-// Find the Omnivores!
-function getOmnivores(dinosaurs) {
-    return dinosaurs
-    .filter(dinosaur => dinosaur.diet === 'omnivorous')
-    .map(dinosaur => dinosaur.name)
-}
-const omnivores = getOmnivores(exampleDinosaurData);
-console.log('Eats anything and everything!', omnivores);
-
-// Finds out the Dino heights according to diet type.
-function groupAndSortDinosaursByDietAndLength(dinosaurs) {
-    const groupedDinosaurs = dinosaurs.reduce((accumulator, dinosaur) => {
-      const key = dinosaur.diet;
-      
-      if (!accumulator[key]) {
-        accumulator[key] = [];
-      }
-  
-      accumulator[key].push({
-        diet: dinosaur.diet,
-        lengthInMeters: dinosaur.lengthInMeters,
-      });
-  
-      return accumulator;
-    }, {});
-  
-    // Sort each diet group by ascending length
-    for (const key in groupedDinosaurs) {
-      groupedDinosaurs[key].sort((a, b) => a.lengthInMeters - b.lengthInMeters);
-    }
-  
-    return groupedDinosaurs;
-  }
-  
-  const groupedAndSortedDinosaurs = groupAndSortDinosaursByDietAndLength(exampleDinosaurData);
-  console.log(groupedAndSortedDinosaurs);
-  
-  function calculateStatsForDiets(dinosaurs) {
-    const dietStats = {};
-  
-    // Group dinosaurs by diet
-    const groupedDinosaurs = dinosaurs.reduce((accumulator, dinosaur) => {
-      const key = dinosaur.diet;
-      
-      if (!accumulator[key]) {
-        accumulator[key] = [];
-      }
-  
-      accumulator[key].push(dinosaur.lengthInMeters);
-  
-      return accumulator;
-    }, {});
-  
-    // Calculate average, median, and mode for each diet
-    for (const diet in groupedDinosaurs) {
-      const lengths = groupedDinosaurs[diet];
-  
-      // Calculate average
-      const average = lengths.reduce((sum, length) => sum + length, 0) / lengths.length;
-  
-      // Calculate median
-      const sortedLengths = lengths.slice().sort((a, b) => a - b);
-      const mid = Math.floor(sortedLengths.length / 2);
-      const median = sortedLengths.length % 2 !== 0 ? sortedLengths[mid] : (sortedLengths[mid - 1] + sortedLengths[mid]) / 2;
-  
-      // Calculate mode
-      const lengthCount = {};
-      let mode = null;
-      let maxCount = 0;
-  
-      lengths.forEach((length) => {
-        lengthCount[length] = (lengthCount[length] || 0) + 1;
-  
-        if (lengthCount[length] > maxCount) {
-          mode = length;
-          maxCount = lengthCount[length];
-        }
-      });
-  
-      dietStats[diet] = {
-        average,
-        median,
-        mode,
-      };
-    }
-  
-    return dietStats;
-  }
-  
-  const statsForDiets = calculateStatsForDiets(exampleDinosaurData);
-  console.log(statsForDiets);
-  
-
-  function getDinoStats(dinosaurs) {
-    if (!dinosaurs || dinosaurs.length === 0) {
-      return null;
-    }
-  
-    // Calculate the average length
-    const totalLength = dinosaurs.reduce((sum, dino) => sum + dino.lengthInMeters, 0);
-    const averageLength = totalLength / dinosaurs.length;
-  
-    // Find the smallest, average, and biggest dinosaurs
-    let smallestDino = dinosaurs[0];
-    let averageDino = dinosaurs[0];
-    let biggestDino = dinosaurs[0];
-  
-    dinosaurs.forEach((dino) => {
-      if (dino.lengthInMeters < smallestDino.lengthInMeters) {
-        smallestDino = dino;
-      }
-  
-      if (Math.abs(dino.lengthInMeters - averageLength) < Math.abs(averageDino.lengthInMeters - averageLength)) {
-        averageDino = dino;
-      }
-  
-      if (dino.lengthInMeters > biggestDino.lengthInMeters) {
-        biggestDino = dino;
-      }
-    });
-  
-    return {
-      smallest: smallestDino,
-      average: averageDino,
-      biggest: biggestDino,
-    };
-  }
-  
-  const dinoStats = getDinoStats(exampleDinosaurData);
-  console.log(dinoStats);
- 
-  const plotly = require('plotly')('renadatpursuit', 'MXtcX2gHDvvHi47olUb3');
+const plotly = require('plotly')('renadatpursuit', 'MXtcX2gHDvvHi47olUb3');
+const regression = require('regression');
 const dinosaurs = require('./data/dinosaurs');
 
 // Extracting relevant data for the analysis
@@ -192,65 +26,15 @@ const herbivorousData = data.filter(d => d.diet === 'herbivorous');
 const omnivorousData = data.filter(d => d.diet === 'omnivorous');
 
 // Create scatter plots
-const carnivorousTrace = {
-  x: carnivorousData.map(d => d.length),
-  y: carnivorousData.map(() => Math.random()), // Using random values for y to avoid overlap
-  mode: 'markers',
-  type: 'scatter',
-  name: 'Carnivorous',
-};
-
-const herbivorousTrace = {
-  x: herbivorousData.map(d => d.length),
-  y: herbivorousData.map(() => Math.random()),
-  mode: 'markers',
-  type: 'scatter',
-  name: 'Herbivorous',
-};
-
-const omnivorousTrace = {
-  x: omnivorousData.map(d => d.length),
-  y: omnivorousData.map(() => Math.random()),
-  mode: 'markers',
-  type: 'scatter',
-  name: 'Omnivorous',
-};
+const carnivorousTrace = createScatterPlot(carnivorousData, 'Carnivorous', 'red');
+const herbivorousTrace = createScatterPlot(herbivorousData, 'Herbivorous', 'green');
+const omnivorousTrace = createScatterPlot(omnivorousData, 'Omnivorous', 'blue');
 
 // Define layout
 const layout = {
   title: 'Dinosaur Diet vs. Length',
   xaxis: { title: 'Length (meters)' },
   yaxis: { title: 'Random Value' }, // You can customize or remove this axis
-};
-
-// Create regression lines
-const carnivorousRegression = createRegressionLine(carnivorousData);
-const herbivorousRegression = createRegressionLine(herbivorousData);
-const omnivorousRegression = createRegressionLine(omnivorousData);
-
-// Add regression lines to the traces
-carnivorousTrace.line = {
-  x: carnivorousRegression.x,
-  y: carnivorousRegression.y,
-  mode: 'lines',
-  type: 'scatter',
-  name: 'Carnivorous Regression',
-};
-
-herbivorousTrace.line = {
-  x: herbivorousRegression.x,
-  y: herbivorousRegression.y,
-  mode: 'lines',
-  type: 'scatter',
-  name: 'Herbivorous Regression',
-};
-
-omnivorousTrace.line = {
-  x: omnivorousRegression.x,
-  y: omnivorousRegression.y,
-  mode: 'lines',
-  type: 'scatter',
-  name: 'Omnivorous Regression',
 };
 
 // Plot the data
@@ -262,56 +46,178 @@ plotly.plot(plotData, plotOptions, function (err, msg) {
   console.log(msg);
 });
 
-// Function to create a regression line
-function createRegressionLine(data) {
-  const x = data.map(d => d.length);
-  const y = data.map(() => Math.random()); // Using random values for y to avoid overlap
-  // You can use a proper regression algorithm here
-  // For simplicity, I'm using random values as y for demonstration
-  return { x, y };
+// Function to create a scatter plot
+function createScatterPlot(data, name, color) {
+  return {
+    x: data.map(d => d.length),
+    y: data.map(() => Math.random()), // Using random values for y to avoid overlap
+    mode: 'markers',
+    type: 'scatter',
+    name,
+    marker: { color },
+    line: {
+      x: calculateRegressionLine(data),
+      y: calculateRegressionLine(data, true),
+      mode: 'lines',
+      type: 'scatter',
+      name: `${name} Regression`,
+    },
+  };
 }
 
+// Function to calculate the regression line
+function calculateRegressionLine(data, inverse = false) {
+  const xy = data.map(d => [d.length, Math.random()]); // Replace Math.random() with actual y values
+  const result = regression.linear(xy, { order: 2, precision: 15 });
 
-function countDinosaursByPeriod(dinosaurs) {
-  // Create an object to store the count and details for each period
-  const periodInfo = {};
-
-  // Iterate through the dinosaurs array
-  dinosaurs.forEach(dino => {
-    const period = dino.period;
-
-    // Check if the period is already a key in the periodInfo object
-    if (periodInfo.hasOwnProperty(period)) {
-      // If yes, increment the count and add the dinosaur details
-      periodInfo[period].count++;
-      periodInfo[period].dinosaurs.push({ name: dino.name, diet: dino.diet, length: dino.lengthInMeters });
-    } else {
-      // If no, initialize the count to 1 and add the dinosaur details
-      periodInfo[period] = {
-        count: 1,
-        dinosaurs: [{ name: dino.name, diet: dino.diet, length: dino.lengthInMeters }],
-      };
-    }
-  });
-
-  // Output the results using console.table()
-  console.log('Dinosaurs count and details by period:');
-  for (const period in periodInfo) {
-    const formattedData = periodInfo[period].dinosaurs.map(dino => ({
-      Name: dino.name,
-      Diet: dino.diet,
-      Length: dino.length,
-    }));
-    console.log(`${period}:`);
-    console.log(`  Count: ${periodInfo[period].count}`);
-    console.table(formattedData);
+  if (inverse) {
+    // If inverse is true, return the inverse of the regression line
+    return result.equation.map(coef => 1 / coef);
   }
+
+  return result.equation;
 }
 
-// Call the function with your dinosaurs data
-countDinosaursByPeriod(exampleDinosaurData);
+// Helper function to capitalize Diet entries since they're all in lowercaps. To make the table look nicer.
+function capitalizeFirstChar(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// Created a Dino Table using the helper function above and logging it into an actual table on vscode.  I discovered console.table during the library/books in Objects exercise, I finally found an opportunity to use it. It is very cool.
+
+function createDinosaurTable(data) {
+  const tableData = data.map((dino) => ({
+    Dinosaur: dino.name,
+    Diet: capitalizeFirstChar(dino.diet),
+    Length: dino.lengthInMeters,
+    Period: dino.period,
+  }));
+
+  console.table(tableData);
+}
+
+// Example usage
+createDinosaurTable(exampleDinosaurData);
 
 
+// Room 2 Stretch Goals:
+// Decided to add a Cafe and a Giftshop to the rooms in our Dino Museum because all museums have both! 
+// Made helper function to generate the Unique Room Id's found in the dataset. I inserted my name in the Cafe and Giftshop RoomIds for no good reason. 
 
-// On to room 2. 
+// To make Rizel's Cafe
+const cafeRoom = {
+    roomId: generateUniqueRoomId(), // Unique ID for cafe
+    name: "Rizel's Jurassic Cafe",
+    requiredTicketPermissions: [],
+    dinosaurs: [], // I was tempted to add carnivores in this array. The carnivores are waiting for the humans to get yummier then eat them. [hehe]
+    connectsTo: ["L72moIRcrX"], // Connects to Kit Hopkins Education Wing
+};
+
+// To make Rizel's Gift Shop
+const giftShopRoom = {
+    roomId: generateUniqueRoomId(), // Unique ID for gift shop
+    name: "Rizel's Dino Gift Shop",
+    requiredTicketPermissions: [],
+    dinosaurs: [], 
+    connectsTo: ["CafeRoom"], // Connects to Dino Cafe
+};
+
+
+const rooms = [
+    cafeRoom,
+    giftShopRoom,
+];
+
+// Helper function to generate a unique alphanumeric ID with "rizel" inserted
+
+function generateUniqueRoomId() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let roomId = 'rizel';
+
+    for (let i = 0; i < 5; i++) {
+        roomId += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+
+    return roomId;
+}
+
+
+console.log('Unique ID for Rizel\'s Jurassic Cafe:', cafeRoom.roomId);
+console.log('Unique ID for Rizel\'s Dino Gift Shop:', giftShopRoom.roomId);
+
+// Function to check if cafe and gift shop exist
+function checkCafeAndGiftShop(rooms) {
+    const cafe = rooms.find(room => room.name === "Rizel's Jurassic Cafe");
+    const giftShop = rooms.find(room => room.name === "Rizel's Dino Gift Shop");
+
+    return {
+        cafeExists: !!cafe,
+        giftShopExists: !!giftShop,
+    };
+}
+
+const cafeAndGiftShopCheck = checkCafeAndGiftShop(rooms);
+
+console.log('Rizel\'s Cafe Exists:', cafeAndGiftShopCheck.cafeExists);
+console.log('Rizel\'s Gift Shop Exists:', cafeAndGiftShopCheck.giftShopExists);
+
+// Room 3 stretch goals:
+// Checked out the Museum of Natural History and they have an extra pricing level. They have what is called a Pay What You Want Entrant - so I made a function that if a 10.5er comes in, they can opt to pay what they want [because we all still need to pay back 70K to Pursuit!!!]
+function calculateTicketPrice(age, membership, state, isFellow10_5) {
+    if (isFellow10_5) {
+        return {
+            fullPriceInDollars: 'Pay What You Want',
+            discountsApplied: ['10.5 Fellow Discount: Unlimited'],
+            netPriceToPay: 'You and 2 guests can come in for free :) - says rizel',
+        };
+    }
+
+    const discountsApplied = [];
+
+    // There's also a discount that the Museum offers if you're a resident of NY, CT, and NJ so I wrote that up as well.
+
+    const stateDiscount = ['NY', 'CT', 'NJ'].includes(state) ? 0.9 : 1; // 10% discount for NY, CT, NJ residents
+    if (stateDiscount < 1) {
+        discountsApplied.push(`State Discount (${state}): 10%`);
+    }
+
+    const membershipDiscount = membership ? 0.8 : 1; // 20% discount for members
+    if (membershipDiscount < 1) {
+        discountsApplied.push('Membership Discount: 20%');
+    }
+
+    // Assuming general ticket type for simplicity
+    const ticketType = tickets.general;
+    
+    // Calculate the price based on age and apply discounts
+    const priceInCents = ticketType.priceInCents;
+
+    let basePrice = 0;
+
+    if (age < 18) {
+        basePrice = priceInCents.child * stateDiscount * membershipDiscount;
+    } else if (age >= 18 && age < 65) {
+        basePrice = priceInCents.adult * stateDiscount * membershipDiscount;
+    } else {
+        basePrice = priceInCents.senior * stateDiscount * membershipDiscount;
+    }
+
+    const fullPriceInDollars = (basePrice / 100).toFixed(2);
+    const totalDiscount = ((1 - (basePrice / (priceInCents.adult * membershipDiscount))) * 100).toFixed(2);
+    const netPriceToPay = (fullPriceInDollars * stateDiscount * membershipDiscount).toFixed(2);
+
+    return {
+        fullPriceInDollars,
+        discountsApplied,
+        netPriceToPay,
+    };
+}
+
+// For 10.5ers
+const isFellow10_5 = true;
+
+const ticketDetailsForFellow = calculateTicketPrice(null, false, null, isFellow10_5);
+console.log('Full Price in Dollars:', ticketDetailsForFellow.fullPriceInDollars);
+console.log('Discounts Applied:', ticketDetailsForFellow.discountsApplied.join(', '));
+console.log('Net Price to Pay:', ticketDetailsForFellow.netPriceToPay);
 
