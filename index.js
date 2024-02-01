@@ -13,127 +13,21 @@ const purchases = [
 ]
 */
 // Helper Function To Convert The string Number to US currency
-const moneyConverter = (strNum) => {
-    if(strNum.length > 4){
-      return `$${strNum.slice(0, 3)}.${strNum.slice(3)}`
-    }
-    if(strNum.length > 5){
-      return `$${strNum.slice(0, 4)}.${strNum.slice(4)}`
-    }
-    return `$${strNum.slice(0, 2)}.${strNum.slice(2)}`
+const getConnectedRoomNamesById = (rooms, id) => {
+  let roomArray = rooms.filter(room => room.connectsTo.includes(id));
+  if(roomArray.length == 0){
+    return `Room with ID of '${id}' could not be found.`;
   }
 
-function applyDiscount(price) {
-    return price - (price / 10);
+  return roomArray.reduce((arr, room) => {
+    if(!room.connectsTo.includes(id)){
+      return `Room with ID of '${id}' could not be found.`;
+    }
+    arr.push(room.name);
+    return arr;
+  },[]);
 }
-        
-  function purchaseTickets(ticketData, purchases) {
-    let receipt = `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n`;
-    let receiptDescription = "";
-    let total = 0;
-    
-    // Sinlge Purchase Ticket 
-    if(purchases.length === 1){
-      if(!ticketData.hasOwnProperty(purchases[0].ticketType)) {
-        return `Ticket type '${purchases[0].ticketType}' cannot be found.`
-      }
-      let price = ticketData[purchases[0].ticketType].priceInCents[purchases[0].entrantType]
-      let description = `${ticketData[purchases[0].ticketType].description}`;
-      let entrant = purchases[0].entrantType.slice(0,1).toUpperCase() + purchases[0].entrantType.slice(1).toLowerCase()
-      let extrasArr = purchases[0].extras;
-      
-      if(extrasArr.length === 0) {
-          receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
-          total += price;
-      }else {
-        let extraStr = extrasArr.reduce((str, item, _, arr) => {
-        if(item === arr[arr.length - 1]){
-          str += `${ticketData.extras[item].description}`
-          price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
-          return str
-        }else {
-          str += `${ticketData.extras[item].description}, `
-          price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
-          return str
-        }
-        },"")
-        if(purchases[0].discount === true){
-            price = applyDiscount(price)
-        }
-        total += price;
-        receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})`
-      }
-  
-    return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`
-}
-  
-  // Multiple Purchases 
-  for(let i = 0; i < purchases.length; i++) {
-    let price = ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType]
-    let entrant = purchases[i].entrantType.slice(0,1).toUpperCase() + purchases[i].entrantType.slice(1).toLowerCase()
-    let description = `${ticketData[purchases[i].ticketType].description}`;
-    let extrasArr = purchases[i].extras
-    let extrasStrOfArrays = []
-    for(let i = 0; i < extrasArr.length; i++){
-      if(i === extrasArr.length - 1){
-        extrasStrOfArrays.push(`${ticketData.extras[extrasArr[i]].description}`)
-      }else if(extrasArr.length === 1){
-        extrasStrOfArrays.push(`${ticketData.extras[extrasArr[i]].description}`)
-      }else {
-        extrasStrOfArrays.push(`${ticketData.extras[extrasArr[i]].description}, `)
-      }
-      price += ticketData.extras[extrasArr[i]].priceInCents[purchases[i].entrantType]
-    }
-    if(purchases[i].discount === true){
-        price = applyDiscount(price)
-    }
-    total += price
-    let extraStr = extrasStrOfArrays.reduce((str, item, _, arr) => {
-      if(item === arr[arr.length - 1]){
-        str += `${item}`
-        return str
-      }else {
-        str += `${item}, `
-        return str
-      }
-    },"")
-    if(i === purchases.length - 1){
-        receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})`
-        continue;
-    }
-    receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})\n`
-    }
-    return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`// Total converted
-}
-
-const purchases = [
-    {
-      ticketType: "general",
-      entrantType: "adult",
-      extras: ["movie"],
-      discount: true
-    },
-    {
-      ticketType: "general",
-      entrantType: "senior",
-      extras: ["terrace"],
-      discount: false
-    },
-    {
-      ticketType: "general",
-      entrantType: "child",
-      extras: ["education", "movie", "terrace"],
-      discount: true
-    },
-    {
-      ticketType: "general",
-      entrantType: "child",
-      extras: ["education", "movie", "terrace"],
-      discount: false
-    },
-                
-];
-console.log(purchaseTickets(exampleTicketData, purchases))
+console.log(getConnectedRoomNamesById(exampleRoomData, "A6QaYdyKra"))
 
 //     purchaseTickets(tickets, purchases);
  //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n-------------------------------------------\nTOTAL: $175.00"

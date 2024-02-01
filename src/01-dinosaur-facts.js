@@ -25,7 +25,7 @@ const exampleDinosaurData = require("../data/dinosaurs");
 function getLongestDinosaur(dinosaurs) {
   // If dinosaurs array is empty return an empty obkect
   if(dinosaurs.length == 0){
-    return {}
+    return {};
   }
   // Create a copy of the array to not mutate the oringal array. Then sort the copy array by the lengthInMeters; Create a variable to hold the longest value
   let sortedInfo = dinosaurs.slice().sort((a, b) => b.lengthInMeters - a.lengthInMeters)

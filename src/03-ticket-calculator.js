@@ -144,7 +144,6 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     //> "Ticket type 'discount' cannot be found.
  */
 
-
 // ? Helper Function to convert string(number) into dollars. 
 const moneyConverter = (strNum) => {
   if(strNum.length > 4){
@@ -175,12 +174,12 @@ function purchaseTickets(ticketData, purchases) {
     if(!ticketData[purchases[0].ticketType].priceInCents.hasOwnProperty(purchases[0].entrantType)){
       return `Entrant type 'incorrect-entrant' cannot be found.`
     }
-
+    
     let price = ticketData[purchases[0].ticketType].priceInCents[purchases[0].entrantType]
     let description = `${ticketData[purchases[0].ticketType].description}`;
     let entrant = purchases[0].entrantType.slice(0,1).toUpperCase() + purchases[0].entrantType.slice(1).toLowerCase()
     let extrasArr = purchases[0].extras;
-    
+    // Checking if the extrasArray is 
     if(extrasArr.length === 0) {
         receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
         total += price;
@@ -233,7 +232,7 @@ function purchaseTickets(ticketData, purchases) {
       }
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}\n`
       total += price;
-    // * If the extrasArray is not empty Calculate the elements in the array, Along with the description. 
+    // * If the extrasArray is not empty Calculate the elements in the array, Along with the description.
     }else{
       for(let j = 0; j < extrasArr.length; j++){
         if(!ticketData.extras.hasOwnProperty(...purchases[i].extras)){
@@ -246,7 +245,7 @@ function purchaseTickets(ticketData, purchases) {
         }
         price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
       }
-      // * If discount is true apply a 10% discount 
+      // * If discount is true apply a 10% discount.
       if(purchases[i].discount === true){
         price = applyDiscount(price)
       }
