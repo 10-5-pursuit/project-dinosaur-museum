@@ -163,61 +163,17 @@ console.log('Rizel\'s Gift Shop Exists:', cafeAndGiftShopCheck.giftShopExists);
 
 // Room 3 stretch goals:
 // Checked out the Museum of Natural History and they have an extra pricing level. They have what is called a Pay What You Want Entrant - so I made a function that if a 10.5er comes in, they can opt to pay what they want [because we all still need to pay back 70K to Pursuit!!!]
-function calculateTicketPrice(age, membership, state, isFellow10_5) {
-    if (isFellow10_5) {
-        return {
-            fullPriceInDollars: 'Pay What You Want',
-            discountsApplied: ['10.5 Fellow Discount: Unlimited'],
-            netPriceToPay: 'You and 2 guests can come in for free :) - says rizel',
-        };
-    }
 
-    const discountsApplied = [];
-
-    // There's also a discount that the Museum offers if you're a resident of NY, CT, and NJ so I wrote that up as well.
-
-    const stateDiscount = ['NY', 'CT', 'NJ'].includes(state) ? 0.9 : 1; // 10% discount for NY, CT, NJ residents
-    if (stateDiscount < 1) {
-        discountsApplied.push(`State Discount (${state}): 10%`);
-    }
-
-    const membershipDiscount = membership ? 0.8 : 1; // 20% discount for members
-    if (membershipDiscount < 1) {
-        discountsApplied.push('Membership Discount: 20%');
-    }
-
-    // Assuming general ticket type for simplicity
-    const ticketType = tickets.general;
-    
-    // Calculate the price based on age and apply discounts
-    const priceInCents = ticketType.priceInCents;
-
-    let basePrice = 0;
-
-    if (age < 18) {
-        basePrice = priceInCents.child * stateDiscount * membershipDiscount;
-    } else if (age >= 18 && age < 65) {
-        basePrice = priceInCents.adult * stateDiscount * membershipDiscount;
-    } else {
-        basePrice = priceInCents.senior * stateDiscount * membershipDiscount;
-    }
-
-    const fullPriceInDollars = (basePrice / 100).toFixed(2);
-    const totalDiscount = ((1 - (basePrice / (priceInCents.adult * membershipDiscount))) * 100).toFixed(2);
-    const netPriceToPay = (fullPriceInDollars * stateDiscount * membershipDiscount).toFixed(2);
-
+function calculateTicketPriceForFellow10_5() {
     return {
-        fullPriceInDollars,
-        discountsApplied,
-        netPriceToPay,
+        fullPriceInDollars: 'Pay What You Want',
+        discountsApplied: ['10.5 Fellow Discount: Unlimited'],
+        netPriceToPay: "You and 2 guests can come in for free :) - says rizel",
     };
 }
 
-// For 10.5ers
 const isFellow10_5 = true;
-
-const ticketDetailsForFellow = calculateTicketPrice(null, false, null, isFellow10_5);
+const ticketDetailsForFellow = calculateTicketPriceForFellow10_5();
 console.log('Full Price in Dollars:', ticketDetailsForFellow.fullPriceInDollars);
 console.log('Discounts Applied:', ticketDetailsForFellow.discountsApplied.join(', '));
 console.log('Net Price to Pay:', ticketDetailsForFellow.netPriceToPay);
-
