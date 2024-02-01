@@ -41,15 +41,15 @@ function getLongestDinosaur(dinosaurs) {
       dinoName=din.name
       }
    })
-// Convert the maximum height from meters to feet (assuming 1 meter = 3.281 feet)
+  // Convert the maximum height from meters to feet (assuming 1 meter = 3.281 feet)
       maxHeigth= maxHeigth * 3.281
 
-// Create an object with the dinosaur's name as the key and its height as the value
+  // Create an object with the dinosaur's name as the key and its height as the value
       maxDino[dinoName]=maxHeigth 
-// Return the object containing the name and height of the tallest dinosaur
+  // Return the object containing the name and height of the tallest dinosaur
       return maxDino;
 }
-  getLongestDinosaur(exampleDinosaurData)
+getLongestDinosaur(exampleDinosaurData)
 
 /**
  * getDinosaurDescription()
@@ -73,12 +73,13 @@ function getLongestDinosaur(dinosaurs) {
  */
 function getDinosaurDescription(dinosaurs, id) {
   // Use the filter method to find the dinosaur with the given ID
-let din= dinosaurs.filter(dinos => dinos.dinosaurId == id)[0]
-// Check if the dinosaur with the specified ID was not found
-   if(din===undefined) return `A dinosaur with an ID of '${id}' cannot be found.`
-   // Construct the description string using information from the found dinosaur object
-   return `${din.name} (${din.pronunciation})\n${din.info} It lived in the ${din.period} period, over ${din.mya[din.mya.length-1]} million years ago.`
-}getDinosaurDescription(exampleDinosaurData, "GGvO1X9Zeh")
+  let din= dinosaurs.filter(dinos => dinos.dinosaurId == id)[0]
+  // Check if the dinosaur with the specified ID was not found
+    if(din===undefined) return `A dinosaur with an ID of '${id}' cannot be found.`
+  // Construct the description string using information from the found dinosaur object
+    return `${din.name} (${din.pronunciation})\n${din.info} It lived in the ${din.period} period, over ${din.mya[din.mya.length-1]} million years ago.`
+}
+getDinosaurDescription(exampleDinosaurData, "GGvO1X9Zeh")
 
 /**
  * getDinosaursAliveMya()
