@@ -22,32 +22,59 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {
-    //if the input arr is empty, return an empty obj
-    if(dinosaurs.length === 0) return {};
+// function getLongestDinosaur(dinosaurs) {
+//     //if the input arr is empty, return an empty obj
+//     //not needed - can just return longestDinosaurObj
+//     if(dinosaurs.length === 0) return {};
 
-    //init variable as an empty obj to store longest dinosaur
-    let longestDinosaurObj = {};
-    let maxLength = 0;
-    let dinoName = '';
+//     //init variable as an empty obj to store longest dinosaur
+//     let longestDinosaurObj = {};
+//     let maxLength = 0;
+//     let dinoName = '';
     
-    //look through all dinosaurs (loop or method)if the dinosaur length is > maxLength, update maxLength to dinosaur length and update dinoName to dinosaur's name
-    dinosaurs.forEach(dino => {
-      if(dino.lengthInMeters > maxLength){
-        maxLength = dino.lengthInMeters;
-        dinoName = dino.name;
-    }
-  })
-    //convert length in meters to feet
-    maxLength = maxLength * 3.281
+//     //look through all dinosaurs (loop or method)if the dinosaur length is > maxLength, update maxLength to dinosaur length and update dinoName to dinosaur's name
+//     dinosaurs.forEach(dino => {
+//       if(dino.lengthInMeters > maxLength){
+//         maxLength = dino.lengthInMeters;
+//         dinoName = dino.name;
+//     }
+//   })
+//     //convert length in meters to feet
+//     maxLength = maxLength * 3.281
 
-    //new key + value pair
-    longestDinosaurObj[dinoName] = maxLength
-    return longestDinosaurObj
+//     //new key + value pair
+//     longestDinosaurObj[dinoName] = maxLength
+//     return longestDinosaurObj
+
+// }
+
+function getLongestDinosaur(dinosaurs) {
+  //init variable as an empty obj to store longest dinosaur
+  let longestDinosaurObj = {};
+  
+    //using reduce you only iterate through the array once to find the longest dino
+    //maxLength is the accumulator and it is set to 0, currentDino is the dinosaur in the current iteration
+    dinosaurs.reduce((maxLength,currentDino) => {
+      //if currentDino.lengthInMeters > maxLength, populate empty obj with current dinosaur name as a key && length in feet as a value
+      //[bracket notation]=> key using the dynamic variable created inside reduce method
+      //dot.notation => access the length in meters value from the obj in dinosaurs array
+      //convert length from meters to feet and return it
+      if(currentDino.lengthInMeters > maxLength){
+        longestDinosaurObj = {[currentDino.name]: currentDino.lengthInMeters * 3.281};
+          return currentDino.lengthInMeters
+    
+      } else {
+      //if currentDino.lengthInMeters is not greater than maxLength, return the longest length found so far
+          return maxLength
+  
+  }}, 0);
+  
+  //return obj with the longest dinosaur and it's length in feet, or an empty obj if the dinosaurs array is empty
+  return longestDinosaurObj
 
 }
 
-// console.log(getLongestDinosaur(exampleDinosaurData))
+
 
 /**
  * getDinosaurDescription()
@@ -119,26 +146,54 @@ function getNameOrId(key, obj){
 }
 
 
+// function getDinosaursAliveMya(dinosaurs, mya, key) {
+//   //init an empty arr
+//   let myaDinoArr = []
+  
+//   //loop through the dinosaurs array
+//   //check if the array has one element and if that element is equal to the input mya or one less 
+//   for (let i = 0; i < dinosaurs.length; i ++){
+//     if (dinosaurs[i].mya.length === 1 && (dinosaurs[i].mya[0] === mya || dinosaurs[i].mya[0]-1 === mya)){
+      
+//       //push the return value of the helper function to myaDinoArr. It's using the input key and the element from the array that matches either by name or Id
+//       myaDinoArr.push(getNameOrId(key,dinosaurs[i]))
+      
+//     //check if the array has more than one element and create a range for the input mya 
+//     } else if (dinosaurs[i].mya[0] >= mya && dinosaurs[i].mya[1] <= mya){
+      
+//       //this is doing exactly the same process as before
+//       myaDinoArr.push(getNameOrId(key,dinosaurs[i]))
+//     }
+//   }
+//     //after loops and all dinosaurs have been checked, return new arr
+//     return myaDinoArr;
+
+// }
+
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   //init an empty arr
   let myaDinoArr = []
   
   //loop through the dinosaurs array
-  //check if the array has one element and if that element is equal to the input mya or one less 
-  for (let i = 0; i < dinosaurs.length; i ++){
-    if (dinosaurs[i].mya.length === 1 && (dinosaurs[i].mya[0] === mya || dinosaurs[i].mya[0]-1 === mya)){
+  //check if the mya array for each dinosaur has one element and if that element is equal to the input mya or one less 
+  for (let dino of dinosaurs){
+    if(dino.mya.length == 1 && (dino.mya[0] === mya || dino.mya[0]-1 === mya)){
+      
+  
       
       //push the return value of the helper function to myaDinoArr. It's using the input key and the element from the array that matches either by name or Id
-      myaDinoArr.push(getNameOrId(key,dinosaurs[i]))
+      myaDinoArr.push(getNameOrId(key,dino))
+    
       
-    //check if the array has more than one element and create a range for the input mya 
-    } else if (dinosaurs[i].mya[0] >= mya && dinosaurs[i].mya[1] <= mya){
+    //check if the mya array has more than one element and create a range for the input mya 
+  } else if (dino.mya[0] >= mya && dino.mya[1] <= mya){
       
       //this is doing exactly the same process as before
-      myaDinoArr.push(getNameOrId(key,dinosaurs[i]))
-    }
-  }
+          myaDinoArr.push(getNameOrId(key,dino))
+
     //after loops and all dinosaurs have been checked, return new arr
+  }
+}
     return myaDinoArr;
 
 }
