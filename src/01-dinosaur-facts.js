@@ -26,18 +26,27 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 function getLongestDinosaur(dinosaurs) {
+  // Check if the input array is empty
   if(dinosaurs.length===0) return {}
+   // Initialize variables to keep track of the maximum height and corresponding dinosaur
   let maxDino={}
   let maxHeigth=0
   let dinoName=''
+  // Iterate through each dinosaur in the input array
   dinosaurs.forEach(din => {
+ // Check if the current dinosaur's length is greater than the current maximum heigh
     if(din.lengthInMeters > maxHeigth){
+ // Update the maximum height and corresponding dinosaur's name
       maxHeigth=din.lengthInMeters
       dinoName=din.name
     }
   })
+// Convert the maximum height from meters to feet (assuming 1 meter = 3.281 feet)
     maxHeigth= maxHeigth * 3.281
-    maxDino[dinoName]=maxHeigth
+
+// Create an object with the dinosaur's name as the key and its height as the value
+    maxDino[dinoName]=maxHeigth 
+// Return the object containing the name and height of the tallest dinosaur
     return maxDino;
 }getLongestDinosaur(exampleDinosaurData)
 
@@ -62,8 +71,11 @@ function getLongestDinosaur(dinosaurs) {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
+  // Use the filter method to find the dinosaur with the given ID
 let din= dinosaurs.filter(dinos => dinos.dinosaurId == id)[0]
+// Check if the dinosaur with the specified ID was not found
    if(din===undefined) return `A dinosaur with an ID of '${id}' cannot be found.`
+   // Construct the description string using information from the found dinosaur object
    return `${din.name} (${din.pronunciation})\n${din.info} It lived in the ${din.period} period, over ${din.mya[din.mya.length-1]} million years ago.`
 }getDinosaurDescription(exampleDinosaurData, "GGvO1X9Zeh")
 
