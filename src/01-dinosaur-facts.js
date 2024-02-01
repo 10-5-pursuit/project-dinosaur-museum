@@ -1,5 +1,6 @@
 /*
-  Do not change the line below. If you'd like to run code from this file, you may use the `exampleDinosaurData` variable below to gain access to tickets data. This data is pulled from the `data/dinosaurs.js` file.
+  Do not change the line below. If you'd like to run code from this file, you may use the `exampleDinosaurData` variable below to gain access to tickets data. 
+  This data is pulled from the `data/dinosaurs.js` file.
 
   You may use this data to test your functions. You may assume the shape of the data remains the same but that the values may change.
 
@@ -64,8 +65,7 @@ function getDinosaurDescription(dinosaurs, id) {
   const targetDino = dinosaurs.find(dinobot => dinobot.dinosaurId == id);
   if(targetDino == undefined){
     return `A dinosaur with an ID of '${id}' cannot be found.`;
-  }
-  else{
+  } else{
     const {name, pronunciation, info, period, mya} = targetDino;
     return `${name} (${pronunciation})\n${info} It lived in the ${period} period, over ${mya[mya.length - 1]} million years ago.`
   }
@@ -104,11 +104,23 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {
 
- 
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  const dinoAliveIdOrKey = [];
+
+  for (let i = 0; i < dinosaurs.length; i++) {
+    const dino = dinosaurs[i];
+    const dinomyaArr = Array.isArray(dino.mya) ? dino.mya : [dino.mya];
+
+    if ((mya >= dinomyaArr[dinomyaArr.length - 1] && mya <= dinomyaArr[0]) ||
+       (dinomyaArr.length === 1 && dinomyaArr[0] - 1 === mya)) {
+        dinoAliveIdOrKey.push(key in dino ? dino[key] : dino.dinosaurId);
+    }
+  }
+
+  return dinoAliveIdOrKey;
 }
-  
+
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
