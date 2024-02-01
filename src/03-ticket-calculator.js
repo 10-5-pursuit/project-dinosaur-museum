@@ -55,31 +55,35 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-    function calculateTicketPrice(ticketData, ticketInfo) {
-      const { ticketType, entrantType, extras } = ticketInfo;
-    
-      // Check if the ticket type is valid and not "extras"
-      if (!(ticketType in ticketData) || ticketType === "extras") {
-        return "Ticket type 'incorrect-type' cannot be found.";
-      }
-    
-      // Check if the entrant type is valid for the specified ticket type
-      if (!(entrantType in ticketData[ticketType].priceInCents)) {
-        return `Entrant type '${entrantType}' cannot be found.`;
-      }
-    
-      // Check if all extras are valid
-      if (extras.some(extra => !ticketData.extras[extra])) {
-        return "Extra type 'incorrect-extra' cannot be found.";
-      }
-    
-      // Calculate the total price including base price and extras
-      const basePrice = ticketData[ticketType].priceInCents[entrantType];
-      const extrasPrice = extras.reduce((total, extra) => total + ticketData.extras[extra].priceInCents[entrantType], 0);
-    
-      return basePrice + extrasPrice;
-    }
-    
+
+function calculateTicketPrice(tickets, ticketInfo) {
+  const { ticketType, entrantType, extras } = ticketInfo;
+
+  // Check if the ticket type is valid and not "extras"
+  if (!(ticketType in tickets) || ticketType === "extras") {
+    return `Ticket type '${ticketType}' cannot be found.`;
+  }
+
+  // Check if the entrant type is valid for the specified ticket type
+  if (!(entrantType in tickets[ticketType].priceInCents)) {
+    return `Entrant type '${entrantType}' cannot be found.`;
+  }
+
+  // Check if all extras are valid
+  if (extras.some(extra => !tickets.extras[extra])) {
+    return `Extra type '${extras.find(extra => !tickets.extras[extra])}' cannot be found.`;
+  }
+
+  // Calculate the total price including base price and extras
+  const basePrice = tickets[ticketType].priceInCents[entrantType];
+  const extrasPrice = extras.reduce(
+    (total, extra) => total + tickets.extras[extra].priceInCents[entrantType],
+    0
+  );
+
+  return basePrice + extrasPrice;
+}
+
 /**
  * purchaseTickets()
  * ---------------------
@@ -140,7 +144,7 @@ function purchaseTickets(ticketData, purchases) {
 
   // Loop through each purchase to calculate total price and generate receipt lines
   for (const purchase of purchases) {
-    const priceInCents = calculateTicketPrice(ticketData, purchase);
+    const priceInCents = calculateTicketPrice(tickets, purchase);
 
     // Check for errors in ticket price calculation
     if (typeof priceInCents === "string") {
@@ -156,7 +160,7 @@ function purchaseTickets(ticketData, purchases) {
 TOTAL: $${(total / 100).toFixed(2)}`;
 }
 
-//used another helper function to print reciepts
+//used another helper function to print receipts
 function getReceiptLine(ticketData, purchase, priceInCents) {
   const { entrantType, ticketType, extras } = purchase;
   const entrant = entrantType[0].toUpperCase() + entrantType.slice(1);
