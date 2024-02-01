@@ -27,23 +27,10 @@ function getLongestDinosaur(dinosaurs) {
   if(dinosaurs.length == 0){
     return {};
   }
-  // Create a copy of the array to not mutate the oringal array. Then sort the copy array by the lengthInMeters; Create a variable to hold the longest value
+  // Creating a Copy of the original array to sort it by length in meters
   let sortedInfo = dinosaurs.slice().sort((a, b) => b.lengthInMeters - a.lengthInMeters)
-  let longest = 0;
-  // Use reduce on the sortedInfo to create an object with the longest dinosaurs
-  let obj = sortedInfo.reduce((obj, dino) => {
-    if(dino.lengthInMeters >= longest){
-      if(dino.lengthInMeters === longest){
-        obj[dino.name] = (dino.lengthInMeters * 3.281).toFixed(2)
-      }
-      longest = dino.lengthInMeters
-      obj[dino.name] = (dino.lengthInMeters * 3.281).toFixed(2)
-    }
-    return obj;
-  },{});
-  // extract the properties from the created object to return the first dinosaur we found that matched the condition
-  let resultArr = Object.entries(obj)[0]; 
-  return {[resultArr[0]]: +resultArr[1]}
+  // Returning from the new sorted array. The first element is the longestInLength because we sorted it in such order. so we access it and return the name and length in meters to feet.
+  return {[sortedInfo[0].name]: +(sortedInfo[0].lengthInMeters * 3.281).toFixed(2)}
 }
 
 
@@ -119,20 +106,25 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   let array = [];
   // Loop through the dinosaur array
   for(let dino of dinosaurs) {
-    // If The mya array is 
+    // checking If The mya array has 1 element 
     if(dino.mya.length == 1){
+      // Want to check if the given maya is equal to OR one less equal to the idicated mya
       if(mya == dino.mya[0] || mya == dino.mya[0] - 1){
+        // checking If key exists within the parameter 
         if(key){
+          // Now checking if the key does not exist within the object 
           if(!dino[key]){
+            // If it does not exist we push the dinosaurs ID into the array
             array.push(dino.dinosaurId)
-          }else {
+          }else { // Else we push the found key in the object to the array
             array.push(dino[key]);
-          }
-        }else {
+          } 
+        }else { // Else if key doesnt not exist within the parameter we push the ID
           array.push(dino.dinosaurId);
         }
-      } 
+      } // If the mya array did not have 1 element it had 2. So we have to check if the given mya is within range of the 2 mya elemets.
     }else if(mya <= dino.mya[0] && mya >= dino.mya[1]){
+      // Follows the same algorithm on pushing to the array
       if(key){
         if(!dino[key]){
           array.push(dino.dinosaurId)
@@ -143,7 +135,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
         array.push(dino.dinosaurId);
       }
     }
-  }
+  } // Return the array with the pushed elements.
   return array; 
 }
 

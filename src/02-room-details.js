@@ -31,7 +31,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   let dinoId;
   let dino;
   let room;
-
+  // 
   dino = dinosaurs.filter(dino => dino.name == dinosaurName)
   if(dino.length === 0){
     return `Dinosaur with name '${dinosaurName}' cannot be found.`;
@@ -76,7 +76,7 @@ const getConnectedRoomNamesById = (rooms, id) => {
     return `Room with ID of '${id}' could not be found.`;
   }
 
-  
+
   return roomArray.reduce((arr, room) => {
     if(!room.connectsTo.includes(id)){
       return `Room with ID of '${id}' could not be found.`;

@@ -147,11 +147,13 @@ function calculateTicketPrice(ticketData, ticketInfo) {
 // ? Helper Function to convert string(number) into dollars. 
 const moneyConverter = (strNum) => {
   if(strNum.length > 4){
+    // If the strNum length is greater than 4 (10000) we want to add a money symbol, slice from index 0 up until index 3, add a dot, then slice the rest of the strNum
     return `$${strNum.slice(0, 3)}.${strNum.slice(3)}`
-  }
-  if(strNum.length > 5){
+  }else if(strNum.length > 5){
+    // else If the strNum length is greater than 5 (100000) we want to add a money symbol, slice from index 0 up until index 4, add a dot, then slice the rest of the strNum
     return `$${strNum.slice(0, 4)}.${strNum.slice(4)}`
   }
+  // if none of the conditions are true, the strNum length is 4 (1000) so we want to add a money symbol, slice from index 0 up until index 2, add a dot, then slice the rest of the strNum
   return `$${strNum.slice(0, 2)}.${strNum.slice(2)}`
 }
 
@@ -165,7 +167,7 @@ function purchaseTickets(ticketData, purchases) {
   let receiptDescription = "";
   let total = 0;
   
-  // Sinlge Purchase Ticket 
+  // ! Sinlge Purchase Ticket 
   if(purchases.length === 1){
     if(!ticketData.hasOwnProperty(purchases[0].ticketType)) {
       return `Ticket type '${purchases[0].ticketType}' cannot be found.`
@@ -179,7 +181,7 @@ function purchaseTickets(ticketData, purchases) {
     let description = `${ticketData[purchases[0].ticketType].description}`;
     let entrant = purchases[0].entrantType.slice(0,1).toUpperCase() + purchases[0].entrantType.slice(1).toLowerCase()
     let extrasArr = purchases[0].extras;
-    // Checking if the extrasArray is 
+    // Checking if the extrasArray is Empty
     if(extrasArr.length === 0) {
         receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
         total += price;
@@ -188,15 +190,15 @@ function purchaseTickets(ticketData, purchases) {
         return `Extra type 'incorrect-extra' cannot be found.`
       }
       let extraStr = extrasArr.reduce((str, item, _, arr) => {
-      if(item === arr[arr.length - 1]){
-        str += `${ticketData.extras[item].description}`
-        price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
-        return str
-      }else {
-        str += `${ticketData.extras[item].description}, `
-        price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
-        return str
-      }
+        if(item === arr[arr.length - 1]){
+          str += `${ticketData.extras[item].description}`
+          price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
+          return str
+        }else {
+          str += `${ticketData.extras[item].description}, `
+          price += ticketData.extras[item].priceInCents[purchases[0].entrantType]
+          return str
+        }
       },"")
       // * Apply a discount of 10% if discount is true
       if(purchases[0].discount === true){
@@ -234,6 +236,7 @@ function purchaseTickets(ticketData, purchases) {
       total += price;
     // * If the extrasArray is not empty Calculate the elements in the array, Along with the description.
     }else{
+      // Looping to push the descriptions into an array to access them later
       for(let j = 0; j < extrasArr.length; j++){
         if(!ticketData.extras.hasOwnProperty(...purchases[i].extras)){
           return `Extra type 'incorrect-extra' cannot be found.`
