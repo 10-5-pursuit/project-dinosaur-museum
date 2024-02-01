@@ -110,9 +110,9 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
     if (din.mya.length == 1 && (din.mya==mya ||din.mya-1==mya)) return din.dinosaurId
     else if (mya<=din.mya[0] && mya>=din.mya[1]) return din.dinosaurId
   })
-   // Initialize an array to store either dinosaur IDs
+   // Initialize an array to store either dinosaur IDs or name
   let dinOfId=[];
-  // Populate the array based on the specified key ('dinosaurId')
+  // Populate the array based on the specified key ('name' or 'dinosaurId')
    if(key== 'name'){
     dino.forEach(din=> dinOfId.push(din.name))}
    else{
