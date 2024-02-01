@@ -68,7 +68,7 @@ getRoomByDinosaurName(exampleDinosaurData,exampleRoomData,'Tyrannosaurus')
       "Kit Hopkins Education Wing"
     ]
  */
-
+// helper function 01
 function checkRoomId (rooms, id){
   let result = false
   rooms.forEach(room =>{
@@ -76,7 +76,7 @@ function checkRoomId (rooms, id){
   })
   return result
 }
-
+// helper function 02
 function checkConnectedRooms (rooms){
   let roomDoesNotExist = false
   let roomName = ''
@@ -97,7 +97,6 @@ function getConnectedRoomNamesById(rooms, id) {
   if(checkConnectedRooms(rooms)[0]) return `Room with ID of '${checkConnectedRooms(rooms)[1]}' could not be found.`
 
   if(!checkRoomId(rooms, id)) return `Room with ID of '${id}' could not be found.`
-
 
   let connectedRooms = []
   rooms.forEach(room=>{
