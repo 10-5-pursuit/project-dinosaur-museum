@@ -105,17 +105,21 @@ let din= dinosaurs.filter(dinos => dinos.dinosaurId == id)[0]
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  let array=dinosaurs.filter(din =>{
+// Use the filter method to find dinosaurs that were alive during the specified time period
+  let dino=dinosaurs.filter(din =>{
     if (din.mya.length == 1 && (din.mya==mya ||din.mya-1==mya)) return din.dinosaurId
     else if (mya<=din.mya[0] && mya>=din.mya[1]) return din.dinosaurId
   })
-  let arrOfId=[];
+   // Initialize an array to store either dinosaur IDs
+  let dinOfId=[];
+  // Populate the array based on the specified key ('dinosaurId')
    if(key== 'name'){
-    array.forEach(din=> arrOfId.push(din.name))}
+    dino.forEach(din=> dinOfId.push(din.name))}
    else{
-    array.forEach(din=> arrOfId.push(din.dinosaurId))}
+    dino.forEach(din=> dinOfId.push(din.dinosaurId))}
   
-   return arrOfId
+  // Return the array of either dinosaur IDs
+   return dinOfId
 }
 
 module.exports = {
