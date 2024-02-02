@@ -66,7 +66,33 @@ console.log(getRoomByDinosaurName(exampleDinosaurData, exampleRoomData, "Pteroda
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) {}
+function getConnectedRoomNamesById(rooms, id) {
+  let roomArr = [];
+  let dinoId = false;
+
+  for(let i = 0; i < rooms.length; i++){
+   let roomConnected = rooms[i].connectsTo.find(room => room === id)
+
+  
+
+   if(roomConnected){
+    roomArr.push(rooms[i].name)
+    dinoId= true;
+   }
+
+
+  
+   }
+   if(roomArr.length === 0 || dinoId === id){
+    return `Room with ID of '${id}' could not be found.`
+    }
+    return roomArr;
+
+  }
+
+ 
+  
+
 
 module.exports = {
   getRoomByDinosaurName,
