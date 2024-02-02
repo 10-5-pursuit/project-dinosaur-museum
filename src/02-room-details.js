@@ -67,22 +67,35 @@ console.log(getRoomByDinosaurName(exampleDinosaurData, exampleRoomData, "Pteroda
     ]
  */
 function getConnectedRoomNamesById(rooms, id) {
+  let newRoom = rooms.find(room => room.roomId === id) // declaring a variable to hold any matching Ids
+
+  if(!newRoom){
+    return `Room with ID of '${id}' could not be found.`; //if there is no matching room Ids this   
+  };                                                      //message is returned.
+
   let roomArr = [];  // delaring a variable with an empty array that will be returned at the end
 
+  for (let i = 0; i < newRoom.connectsTo.length; i++) { // created a loop to loop through the data
+    let connectedRoomId = newRoom.connectsTo[i]; //declared a variable to hold array
+    
+    let roomConnected = rooms.find(room => room.roomId === connectedRoomId) //making sure the roomIDs match the IDs in connectedRoom
 
-  for (let i = 0; i < rooms.length; i++) { // created a loop to loop through the data
-    let roomConnected = rooms[i].connectsTo.find(room => room === id) //making sure the roomIDs match the ID that is being inputted
+    if(!roomConnected){
+      return `Room with ID of 'incorrect-id' could not be found.`  //if the id doesn't exist we return a message saying the room cannot be found;
+    } 
+      roomArr.push(roomConnected.name) //if the roomId exist we are pushing in the name of the room to the array
 
-    if (roomConnected) {  
-      roomArr.push(rooms[i].name) //if the roomId existed we are pushing in the name of the room to the array
-    }
+    
   }
 
-  if (roomArr.length === 0 || !id) {
-    return `Room with ID of '${id}' could not be found.`  //if the id doesn't exist or there are no rooms we return a message saying the room cannot be found;
-  }
-  return roomArr;
+ 
+  return roomArr; // we return the array;
 }
+
+
+
+
+
 
  
   

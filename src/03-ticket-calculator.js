@@ -55,12 +55,36 @@ const exampleTicketData = require("../data/tickets");
     //> "Entrant type 'kid' cannot be found."
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
-  let cost = 0;
 
-  switch(tickets)
-
-  
+  if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
   }
+
+  let ticketCost = 0;
+  let entrants = ['adult','child','senior'];
+
+  if(!person.includes(entrantType)){
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  };
+
+  if(ticketInfo.ticketType === 'general'){
+    ticketCost += ticketData.general.priceInCents[ticketInfo.entrantType];
+  }
+  else{
+    ticketCost += ticketData.membership.priceInCents[ticketInfo.entrantType]; 
+  };
+
+  for(let extra of ticketInfo.extras){
+    if(!ticketData.extras[extra]){
+      return `Exta type '${ticketInfo.extras}' cannot be found. `
+    }
+    ticketCost += ticketData.extras[extra].priceInCents[ticketInfo.entrantType]
+  }
+
+
+
+return ticketCost;
+}
 
 console.log(calculateTicketPrice(exampleTicketData))
 
