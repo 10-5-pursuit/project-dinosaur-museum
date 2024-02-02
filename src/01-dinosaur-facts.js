@@ -67,11 +67,7 @@ const { dinosaurID, name, pronunciation, meaningOfName, diet, lengthInMeters, pe
 
 function getDinosaurDescription(dinosaurs, id) {
   for (let key of dinosaurs){
-    let pronunciation = key.pronunciation
-    let name = key.name
-    let info = key.info
-    let period = key.period
-    let mya= key.mya
+    const {pronunciation, name, info, period, mya} = key
   if(key.dinosaurId === id){
     return `${name} (${pronunciation})\n${info} It lived in the ${period} period, over ${mya.length === 1 ? mya[0] : mya[1]} million years ago.`
   }
@@ -109,7 +105,36 @@ console.log(getDinosaurDescription(exampleDinosaurData, 'V53DvdhV2A'))
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+// function getDinosaursAliveMya(dinosaurs, mya, key) {
+//   let arrDinosaursAliveMya = []
+//   for(let i =0; i < dinosaurs.length; i++){
+//     if(dinosaurs[i].mya.length === 1 && (dinosaurs[i].mya[0] === mya || dinosaurs[i][0]-1 === mya)){
+//       arrDinosaursAliveMya.push(key,dinosaurs[i])
+      
+//     }
+//     else if(dinosaurs[i].mya[0] >= mya && dinosaurs[i].mya[1] <= mya){
+//         arrDinosaursAliveMya.push(key,dinosaurs[i])
+//       }
+//     }
+//     return arrDinosaursAliveMya;
+//   }
+
+  function getDinosaursAliveMya(dinosaurs, mya, key) {
+    const filteredDinosaurs = dinosaurs.filter(dinosaur => {
+      if (dinosaur.mya.length === 1) {
+        return dinosaur.mya[0] === mya || dinosaur.mya[0] === mya - 1;
+      } else {
+        return dinosaur.mya.includes(mya) || dinosaur.mya.includes(mya - 1);
+      }
+    });
+    // If a key is provided, return the values of that key for the filtered dinosaurs
+    if (key) {
+      return filteredDinosaurs.map(dinosaur => dinosaur[key]);
+    }
+    // Otherwise, return the IDs of the filtered dinosaurs
+    return filteredDinosaurs.map(dinosaur => dinosaur.dinosaurId);
+  }
+
 
 module.exports = {
   getLongestDinosaur,
