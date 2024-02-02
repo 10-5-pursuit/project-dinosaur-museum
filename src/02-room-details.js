@@ -26,17 +26,17 @@ const exampleRoomData = require("../data/rooms");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
-  let dino = dinosaurs.find(dinos => dinos.name === dinosaurName);
-
+  let dino = dinosaurs.find(dinos => dinos.name === dinosaurName); // declaring a variablet to find if the name given matches the name in the dinosaur data
+                                                                    
   if (!dino) {
-    return `Dinosaur with name '${dinosaurName}' cannot be found.`;
+    return `Dinosaur with name '${dinosaurName}' cannot be found.`; // if the name doesn't exist we return a message stating so
   }
 
-  let dinoId = dino.dinosaurId;
+  let dinoId = dino.dinosaurId; // declaring a variable to store the dinosaur's IDs
 
   for (let room of rooms) {
-    if (room.dinosaurs.includes(dinoId)) {
-      return `${room.name}`;
+    if (room.dinosaurs.includes(dinoId)) { //looping through the rooms to check if the rooms have the same ID as dinoId you return the room name if not you
+      return `${room.name}`;                //return an error message with the dinosaur's name you were trying to find.
     }
   }
   return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`
@@ -67,28 +67,22 @@ console.log(getRoomByDinosaurName(exampleDinosaurData, exampleRoomData, "Pteroda
     ]
  */
 function getConnectedRoomNamesById(rooms, id) {
-  let roomArr = [];
-  let dinoId = false;
-
-  for(let i = 0; i < rooms.length; i++){
-   let roomConnected = rooms[i].connectsTo.find(room => room === id)
-
-  
-
-   if(roomConnected){
-    roomArr.push(rooms[i].name)
-    dinoId= true;
-   }
+  let roomArr = [];  // delaring a variable with an empty array that will be returned at the end
 
 
-  
-   }
-   if(roomArr.length === 0 || dinoId === id){
-    return `Room with ID of '${id}' could not be found.`
+  for (let i = 0; i < rooms.length; i++) { // created a loop to loop through the data
+    let roomConnected = rooms[i].connectsTo.find(room => room === id) //making sure the roomIDs match the ID that is being inputted
+
+    if (roomConnected) {  
+      roomArr.push(rooms[i].name) //if the roomId existed we are pushing in the name of the room to the array
     }
-    return roomArr;
-
   }
+
+  if (roomArr.length === 0 || !id) {
+    return `Room with ID of '${id}' could not be found.`  //if the id doesn't exist or there are no rooms we return a message saying the room cannot be found;
+  }
+  return roomArr;
+}
 
  
   
