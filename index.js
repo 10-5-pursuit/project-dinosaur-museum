@@ -39,18 +39,45 @@ function getLongestDinosaur(dinosaurs) {
 //   console.log(getDinosaurDescription(exampleDinosaurData, 'V53DvdhV2A'))
 
 
-  function getDinosaursAliveMya(dinosaurs, mya, key) {
-    const result = [];
-    
-    dinosaurs.forEach((dino) => {
-      const myaRange = dino.mya //the mya in the dinosaurs object
-      if (
-        (myaRange.length === 1 && (myaRange[0] === mya || myaRange[0] -1 === mya)) || 
-        (myaRange.length === 2 && mya <= myaRange[0] && mya >= myaRange[1])
-      ) {
-        result.push(key in dino ? dino[key] : dino.dinosaurId);  //the result is pushed into result
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+ 
+  for(let dinoObj of dinosaurs){
+    if(dinoObj.mya.length === 1){
+      if(dinoObj.mya[0] === mya || dinoObj.mya[0]-1 === mya){
+        if(key){
+         if(key in dinoObj)
+          arr.push(dinoObj[key])
+        }else if (!key){
+           arr.push(dinoObj.dinosaurId)
+        }
       }
-    });
-    return result;
     }
+   if(dinoObj === 2){
+      if(dinoObj.mya[0] === mya || dinoObj.mya[1] === mya){
+        if(key){
+         if(key in dinoObj)
+          arr.push(dinoObj[key])
+        }else if(!key){
+          arr.push(dinoObj.dinosaurId)
+        }
+      }
+    }
+    }
+    return arr
+  }
 
+//   const result = [];
+  
+//   dinosaurs.forEach(function(dino) {
+//     const myaRange = dino.mya;
+
+//     if (
+//       (myaRange.length === 1 && (myaRange[0] === mya || myaRange[0] - 1 === mya)) ||
+//       (myaRange.length === 2 && mya <= myaRange[0] && mya >= myaRange[1])
+//     ) {
+//       result.push(key in dino ? dino[key] : dino.dinosaurId);
+      
+//     }
+//   });
+
+// return result;

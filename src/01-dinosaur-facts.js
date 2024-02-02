@@ -101,7 +101,46 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let arr = [];
+  for(let dinoObj of dinosaurs){
+    if(dinoObj.mya.length === 1){
+      if(dinoObj.mya[0] <= mya && dinoObj.mya[0]-1 >= mya){
+        if(key){
+         if(key in dinoObj)
+          arr.push(dinoObj[key])
+        }else if (!key){
+           arr.push(dinoObj.dinosaurId)
+        }
+      }
+    }
+   if(dinoObj === 2){
+      if(dinoObj.mya[0] <= mya && dinoObj.mya[1] >= mya){
+        if(key){
+         if(key in dinoObj)
+          arr.push(dinoObj[key])
+        }else if(!key){
+          arr.push(dinoObj.dinosaurId)
+        }
+      }
+    }
+    }
+    return arr
+  }
+  getDinosaursAliveMya()
+  // let dinoArr = [];
+
+  // dinosaurs.forEach(function(dinosaur)) {
+  //   let myaRange = dino.mya;
+
+  //   if (
+  //     (myaRange.length === 1 && (myaRange[0] === mya || myaRange[0] - 1 === mya)) || (myaRange.length === 2 && mya <= myaRange[0] && mya >= myaRange[1]){
+  //     result.push(key in dino ?[key] : dino.dinosaurId);
+  //   }
+  // });
+  // return result;
+
+
 
 module.exports = {
   getLongestDinosaur,
