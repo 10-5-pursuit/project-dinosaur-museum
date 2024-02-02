@@ -169,65 +169,6 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // for(const info of dinosaurs) {
-  //     let years = info.mya
-  //     if(years.length === 1) {
-  //         if (years[0] === mya || mya === years[0] -1) {
-  //           if(key) {
-  //             if(!info.hasOwnProperty[key]) {
-  //               dinosaursFromEra.push(info.dinosaurId) 
-  //             }
-  //             dinosaursFromEra.push(info[key])
-  //           }
-  //           dinosaursFromEra.push(info[key]) 
-  //         }
-  //     } else {
-  //       if(years.length === 2) {
-  //         if (mya <= years[0] && mya >= years[1]) {
-  //           if(key) {
-  //             if (!info.hasOwnProperty[key]) {
-  //                 dinosaursFromEra.push(info.dinosaurId)
-  //             }
-  //             dinosaursFromEra.push(info[key])
-  //          }
-  //         }
-  //       }
-  //     }
-  // }
-  // return dinosaursFromEra;
-
 (exampleDinosaurData)
 module.exports = {
   getLongestDinosaur,
