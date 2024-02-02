@@ -39,6 +39,20 @@ function getLongestDinosaur(dinosaurs) {
   }
   return {[longestDinosaur]: longestLengthInFeet};
 }
+// function getLongestDinosaur(dinosaurs) {
+//   const longestDinosaurObj = {};
+
+//   if (dinosaurs.length === 0){
+//     return {};
+//   }
+
+//   let lengthMap = dinosaurs.map(dinosaur => dinosaur.lengthInMeters);
+//   let greatestLength = Math.max(...lengthMap);
+//   let longestDinosaur = dinosaurs.find(dinosaur => dinosaur.lengthInMeters === greatestLength);
+//   longestDinosaurObj[longestDinosaur.name] = longestDinosaur.lengthInMeters * 3.281;
+
+//   return longestDinosaurObj;
+// }
 
 /**
  * getDinosaurDescription()
@@ -103,29 +117,22 @@ function getDinosaurDescription(dinosaurs, id) {
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   let arr = [];
-  for(let dinoObj of dinosaurs){
-    if(dinoObj.mya.length === 1){
-      if(dinoObj.mya[0] <= mya && dinoObj.mya[0]-1 >= mya){
-        if(key){
-         if(key in dinoObj)
-          arr.push(dinoObj[key])
-        }else if (!key){
-           arr.push(dinoObj.dinosaurId)
-        }
-      }
+
+for (const dinoKey in dinosaurs) {
+  const dinoObj = dinosaurs[dinoKey];
+  const myaRange = dinoObj.mya;
+
+  if ((myaRange.length === 1 && mya >= myaRange[0] - 1 && mya <= myaRange[0]) ||
+      (myaRange.length === 2 && mya >= myaRange[1] && mya <= myaRange[0])) {
+    if (key && dinoObj.hasOwnProperty(key)) {
+      arr.push(dinoObj[key]);
+    } else {
+      arr.push(dinoObj.dinosaurId);
     }
-   if(dinoObj === 2){
-      if(dinoObj.mya[0] <= mya && dinoObj.mya[1] >= mya){
-        if(key){
-         if(key in dinoObj)
-          arr.push(dinoObj[key])
-        }else if(!key){
-          arr.push(dinoObj.dinosaurId)
-        }
-      }
-    }
-    }
-    return arr
+  }
+}
+
+return arr;
   }
   getDinosaursAliveMya()
   // let dinoArr = [];

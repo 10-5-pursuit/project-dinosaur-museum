@@ -1,83 +1,40 @@
-const dinosaurs = require("./data/dinosaurs");
 const exampleDinosaurData = require("./data/dinosaurs");
 /// Program your functions below //
 
+// /**
+//  * Retrieves the IDs or specified key values of dinosaurs that lived during a given time period.
+//  * @param {Object[]} dinosaurs - An array of dinosaur objects.
+//  * @param {number} mya - The time period in "Millions of years ago."
+//  * @param {string} key - An optional parameter. If included, returns the value of the supplied key; otherwise, returns the dinosaur ID.
+//  * @returns {*[]} An array of values, depending on the key given, for dinosaurs that lived during the specified time period.
+//  */
+// function getDinosaursAliveMya(dinosaurs, mya, key) {
+//   // Initialize an empty array to store the result
+//   let arr = [];
 
-function getLongestDinosaur(dinosaurs) {
-    let longestDinosaur;
-    let longestLengthInFeet = 0;
-  
-    for (let dinosaur of dinosaurs) {
-      let lengthInFeet = dinosaur.lengthInMeter * 3.281;
-  
-      if (lengthInFeet > longestLengthInFeet) {
-        longestDinosaur = dinosaur.name;
-        longestLengthInFeet = lengthInFeet;
-      }
-    }
-    return {[longestDinosaur]: longestLengthInFeet};
-  }
-  getLongestDinosaur();
+//   // Iterate over each property in the dinosaurs object
+//   for (const dinoKey in dinosaurs) {
+//     // Access the dinosaur object using the current property key
+//     const dinoObj = dinosaurs[dinoKey];
+//     // Extract the mya range from the current dinosaur object
+//     const myaRange = dinoObj.mya;
 
-
-
-//   function getDinosaurDescription(dinosaurs, id) {
-//     for (let key of dinosaurs){
-//       let pronunciation = key.pronunciation
-//       let name = key.name
-//       let info = key.info
-//       let period = key.period
-//       let mya= key.mya
-//     if(key.dinosaurId === id){
-//       return `${name} ${pronunciation} \n ${info}. It lived in the ${period} period, over ${mya.length === 1 ? mya[0] : mya[1]} million years ago.`
-//     }
-    
-//     }
-//     return 'A dinosaur with an ID of cannot be found.'
-  
-//   }
-//   console.log(getDinosaurDescription(exampleDinosaurData, 'V53DvdhV2A'))
-
-
-function getDinosaursAliveMya(dinosaurs, mya, key) {
- 
-  for(let dinoObj of dinosaurs){
-    if(dinoObj.mya.length === 1){
-      if(dinoObj.mya[0] === mya || dinoObj.mya[0]-1 === mya){
-        if(key){
-         if(key in dinoObj)
-          arr.push(dinoObj[key])
-        }else if (!key){
-           arr.push(dinoObj.dinosaurId)
-        }
-      }
-    }
-   if(dinoObj === 2){
-      if(dinoObj.mya[0] === mya || dinoObj.mya[1] === mya){
-        if(key){
-         if(key in dinoObj)
-          arr.push(dinoObj[key])
-        }else if(!key){
-          arr.push(dinoObj.dinosaurId)
-        }
-      }
-    }
-    }
-    return arr
-  }
-
-//   const result = [];
-  
-//   dinosaurs.forEach(function(dino) {
-//     const myaRange = dino.mya;
-
+//     // Check if the mya range matches the specified condition
 //     if (
-//       (myaRange.length === 1 && (myaRange[0] === mya || myaRange[0] - 1 === mya)) ||
-//       (myaRange.length === 2 && mya <= myaRange[0] && mya >= myaRange[1])
+//       (myaRange.length === 1 && mya >= myaRange[0] - 1 && mya <= myaRange[0]) ||
+//       (myaRange.length === 2 && mya >= myaRange[1] && mya <= myaRange[0])
 //     ) {
-//       result.push(key in dino ? dino[key] : dino.dinosaurId);
-      
+//       // Check if a key is provided and if the dinosaur object has that key
+//       if (key && dinoObj.hasOwnProperty(key)) {
+//         // Push the value of the specified key to the result array
+//         arr.push(dinoObj[key]);
+//       } else {
+//         // If no key is provided or the key is not present, push the dinosaurId to the result array
+//         arr.push(dinoObj.dinosaurId);
+//       }
 //     }
-//   });
+//   }
 
-// return result;
+//   // Return the final result array
+//   return arr;
+// }
