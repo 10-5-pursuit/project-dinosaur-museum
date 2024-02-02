@@ -8,7 +8,7 @@ const exampleTicketData = require("./data/tickets");
 
 // Room 1 Stretch Goals:
 
-// 1.  Learned how to install and use Plotly. Used it to make a scatter graph mapping diet to length.  Tried to do regression to find out if there was any correlation, it's not working as I think it only does a linear regression, the relationship both might not be linear.
+// 1.  Learned how to install and use Plotly. Used it to make a scatter graph mapping diet to length.  Tried to do regression to find out if there was any correlation, it's not working as I think it only does a linear regression, the relationship might not be linear.
 
 const plotly = require('plotly')('renadatpursuit', 'MXtcX2gHDvvHi47olUb3');
 const regression = require('regression');
@@ -83,7 +83,7 @@ function capitalizeFirstChar(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Created a Dino Table using the helper function above and logging it into an actual table on vscode.  I discovered console.table during the library/books in Objects exercise, I finally found an opportunity to use it. It is very cool.
+// Created a Dino Table using the helper function above and logged it into an actual table on vscode.  I discovered console.table while trying to understand the library/books in Objects exercise, I finally found an opportunity to use it. It is very cool.
 
 function createDinosaurTable(data) {
   const tableData = data.map((dino) => ({
@@ -162,13 +162,13 @@ console.log('Rizel\'s Cafe Exists:', cafeAndGiftShopCheck.cafeExists);
 console.log('Rizel\'s Gift Shop Exists:', cafeAndGiftShopCheck.giftShopExists);
 
 // Room 3 stretch goals:
-// Checked out the Museum of Natural History and they have an extra pricing level. They have what is called a Pay What You Want Entrant - so I made a function that if a 10.5er comes in, they can opt to pay what they want [because we all still need to pay back 70K to Pursuit!!!]
+// Checked out the Museum of Natural History and they have an extra pricing level. They have what is called a "Pay What You Want" option - so I made a function that if a 10.5Der comes, they can opt to pay what they want [because we all still need to pay back 70K to Pursuit!!!]
 
 function calculateTicketPriceForFellow10_5() {
     return {
         fullPriceInDollars: 'Pay What You Want',
         discountsApplied: ['10.5 Fellow Discount: Unlimited'],
-        netPriceToPay: "You and 2 guests can come in for free :) - says rizel",
+        netPriceToPay: "You and 2 guests can come in for free. :) - says rizel",
     };
 }
 
