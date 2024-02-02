@@ -76,7 +76,7 @@ function checkRoomId (rooms, id){
   })
   return result
 }
-// helper function 02
+// helper function 
 function checkConnectedRooms (rooms){
   let roomDoesNotExist = false
   let roomName = ''

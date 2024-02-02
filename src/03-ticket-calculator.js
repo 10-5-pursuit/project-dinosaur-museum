@@ -68,16 +68,11 @@ function calculateTicketPrice(ticketData, ticketInfo) {
 
   let finalPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]
 
-  console.log(finalPrice)
-
   if(ticketInfo.extras.length!=0){
     for(let extra of ticketInfo.extras){
       finalPrice += ticketData.extras[extra].priceInCents[ticketInfo.entrantType]
     }
-
-
   }
-
 
   return finalPrice
 }
@@ -86,7 +81,7 @@ const ticketInfo = {
   entrantType: "child",
   extras: ['movie'],
 };
-console.log(calculateTicketPrice(exampleTicketData,ticketInfo))
+
 
 
 
@@ -145,7 +140,82 @@ console.log(calculateTicketPrice(exampleTicketData,ticketInfo))
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+
+
+
+function purchaseTickets(ticketData, purchases) {
+  let totalPrice = 0
+  let receiptString = 'Thank you for visiting the Dinosaur Museum!'
+  let separator = '\n-------------------------------------------'
+  receiptString += separator
+
+  for (let ticketInfo of purchases){
+    let PriceInDolars = calculateTicketPrice(ticketData,ticketInfo)
+    //checking if we get an error from the firts function
+    if (typeof PriceInDolars == 'string'){
+      return PriceInDolars
+    }
+    totalPrice += PriceInDolars
+    //converting cents in Dolars and format the output with 2 decimals
+    PriceInDolars = (PriceInDolars/100).toFixed(2)
+    
+
+    let age= ticketInfo.entrantType
+    age = age[0].toUpperCase() + age.slice(1,age.length)
+
+    //create a new array with all the descriptions of extras
+    let extras = ticketInfo.extras.map(str => ticketData.extras[str].description).join(', ')
+    let purchaseInfo =''
+
+    //checking if ticketInfo.extras is empty
+    if(extras.length == 0) {
+      purchaseInfo = `\n${age} ${ticketData[ticketInfo.ticketType].description}: $${PriceInDolars}`
+      receiptString += purchaseInfo
+    }else {
+      purchaseInfo = `\n${age} ${ticketData[ticketInfo.ticketType].description}: $${PriceInDolars} (${extras})`
+      receiptString += purchaseInfo
+    }
+
+    
+    
+  }
+  totalPrice = (totalPrice/100).toFixed(2)
+  receiptString += separator
+  receiptString += `\nTOTAL: $${totalPrice}`
+
+  // console.log(receiptString)
+
+  return receiptString
+
+}
+
+
+
+
+const purchases = [
+  {
+    ticketType: "a",
+    entrantType: "adult",
+    extras: ["movie", "terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "senior",
+    extras: ["terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "child",
+    extras: ["education", "movie", "terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "child",
+    extras: ["education", "movie", "terrace"],
+  },
+];
+
+purchaseTickets(exampleTicketData,purchases)
 
 // Do not change anything below this line.
 module.exports = {
