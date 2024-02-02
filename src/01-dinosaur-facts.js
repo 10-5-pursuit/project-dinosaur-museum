@@ -7,8 +7,6 @@
 */
 const exampleDinosaurData = require("../data/dinosaurs");
 
-
-
 // Do not change the line above.
 
 /**
@@ -25,6 +23,11 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
+
+
+
+
+
 function getLongestDinosaur(dinosaurs) {
   // Check if the input array is empty
   if(dinosaurs.length===0) return {}
@@ -49,7 +52,10 @@ function getLongestDinosaur(dinosaurs) {
   // Return the object containing the name and height of the tallest dinosaur
       return maxDino;
 }
-getLongestDinosaur(exampleDinosaurData)
+
+
+
+
 
 /**
  * getDinosaurDescription()
@@ -71,6 +77,11 @@ getLongestDinosaur(exampleDinosaurData)
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
+
+
+
+
+
 function getDinosaurDescription(dinosaurs, id) {
   // Use the filter method to find the dinosaur with the given ID
   let din= dinosaurs.filter(dinos => dinos.dinosaurId == id)[0]
@@ -79,7 +90,10 @@ function getDinosaurDescription(dinosaurs, id) {
   // Construct the description string using information from the found dinosaur object
     return `${din.name} (${din.pronunciation})\n${din.info} It lived in the ${din.period} period, over ${din.mya[din.mya.length-1]} million years ago.`
 }
-getDinosaurDescription(exampleDinosaurData, "GGvO1X9Zeh")
+
+
+
+
 
 /**
  * getDinosaursAliveMya()
@@ -106,6 +120,11 @@ getDinosaurDescription(exampleDinosaurData, "GGvO1X9Zeh")
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
+
+
+
+
+
 function getDinosaursAliveMya(dinosaurs, mya, key) {
 // Use the filter method to find dinosaurs that were alive during the specified time period
   let dino=dinosaurs.filter(din =>{
@@ -123,6 +142,10 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   // Return the array of either dinosaur IDs
    return dinOfId
 }
+
+
+
+
 
 module.exports = {
   getLongestDinosaur,
