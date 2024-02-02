@@ -54,7 +54,204 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+
+
+function calculateTicketPrice(ticketData, ticketInfo) {
+  let returnTotalSum = 0; // the main return variable of this function
+  const { ticketType, entrantType, extras } = ticketInfo;  // deconstructing ticketInfo
+
+  // TICKETDATA:
+
+  //GENERAL:
+  // General Entrant Prices
+  const generalChildPrice = ticketData.general.priceInCents.child;
+  const generalAdultPrice = ticketData.general.priceInCents.adult;
+  const generalSeniorPrice = ticketData.general.priceInCents.senior;
+
+  // MEMBERSHIP:
+  // Membership Entrant Prices
+  const membershipChildPrice = ticketData.membership.priceInCents.child;
+  const membershipAdultPrice = ticketData.membership.priceInCents.adult;
+  const membershipSeniorPrice = ticketData.membership.priceInCents.senior;
+
+  // EXTRA:
+  // Movie Entrant Prices
+  const extraMovieChildPrice = ticketData.extras.movie.priceInCents.child;
+  const extraMovieAdultPrice = ticketData.extras.movie.priceInCents.adult;
+  const extraMovieSeniorPrice = ticketData.extras.movie.priceInCents.senior;
+
+  // Education Entrant Prices
+  const extraEducationChildPrice = ticketData.extras.education.priceInCents.child;
+  const extraEducationAdultPrice = ticketData.extras.education.priceInCents.adult;
+  const extraEducationSeniorPrice = ticketData.extras.education.priceInCents.senior;
+
+  // Terrace Entrants Prices
+  const extraTerraceChildPrice = ticketData.extras.terrace.priceInCents.child;
+  const extraTerraceAdultPrice = ticketData.extras.terrace.priceInCents.adult;
+  const extraTerraceSeniorPrice = ticketData.extras.terrace.priceInCents.senior;
+
+
+  if (ticketData && typeof ticketData === 'object' && ticketInfo && typeof ticketInfo === 'object') {
+
+    if (ticketType !== 'general' && ticketType !== 'membership') {
+      return `Ticket type 'incorrect-type' cannot be found.`;
+    }
+
+    if (entrantType != 'child' && entrantType != 'adult' && entrantType != 'senior') {
+      return `Entrant type 'incorrect-entrant' cannot be found.`;
+    }
+
+    if (extras.length > 0) {
+      if (!extras.includes('movie')) {
+        if (!extras.includes('education')) {
+          if (!extras.includes('terrace')) {
+            return `Extra type 'incorrect-extra' cannot be found.`;
+          }
+        }
+      }
+    }
+
+    if (ticketType === 'general') {   /* GENERAL: */
+
+      if (entrantType === 'child') { /* GENERAL CHILD ADMISSION */
+      
+        if (extras.length === 0) {  
+          returnTotalSum = generalChildPrice;
+
+        } else if (extras.length > 0) {      /* GENERAL ADMISSION + EXTRAS */
+          returnTotalSum = generalChildPrice;
+
+          if (extras.includes('movie')) {
+            returnTotalSum += extraMovieChildPrice;
+          }
+
+          if (extras.includes('education')) {
+            returnTotalSum += extraEducationChildPrice;
+          }
+
+          if (extras.includes('terrace')) {
+            returnTotalSum += extraTerraceChildPrice;
+          }
+        }
+
+      } else if (entrantType === 'adult') {  /* GENERAL ADULT ADMISSION */
+
+        if (extras.length === 0) {
+          returnTotalSum = generalAdultPrice;
+
+        } else if (extras.length > 0) {       /* GENERAL ADMISSION + EXTRAS */
+          returnTotalSum = generalAdultPrice;
+
+          if (extras.includes('movie')) {
+            returnTotalSum += extraMovieAdultPrice;
+          }
+
+          if (extras.includes('education')) {
+            returnTotalSum += extraEducationAdultPrice;
+          }
+
+          if (extras.includes('terrace')) {
+            returnTotalSum += extraTerraceAdultPrice;
+          }
+        }
+      } else if (entrantType === 'senior') { /* GENERAL SENIOR ADMISSION */
+
+        if (extras.length === 0) {
+          returnTotalSum = generalSeniorPrice;
+
+        } else if (extras.length > 0) {       /*  GENERAL ADMISSION + EXTRAS  */
+          returnTotalSum = generalSeniorPrice;
+
+          if (extras.includes('movie')) {
+            returnTotalSum += extraMovieSeniorPrice;
+          }
+
+          if (extras.includes('education')) {
+            returnTotalSum += extraEducationSeniorPrice;
+          }
+
+          if (extras.includes('terrace')) {
+            returnTotalSum += extraTerraceSeniorPrice;
+          }
+        }
+      }
+  
+    } else if (ticketType === 'membership') {  /* MEMBERSHIP: */
+
+      if (entrantType === 'child') {  /* CHILD MEMBER ADMISSION */
+
+        if (extras.length === 0) {
+          returnTotalSum = membershipChildPrice;
+
+        } else if (extras.length > 0) {    /* MEMBERSHIP ADMISSION + EXTRAS */
+          returnTotalSum = membershipChildPrice;
+
+          if (extras.includes('movie')) {
+            returnTotalSum += extraMovieChildPrice;
+          }
+
+          if (extras.includes('education')) {
+            returnTotalSum += extraEducationChildPrice;
+          }
+
+          if (extras.includes('terrace')) {
+            returnTotalSum += extraTerraceChildPrice;
+          }
+        }
+      } else if (entrantType === 'adult') { /*  ADULT MEMBERSHIP ADMISSION  */
+
+        if (extras.length === 0) {
+          returnTotalSum = membershipAdultPrice;
+
+        } else if (extras.length > 0) {           /*  MEMBERSHIP ADMISSION + EXTRAS  */
+          returnTotalSum = membershipAdultPrice;
+
+          if (extras.includes('movie')) {
+            returnTotalSum += extraMovieAdultPrice;
+          }
+
+          if (extras.includes('education')) {
+            returnTotalSum += extraEducationAdultPrice;
+          }
+
+          if (extras.includes('terrace')) {
+            returnTotalSum += extraTerraceAdultPrice;
+          }
+        }
+      } else if (entrantType === 'senior') { /*  SENIOR MEMBER ADMISSION  */
+        if (extras.length === 0) {
+          returnTotalSum = membershipSeniorPrice;
+          
+        } else if (extras.length > 0) {             /*  MEMBERSHIP ADMISSION + EXTRAS  */
+          returnTotalSum = membershipSeniorPrice;
+
+          if (extras.includes('movie')) {
+            returnTotalSum += extraMovieSeniorPrice;
+          }
+
+          if (extras.includes('education')) {
+            returnTotalSum += extraEducationSeniorPrice;
+          }
+
+          if (extras.includes('terrace')) {
+            returnTotalSum += extraTerraceSeniorPrice;
+          }
+        }
+      }
+    }
+  } else {
+    return null;  // RETURN NULL IF BOTH ARGUMENTS ARE EMPTY, OR BOTH ARGUMENTS ARE NOT OBJECTS.
+  }
+
+  return returnTotalSum;
+}
+
+// const ticketInfo = {
+//   ticketType: "membership",
+//   entrantType: "child",
+//   extras: ["movie"],
+// };
+// console.log(calculateTicketPrice(exampleTicketData, ticketInfo));
 
 /**
  * purchaseTickets()
@@ -109,7 +306,9 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+
+}
 
 // Do not change anything below this line.
 module.exports = {

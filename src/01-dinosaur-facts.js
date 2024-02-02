@@ -69,7 +69,7 @@ function getDinosaurDescription(dinosaurs, id) {
   for (let i = 0; i < dinosaurs.length; i++) {
     const dinoID = dinosaurs[i].dinosaurId;
     if (dinoID === id) {
-      return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${dinosaurs[i].mya.length === 1 ? dinosaurs[i].mya[0] : dinosaurs[i].mya[(dinosaurs[i].mya).length - 1]} million years ago.`;
+      return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${dinosaurs[i].mya.length === 1 ? dinosaurs[i].mya[0] : dinosaurs[i].mya[dinosaurs[i].mya.length - 1]} million years ago.`;
     }
   }
 
