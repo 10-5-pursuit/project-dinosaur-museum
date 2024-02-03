@@ -101,8 +101,7 @@ createDinosaurTable(exampleDinosaurData);
 
 
 // Room 2 Stretch Goals:
-// Decided to add a Cafe and a Giftshop to the rooms in our Dino Museum because all museums have both! 
-// Made helper function to generate the Unique Room Id's found in the dataset. I inserted my name in the Cafe and Giftshop RoomIds for no good reason. 
+
 
 // To make Rizel's Cafe
 const cafeRoom = {
@@ -128,38 +127,82 @@ const rooms = [
     giftShopRoom,
 ];
 
-// Helper function to generate a unique alphanumeric ID with "rizel" inserted
-
-function generateUniqueRoomId() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let roomId = 'rizel';
-
-    for (let i = 0; i < 5; i++) {
-        roomId += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-
-    return roomId;
-}
-
-
-console.log('Unique ID for Rizel\'s Jurassic Cafe:', cafeRoom.roomId);
-console.log('Unique ID for Rizel\'s Dino Gift Shop:', giftShopRoom.roomId);
-
 // Function to check if cafe and gift shop exist
 function checkCafeAndGiftShop(rooms) {
-    const cafe = rooms.find(room => room.name === "Rizel's Jurassic Cafe");
-    const giftShop = rooms.find(room => room.name === "Rizel's Dino Gift Shop");
+  const cafe = rooms.find(room => room.name === "Rizel's Jurassic Cafe");
+  const giftShop = rooms.find(room => room.name === "Rizel's Dino Gift Shop");
 
-    return {
-        cafeExists: !!cafe,
-        giftShopExists: !!giftShop,
-    };
+  return {
+      cafeExists: !!cafe,
+      giftShopExists: !!giftShop,
+  };
 }
 
 const cafeAndGiftShopCheck = checkCafeAndGiftShop(rooms);
-
+console.log('-----------------------------');
 console.log('Rizel\'s Cafe Exists:', cafeAndGiftShopCheck.cafeExists);
 console.log('Rizel\'s Gift Shop Exists:', cafeAndGiftShopCheck.giftShopExists);
+
+
+// Helper function to generate a unique alphanumeric ID with "rizel" inserted
+
+
+function generateUniqueRoomId() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const name = 'rizel';
+  let roomId = '';
+
+  for (let i = 0; i < 5; i++) {
+      // Append a random character
+      roomId += characters.charAt(Math.floor(Math.random() * characters.length));
+
+      // Append a character from the name at a random position
+      const randomIndex = Math.floor(Math.random() * name.length);
+      roomId += name.charAt(randomIndex);
+  }
+
+  return roomId;
+}
+
+console.log('-----------------------------');
+console.log('Unique ID for Rizel\'s Jurassic Cafe:', cafeRoom.roomId);
+console.log('Unique ID for Rizel\'s Dino Gift Shop:', giftShopRoom.roomId);
+
+
+
+// Function to calculate tip amount at Rizel's Cafe
+function calculateTip(totalAmount, tipPercentage) {
+  // Ensure both totalAmount and tipPercentage are valid numbers
+  if (isNaN(totalAmount) || isNaN(tipPercentage)) {
+    return 'Invalid input. Please enter valid numbers.';
+  }
+
+  // Calculate the tip amount
+  const tipAmount = totalAmount * (tipPercentage / 100);
+
+  // Calculate the total amount including the tip
+  const totalWithTip = totalAmount + tipAmount;
+
+  // Return an object with both the tip amount and the total amount with tip
+  return {
+    tipAmount: tipAmount.toFixed(2), // Rounded to two decimal places
+    totalWithTip: totalWithTip.toFixed(2), // Rounded to two decimal places
+  };
+}
+
+/*
+   Example usage:
+   Replace totalAmount and tipPercentage with actual values.
+   This function returns an object with tipAmount and totalWithTip.
+*/
+const totalAmount = 20; // Replace this with the actual total amount
+const tipPercentage = 12; // Replace this with the desired tip percentage
+
+const tipResult = calculateTip(totalAmount, tipPercentage);
+console.log('-----------------------------');
+console.log(`Tip Amount: $${tipResult.tipAmount}`);
+console.log(`Total Amount with Tip: $${tipResult.totalWithTip}`);
+console.log("Prehistoric delights, just for you! Thanks for choosing our dino-bakery. 🦕🍰")
 
 // Room 3 stretch goals:
 // Checked out the Museum of Natural History and they have an extra pricing level. They have what is called a "Pay What You Want" option - so I made a function that if a 10.5Der comes, they can opt to pay what they want [because we all still need to pay back 70K to Pursuit!!!]
@@ -168,12 +211,15 @@ function calculateTicketPriceForFellow10_5() {
     return {
         fullPriceInDollars: 'Pay What You Want',
         discountsApplied: ['10.5 Fellow Discount: Unlimited'],
-        netPriceToPay: "You and 2 guests can come in for free. :) - says rizel",
+        netPriceToPay: "You and 2 guests can come in for free. :) - rizel",
     };
 }
 
 const isFellow10_5 = true;
 const ticketDetailsForFellow = calculateTicketPriceForFellow10_5();
+console.log('-----------------------------');
 console.log('Full Price in Dollars:', ticketDetailsForFellow.fullPriceInDollars);
 console.log('Discounts Applied:', ticketDetailsForFellow.discountsApplied.join(', '));
 console.log('Net Price to Pay:', ticketDetailsForFellow.netPriceToPay);
+console.log('-----------------------------');
+
