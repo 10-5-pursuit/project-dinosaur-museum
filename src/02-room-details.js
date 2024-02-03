@@ -25,49 +25,43 @@ const exampleRoomData = require("../data/rooms");
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
-    // Find the dinosaur object in the dinosaurs array
-    let dinosaur = dinosaurs.find(dino => dino.name === dinosaurName);
-
-    // If the dinosaur does not exist, return an error message
-    if (!dinosaur) {
-        return `Dinosaur with name '${dinosaurName}' cannot be found.`;
-    }
-
-    // Find the room where the dinosaur is located
-    let room = rooms.find(room => room.dinosaurs.includes(dinosaur.dinosaurId));
-
-    // If the dinosaur is not in any room, return an error message
-    if (!room) {
-        return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
-    }
-
-    // Return the name of the room
-    return room.name;
-  }
+// function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+    
+//     let dinosaur = dinosaurs.find(dino => dino.name === dinosaurName); // Find the dinosaur object in the dinosaurs array
+    
+//     if (!dinosaur) {
+//         return `Dinosaur with name '${dinosaurName}' cannot be found.`;
+//     } // If the dinosaur does not exist, return an error message
+    
+//     let room = rooms.find(room => room.dinosaurs.includes(dinosaur.dinosaurId)); // Find the room where the dinosaur is located
+    
+//     if (!room) {
+//         return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`; // If the dinosaur is not in any room, return an error message
+//     }
+   
+//     return room.name;  // Return the name of the room
+//   }
 
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   let dinosaur = ""; // Initialize as an empty string
 
-  // Find the dinosaur with the specified name
   for (let i = 0; i < dinosaurs.length; i++) {
     if (dinosaurs[i].name === dinosaurName) {
       dinosaur = dinosaurs[i];
-      break; // Exit the loop once the dinosaur is found
+      // break; // Exit the loop once the dinosaur is found
     }
-  }
+  } // Find the dinosaur with the specified name
 
-  // Check if a dinosaur with the specified name was found
   if (!dinosaur) {
     return `Dinosaur with name '${dinosaurName}' cannot be found.`;
-  }
-
-  // Find the room containing the dinosaur
-  for (let i = 0; i < rooms.length; i++) {
+  }  // Check if a dinosaur with the specified name was found
+ 
+   for (let i = 0; i < rooms.length; i++) {
     if (rooms[i].dinosaurs.includes(dinosaur.dinosaurId)) {
       return rooms[i].name;
     }
-  }
+  } // Find the room containing the dinosaur
+ 
 
   return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
 }
