@@ -26,19 +26,19 @@ const exampleRoomData = require("../data/rooms");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
 // function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
-    
+
 //     let dinosaur = dinosaurs.find(dino => dino.name === dinosaurName); // Find the dinosaur object in the dinosaurs array
-    
+
 //     if (!dinosaur) {
 //         return `Dinosaur with name '${dinosaurName}' cannot be found.`;
 //     } // If the dinosaur does not exist, return an error message
-    
+
 //     let room = rooms.find(room => room.dinosaurs.includes(dinosaur.dinosaurId)); // Find the room where the dinosaur is located
-    
+
 //     if (!room) {
 //         return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`; // If the dinosaur is not in any room, return an error message
 //     }
-   
+
 //     return room.name;  // Return the name of the room
 //   }
 
@@ -54,19 +54,16 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
 
   if (!dinosaur) {
     return `Dinosaur with name '${dinosaurName}' cannot be found.`;
-  }  // Check if a dinosaur with the specified name was found
- 
-   for (let i = 0; i < rooms.length; i++) {
+  } // Check if a dinosaur with the specified name was found
+
+  for (let i = 0; i < rooms.length; i++) {
     if (rooms[i].dinosaurs.includes(dinosaur.dinosaurId)) {
       return rooms[i].name;
     }
   } // Find the room containing the dinosaur
- 
 
   return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
 }
-
-
 
 /**
  * getConnectedRoomNamesById()
@@ -177,7 +174,9 @@ function getConnectedRoomNamesById(rooms, id) {
     // Check if the connected room with the specified ID exists
     if (!connectedRoom) {
       // Return an error message if the connected room is not found
-      connectedRoomNames.push(`Connected room not found for ID: ${connectsTo[i]}`);
+      connectedRoomNames.push(
+        `Connected room not found for ID: ${connectsTo[i]}`
+      );
     } else {
       // Add the name of the connected room to the result array
       connectedRoomNames.push(connectedRoom.name);
@@ -185,7 +184,9 @@ function getConnectedRoomNamesById(rooms, id) {
   }
 
   // Check if there's an error message related to a specific incorrect ID
-  if (connectedRoomNames.includes(`Connected room not found for ID: incorrect-id`)) {
+  if (
+    connectedRoomNames.includes(`Connected room not found for ID: incorrect-id`)
+  ) {
     // Return an error message for the specific incorrect ID
     return [`Room with ID of 'incorrect-id' could not be found.`];
   }
@@ -193,7 +194,6 @@ function getConnectedRoomNamesById(rooms, id) {
   // Return the array of connected room names, or an empty array if no connections
   return connectedRoomNames.length > 0 ? connectedRoomNames : [];
 }
-
 
 module.exports = {
   getRoomByDinosaurName,

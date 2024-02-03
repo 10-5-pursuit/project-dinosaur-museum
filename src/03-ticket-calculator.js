@@ -70,8 +70,10 @@ function calculateTicketPrice(tickets, ticketInfo) {
   }
 
   // Check if all extras are valid
-  if (extras.some(extra => !tickets.extras[extra])) {
-    return `Extra type '${extras.find(extra => !tickets.extras[extra])}' cannot be found.`;
+  if (extras.some((extra) => !tickets.extras[extra])) {
+    return `Extra type '${extras.find(
+      (extra) => !tickets.extras[extra]
+    )}' cannot be found.`;
   }
 
   // Calculate the total price including base price and extras
@@ -140,7 +142,8 @@ function calculateTicketPrice(tickets, ticketInfo) {
 
 function purchaseTickets(ticketData, purchases) {
   let total = 0;
-  let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+  let receipt =
+    "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
 
   // Loop through each purchase to calculate total price and generate receipt lines
   for (const purchase of purchases) {
@@ -170,12 +173,14 @@ function getReceiptLine(ticketData, purchase, priceInCents) {
 
   // Add extras to the line if there are any
   if (extras.length > 0) {
-    line += " (" + extras.map(extra => ticketData.extras[extra].description).join(", ") + ")";
+    line +=
+      " (" +
+      extras.map((extra) => ticketData.extras[extra].description).join(", ") +
+      ")";
   }
 
   return `${line}\n`;
 }
-
 
 // Do not change anything below this line.
 module.exports = {
