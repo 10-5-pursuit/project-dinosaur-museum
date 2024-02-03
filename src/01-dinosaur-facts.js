@@ -77,7 +77,7 @@ const exampleDinosaurData = require("../data/dinosaurs");
 // console.log(getLongestDinosaur(dinosaurs));
 
 
-/*
+/** 
  * getDinosaurDescription()
  * ---------------------
  * Returns a formatted description of a dinosaur. If the dinosaur cannot be found, returns an error message.
@@ -101,67 +101,53 @@ const exampleDinosaurData = require("../data/dinosaurs");
 // Recipe for > getDinosaurDescription(dinosaurs, id)
 // 1. Find the dinosaur with the specified ID in the array.
 // 2. Check if the dinosaur is found.
-// 3. If foundDinosaur is not null: 
+// 3. If foundDinosaur: 
 // 4. Extract the first value from the mya array.
 // 5. Construct the dinosaur description.
 // 6. Return the constructed description.
 // 7. Else: Return an error message if the dinosaur is not found.
    
 function getDinosaurDescription(dinosaurs, id) {
-//   const foundDinosaur = dinosaurs.find(dino => dino.dinosaurId === id);
+  const foundDinosaur = dinosaurs.find(dino => dino.dinosaurId === id);
 
-//   if (foundDinosaur) {
-//     const mya = foundDinosaur.mya[0];
-//     return `${foundDinosaur.name} (${foundDinosaur.pronunciation})\n${foundDinosaur.info} It lived in the ${foundDinosaur.period} period, over ${mya} million years ago.`;
-//   }
+  if (foundDinosaur) {
+    const mya = foundDinosaur.mya[0];
+    return `${foundDinosaur.name} (${foundDinosaur.pronunciation})\n${foundDinosaur.info} It lived in the ${foundDinosaur.period} period, over ${mya} million years ago.`;
+  }
 
-//   return `A dinosaur with an ID of '${id}' cannot be found.`;
-// }
-// "Xenoceratops (ZEE-no-SEH-ruh-tops)\nXenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago."
- // "A dinosaur with an ID of 'incorrect-id' cannot be found."
- 
- const foundDinosaur = dinosaurs.find(dino => dino.dinosaurId === id);
-
- if (foundDinosaur) {
-  const mya = foundDinosaur.mya[0];
-  return `${foundDinosaur.name} (${foundDinosaur.pronunciation})\n${foundDinosaur.info} It lived in the ${foundDinosaur.period} period, over ${mya} million years ago.`
- } else {
-  return `A dinosaur with an ID of '${id}' cannot be found.`
- }
+  return `A dinosaur with an ID of '${id}' cannot be found.`;
 }
 
 console.log(getDinosaurDescription(dinosaurs, "GOycwH_EiU"));
 console.log(getDinosaurDescription(dinosaurs, "rizelrex"));
 
+// 1. Initialize a variable to store the found dinosaur
+// 2. Iterate through the dinosaurs array to find the one with the specified ID
+// 3. Check if a dinosaur with the specified ID was found
+// 4. Extract the first value from the mya array
+// 5. Construct and return the dinosaur description
+// 6. Return a message indicating that the dinosaur with the specified ID cannot be found
 
+// using traditional for loop
 // function getDinosaurDescription(dinosaurs, id) {
-//   // Initialize a variable to store the found dinosaur
-//   let foundDinosaur = null;
+//   let foundDinosaur = '';
 
-//   // Iterate through the dinosaurs array to find the one with the specified ID
 //   for (let i = 0; i < dinosaurs.length; i++) {
 //     if (dinosaurs[i].dinosaurId === id) {
 //       foundDinosaur = dinosaurs[i];
-//       // Exit the loop once the dinosaur is found
-//       //break;
 //     }
 //   }
 
-//   // Check if a dinosaur with the specified ID was found
-//   if (foundDinosaur !== null) {
-//     // Extract the first value from the mya array
+//   if (foundDinosaur) {
 //     const mya = foundDinosaur.mya[0];
-
-//     // Construct and return the dinosaur description
 //     return `${foundDinosaur.name} (${foundDinosaur.pronunciation})\n${foundDinosaur.info} It lived in the ${foundDinosaur.period} period, over ${mya} million years ago.`;
 //   }
-
-// // Return a message indicating that the dinosaur with the specified ID cannot be found
 //   return `A dinosaur with an ID of '${id}' cannot be found.`;
 // }
+
 // console.log(getDinosaurDescription(dinosaurs, "GOycwH_EiU"))
 // console.log(getDinosaurDescription(dinosaurs, "rizelrex"))
-// 
+
 
 /**
  * getDinosaursAliveMya()
