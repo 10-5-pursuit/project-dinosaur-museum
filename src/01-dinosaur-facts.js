@@ -57,9 +57,9 @@ function getDinosaurDescription(dinosaurs, id) {
   let foundDino = dinosaurs.find((element) => { if (element.dinosaurId == id) return element });
   if (foundDino == undefined)
     return `A dinosaur with an ID of '${id}' cannot be found.`
-  return `${foundDino.name} (${foundDino.pronunciation})\n${foundDino.info} It lived in the ${foundDino.period} period, over ${foundDino.mya[foundDino.mya.length-1]} million years ago.`;
+  return `${foundDino.name} (${foundDino.pronunciation})\n${foundDino.info} It lived in the ${foundDino.period} period, over ${foundDino.mya[foundDino.mya.length - 1]} million years ago.`;
 }
-console.log(getDinosaurDescription(exampleDinosaurData, "U9vuZmgKwUr"));
+console.log("Problem 2: ", getDinosaurDescription(exampleDinosaurData, "U9vuZmgKwUr"));
 console.log("Problem 2: ", getDinosaurDescription(exampleDinosaurData, "noexist"));
 /**
  * getDinosaursAliveMya()
@@ -86,7 +86,32 @@ console.log("Problem 2: ", getDinosaurDescription(exampleDinosaurData, "noexist"
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) { }
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let arr = [];
+  dinosaurs.forEach(a => {
+    if (a.mya.length == 1) {
+      if (mya+1 == a.mya || mya == a.mya ) {
+        if (key == undefined)
+          arr.push(a.dinosaurId);
+        else
+          arr.push(a[key] || a.dinosaurId);
+      }
+
+    } else {
+      if (mya >= a.mya[1] && mya <= a.mya[0]) {
+        if (key == undefined)
+          arr.push(a.dinosaurId);
+        else
+          arr.push(a[key] || a.dinosaurId);
+      }
+    }
+  });
+  return arr;
+}
+console.log("Problem 3: ", getDinosaursAliveMya(exampleDinosaurData, 150));
+console.log("Problem 3: ", getDinosaursAliveMya(exampleDinosaurData, 66));
+ console.log("Problem 3: ", getDinosaursAliveMya(exampleDinosaurData, 65, "name"));
+console.log("Problem 3: ", getDinosaursAliveMya(exampleDinosaurData, 65, "unknown-key"));
 
 module.exports = {
   getLongestDinosaur,
