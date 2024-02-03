@@ -5,6 +5,9 @@ body {
   background-size: 20%;
   margin-left: 300px;
   margin-top: 50px;
+}
+#display{
+  margin-left: 150px;
   font-family: cursive;
   font-size: x-large;
   color: white;

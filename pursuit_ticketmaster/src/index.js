@@ -194,7 +194,7 @@ const TicketingSystem = () => {
       Enter Security Code (3 digits, no spaces):<br />
       <input type="text" name="cardSC" maxLength="3" /><br /><br />
       <button onClick={() => setCurrentDisplay('estimateDisplay')}>Remove Person/s</button>
-      <button onClick={() => setCurrentDisplay('admissionDisplay')}>Add Another Person</button>
+      <button onClick={() => setCurrentDisplay('admissionDisplay')}>Add Person</button>
       <button onClick={() => handleButtonClick('paymentInfo')}>Submit Payment</button>
       <br />
       <br />
