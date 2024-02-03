@@ -65,6 +65,7 @@ function createScatterPlot(data, name, color) {
   };
 }
 
+
 // Function to calculate the regression line
 function calculateRegressionLine(data, inverse = false) {
   const xy = data.map(d => [d.length, Math.random()]); // Replace Math.random() with actual y values
@@ -77,6 +78,7 @@ function calculateRegressionLine(data, inverse = false) {
 
   return result.equation;
 }
+
 
 // Helper function to capitalize Diet entries since they're all in lowercaps. To make the table look nicer.
 function capitalizeFirstChar(str) {
