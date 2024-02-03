@@ -25,16 +25,16 @@ const exampleDinosaurData = require("../data/dinosaurs");
  */
 
 //Recipe for > function getLongestDinosaur(dinosaurs) {
-  // 1. Check if the dinosaurs array is empty.
-  // 2. If empty, return an empty object.
-  // 3. Initialize the longestDinosaur variable with the first dinosaur in the array.
-  // 4. Use accumulator pattern - probably can use reduce, will try it later.
-  // 5. Iterate through the dinosaurs array.
-  // 6. Check if the length of the current dinosaur is greater than the length of the longest dinosaur.
-  // 7. If true, update the longestDinosaur variable with the current dinosaur.
-  // 8. Return an object with the name of the longest dinosaur as the [key] and its length converted from meters to feet as the value.
-  // 9. Call the function. 
-  // 10. Check value against example.
+// 1. Check if the dinosaurs array is empty.
+// 2. If empty, return an empty object.
+// 3. Initialize the longestDinosaur variable with the first dinosaur in the array.
+// 4. Use accumulator pattern - probably can use reduce, will try it later.
+// 5. Iterate through the dinosaurs array.
+// 6. Check if the length of the current dinosaur is greater than the length of the longest dinosaur.
+// 7. If true, update the longestDinosaur variable with the current dinosaur.
+// 8. Return an object with the name of the longest dinosaur as the [key] and its length converted from meters to feet as the value.
+// 9. Call the function. 
+// 10. Check value against example.
 
   // using for - of
   function getLongestDinosaur(dinosaurs) {
@@ -77,7 +77,7 @@ const exampleDinosaurData = require("../data/dinosaurs");
 // console.log(getLongestDinosaur(dinosaurs));
 
 
-/**
+/*
  * getDinosaurDescription()
  * ---------------------
  * Returns a formatted description of a dinosaur. If the dinosaur cannot be found, returns an error message.
@@ -98,61 +98,71 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 
+// Recipe for > getDinosaurDescription(dinosaurs, id)
+// 1. Find the dinosaur with the specified ID in the array.
+// 2. Check if the dinosaur is found.
+// 3. If foundDinosaur is not null: 
+// 4. Extract the first value from the mya array.
+// 5. Construct the dinosaur description.
+// 6. Return the constructed description.
+// 7. Else: Return an error message if the dinosaur is not found.
+   
+function getDinosaurDescription(dinosaurs, id) {
+//   const foundDinosaur = dinosaurs.find(dino => dino.dinosaurId === id);
+
+//   if (foundDinosaur) {
+//     const mya = foundDinosaur.mya[0];
+//     return `${foundDinosaur.name} (${foundDinosaur.pronunciation})\n${foundDinosaur.info} It lived in the ${foundDinosaur.period} period, over ${mya} million years ago.`;
+//   }
+
+//   return `A dinosaur with an ID of '${id}' cannot be found.`;
+// }
+// "Xenoceratops (ZEE-no-SEH-ruh-tops)\nXenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago."
+ // "A dinosaur with an ID of 'incorrect-id' cannot be found."
+ 
+ const foundDinosaur = dinosaurs.find(dino => dino.dinosaurId === id);
+
+ if (foundDinosaur) {
+  const mya = foundDinosaur.mya[0];
+  return `${foundDinosaur.name} (${foundDinosaur.pronunciation})\n${foundDinosaur.info} It lived in the ${foundDinosaur.period} period, over ${mya} million years ago.`
+ } else {
+  return `A dinosaur with an ID of '${id}' cannot be found.`
+ }
+}
+
+console.log(getDinosaurDescription(dinosaurs, "GOycwH_EiU"));
+console.log(getDinosaurDescription(dinosaurs, "rizelrex"));
+
+
 // function getDinosaurDescription(dinosaurs, id) {
-//   for (let dinosaur of dinosaurs) {
-//     if (dinosaur.dinosaurId === id) {
-//       const mya = Array.isArray(dinosaur.mya) ? dinosaur.mya[0] : dinosaur.mya;
-//       const description = `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${mya} million years ago.`;
-//       return description;
+//   // Initialize a variable to store the found dinosaur
+//   let foundDinosaur = null;
+
+//   // Iterate through the dinosaurs array to find the one with the specified ID
+//   for (let i = 0; i < dinosaurs.length; i++) {
+//     if (dinosaurs[i].dinosaurId === id) {
+//       foundDinosaur = dinosaurs[i];
+//       // Exit the loop once the dinosaur is found
+//       //break;
 //     }
 //   }
-//   return `A dinosaur with an ID of '${id}' cannot be found.`;
-// }
 
-// function getDinosaurDescription(dinosaurs, id) {
-//   // Find the dinosaur with the specified ID
-//   const findDinosaur = dinosaurs.find(dinosaur => dinosaur.dinosaurId === id);
-
-//   // Check if the dinosaur with the specified ID is found
-//   if (findDinosaur) {
+//   // Check if a dinosaur with the specified ID was found
+//   if (foundDinosaur !== null) {
 //     // Extract the first value from the mya array
-//     const mya = findDinosaur.mya[0];
+//     const mya = foundDinosaur.mya[0];
 
 //     // Construct and return the dinosaur description
-//     return `${findDinosaur.name} (${findDinosaur.pronunciation})\n${findDinosaur.info} It lived in the ${findDinosaur.period} period, over ${mya} million years ago.`;
+//     return `${foundDinosaur.name} (${foundDinosaur.pronunciation})\n${foundDinosaur.info} It lived in the ${foundDinosaur.period} period, over ${mya} million years ago.`;
 //   }
 
-//   // Return a message indicating that the dinosaur with the specified ID cannot be found
+// // Return a message indicating that the dinosaur with the specified ID cannot be found
 //   return `A dinosaur with an ID of '${id}' cannot be found.`;
 // }
+// console.log(getDinosaurDescription(dinosaurs, "GOycwH_EiU"))
+// console.log(getDinosaurDescription(dinosaurs, "rizelrex"))
+// 
 
-function getDinosaurDescription(dinosaurs, id) {
-  // Initialize a variable to store the found dinosaur
-  let foundDinosaur = null;
-
-  // Iterate through the dinosaurs array to find the one with the specified ID
-  for (let i = 0; i < dinosaurs.length; i++) {
-    if (dinosaurs[i].dinosaurId === id) {
-      foundDinosaur = dinosaurs[i];
-      // Exit the loop once the dinosaur is found
-      //break;
-    }
-  }
-
-  // Check if a dinosaur with the specified ID was found
-  if (foundDinosaur !== null) {
-    // Extract the first value from the mya array
-    const mya = foundDinosaur.mya[0];
-
-    // Construct and return the dinosaur description
-    return `${foundDinosaur.name} (${foundDinosaur.pronunciation})\n${foundDinosaur.info} It lived in the ${foundDinosaur.period} period, over ${mya} million years ago.`;
-  }
-
-  // Return a message indicating that the dinosaur with the specified ID cannot be found
-  return `A dinosaur with an ID of '${id}' cannot be found.`;
-}
-console.log(getDinosaurDescription(dinosaurs, "GOycwH_EiU"))
-console.log(getDinosaurDescription(dinosaurs, "rizelrex"))
 /**
  * getDinosaursAliveMya()
  * ---------------------
