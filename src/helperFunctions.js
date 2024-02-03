@@ -71,7 +71,7 @@ const calculateTicketPriceForEachCustomer = (ticketData, ticketInfo) => {
 
 const total = tickets => tickets.reduce((sum, ticket) => sum + ticket.priceInDollars,0);
 
-const addZeros = num => `$${num}.00`;
+const formatPriceDisplay = num => `$${num}.00`;
 
 const capitalizeFirstLetter = str => str[0].toUpperCase() + str.slice(1);
 
@@ -86,14 +86,14 @@ const createReceipt = receiptInfo => {
     let receipt = receiptInfo.map(customer => {
         const {entrantType, extras, priceInDollars, ticketType} = customer;
         if(extras.length){
-            return `${capitalizeFirstLetter(entrantType)} ${capitalizeFirstLetter(ticketType)} Admission: ${addZeros(priceInDollars)} (${extrasDisplay(extras)})`;
+            return `${capitalizeFirstLetter(entrantType)} ${capitalizeFirstLetter(ticketType)} Admission: ${formatPriceDisplay(priceInDollars)} (${extrasDisplay(extras)})`;
         }
         else{
-            return `${capitalizeFirstLetter(entrantType)} ${capitalizeFirstLetter(ticketType)} Admission: ${addZeros(priceInDollars)}`;
+            return `${capitalizeFirstLetter(entrantType)} ${capitalizeFirstLetter(ticketType)} Admission: ${formatPriceDisplay(priceInDollars)}`;
         }
     })
     receipt.unshift('Thank you for visiting the Dinosaur Museum!', '-------------------------------------------');
-    receipt.push('-------------------------------------------', `TOTAL: ${addZeros(total(receiptInfo))}`);
+    receipt.push('-------------------------------------------', `TOTAL: ${formatPriceDisplay(total(receiptInfo))}`);
     return receipt.join('\n');
 }
 

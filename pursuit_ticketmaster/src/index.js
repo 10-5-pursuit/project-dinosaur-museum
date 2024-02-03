@@ -1,3 +1,5 @@
+//Version with all React functionality
+
 import React, { useState } from 'react';
 import ReactDOM from "react-dom/client";
 import './index.css';
@@ -16,26 +18,26 @@ const TicketingSystem = () => {
   const [currentDisplay, setCurrentDisplay] = useState('admissionDisplay');
 
   //Helper Functions
-  const addZeros = (num) => `$${num}.00`;
+  const formatPriceDisplay = num => `$${num}.00`;
 
   const getAdmissionPrice = (ticketType, age) => {
-    return addZeros(tickets[ticketType]?.price[age]);
+    return formatPriceDisplay(tickets[ticketType]?.price[age]);
   };
 
   const getExtraPrice = (entrantType, extra) => {
-    return addZeros(tickets.extras[extra]?.price[entrantType]);
+    return formatPriceDisplay(tickets.extras[extra]?.price[entrantType]);
   };
 
-  const capitalizeFirstLetter = (str) => str[0].toUpperCase() + str.slice(1);
+  const capitalizeFirstLetter = str => str[0].toUpperCase() + str.slice(1);
 
-  const extrasDisplay = (extras) => {
+  const extrasDisplay = extras => {
     return extras.map((extra, idx) => {
       const capitalizedExtra = capitalizeFirstLetter(extra);
       return idx !== extras.length - 1 ? `${capitalizedExtra} Access,` : `${capitalizedExtra} Access`;
     }).join(' ');
   };
 
-  const calculateTotal = (ticketInfo) => {
+  const calculateTotal = ticketInfo => {
     let totalEstimate = 0;
     for (const customerID in ticketInfo) {
       let totalPerPerson = 0;
@@ -93,8 +95,7 @@ const TicketingSystem = () => {
 
   
   const selectExtras = () => {
-    const entrantTypeInput = document.querySelector('input[name="entrantType"]:checked');
-    if(entrantTypeInput && entrantTypeInput.value){
+    if(entrantType){
       setCurrentDisplay('extrasDisplay');
     } 
     else{
@@ -116,8 +117,7 @@ const TicketingSystem = () => {
   );
 
   const selectNextStep = () => {
-    const selectedExtras = Array.from(document.querySelectorAll('input[name="extras"]:checked')).map(checkbox => checkbox.value);
-    const newTicketInfo = { customerName, ticketType, entrantType, extras: selectedExtras };
+    const newTicketInfo = { customerName, ticketType, entrantType, extras };
     setTicketInfo(prevTicketInfo => ({
       ...prevTicketInfo,
       [customerId]: newTicketInfo
@@ -146,14 +146,14 @@ const TicketingSystem = () => {
       const {customerName, totalPerPerson, extras: selected} = ticketInfo[customerId];
       if(selected.length){
         customerCheckBox.push(<div key={customerId}><input type="checkbox" name="customer" value={customerId} />
-          <label htmlFor={customerId}>{customerName}: {addZeros(totalPerPerson)} with ({extrasDisplay(selected)})</label><br /></div>);
+          <label htmlFor={customerId}>{customerName}: {formatPriceDisplay(totalPerPerson)} with ({extrasDisplay(selected)})</label><br /></div>);
       }
       else{
         customerCheckBox.push(<div key={customerId}><input type="checkbox" name="customer" value={customerId} />
-                    <label htmlFor={customerId}>{customerName}: {addZeros(totalPerPerson)}</label><br /></div>);
+                    <label htmlFor={customerId}>{customerName}: {formatPriceDisplay(totalPerPerson)}</label><br /></div>);
       }
     }
-    customerCheckBox.push(<div key="buttons"><br /><br />Total: {addZeros(totalEstimate)}<br /><br />
+    customerCheckBox.push(<div key="buttons"><br /><br />Total: {formatPriceDisplay(totalEstimate)}<br /><br />
                           <button onClick={() => handleButtonClick('deleteSelected')}>Remove Selected</button> 
                           <button onClick={() => setCurrentDisplay('admissionDisplay')}>Add Person</button> 
                           <button onClick={() => handleButtonClick('payTicket')}>Pay</button><br /><br /></div>);
@@ -186,7 +186,7 @@ const TicketingSystem = () => {
 
   const displayPaymentFields = (
     <>
-      Total Due: {addZeros(calculateTotal(ticketInfo))}<br /><br />
+      Total Due: {formatPriceDisplay(calculateTotal(ticketInfo))}<br /><br />
       Enter Card Number (16 digits, no spaces):<br />
       <input type="text" name="cardNumber" maxLength="16" /><br />
       Enter Expiration Date (MM/YYYY):<br />
@@ -221,10 +221,10 @@ const TicketingSystem = () => {
             const { customerName, extras: selected, totalPerPerson, ticketType } = ticketInfo[customerId];
             if (selected.length) {
               receipt.push(
-                <div key="customer">{customerName} {capitalizeFirstLetter(ticketType)} Admission: {addZeros(totalPerPerson)} ({extrasDisplay(selected)})<br /></div>
+                <div key="customer">{customerName} {capitalizeFirstLetter(ticketType)} Admission: {formatPriceDisplay(totalPerPerson)} ({extrasDisplay(selected)})<br /></div>
               );
             } else {
-              receipt.push(<div key="customer">{customerName} {capitalizeFirstLetter(ticketType)} Admission: {addZeros(totalPerPerson)}<br /></div>);
+              receipt.push(<div key="customer">{customerName} {capitalizeFirstLetter(ticketType)} Admission: {formatPriceDisplay(totalPerPerson)}<br /></div>);
             }
           }
           receipt.unshift(
@@ -233,7 +233,7 @@ const TicketingSystem = () => {
           );
           receipt.push(
             <div key="bottom">-------------------------------------------<br />
-            Total Paid: {addZeros(calculateTotal(ticketInfo))}<br />
+            Total Paid: {formatPriceDisplay(calculateTotal(ticketInfo))}<br />
             -------------------------------------------<br />
             Come Back Soon!
             <br /><br /></div>
