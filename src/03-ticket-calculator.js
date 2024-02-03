@@ -154,25 +154,51 @@ function errorCheckforPurchase(ticketData, purchases){
         return `Extra type '${purchases[idx].extras[0]}' cannot be found.`;
       }
     }
-    
   if (!ticketData[purchases[idx].entrantType]) {
     return `Entrant type '${purchases[idx].entrantType}' cannot be found.`;
   }
 }
-
 }
 function purchaseTickets(ticketData, purchases) {
   let receipt="Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n"
   let total=0;
   let str= errorCheckforPurchase(ticketData, purchases)
-   if (str.match("cannot be found.")){
+   if (str.match("cannot be found.") && !(str.match("adult") || str.match('senior') || str.match('child')))
+   {
     return str;
    }
-  
+   
+   for (let i = 0; i < purchases.length; i++) {
+    let capitalizedEntrant = purchases[i].entrantType.charAt(0).toUpperCase() + purchases[i].entrantType.slice(1);
+    let capitalizedTicket = purchases[i].ticketType.charAt(0).toUpperCase() + purchases[i].ticketType.slice(1);
+    let priceInDol = ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType] / 100;
 
+    let capitalizedExtras = "";
+    let str1 = [];
+
+    if (purchases[i].extras.length > 0) {
+      capitalizedExtras = purchases[i].extras
+        .map((extra) => extra.charAt(0).toUpperCase() + extra.slice(1))
+        .join(' Access, ');
+
+      priceInDol += purchases[i].extras.reduce((acc, extra) => {
+        return acc + ticketData.extras[extra].priceInCents[purchases[i].entrantType] / 100;
+      }, 0);
+
+      str1.push(` (${capitalizedExtras} Access)`);
+    }
+
+    receipt += capitalizedEntrant + " " + capitalizedTicket + " Admission: $" + priceInDol.toFixed(2);
+    receipt += str1.join('');
+    receipt += "\n";
+
+    total += priceInDol;
+  }
+
+  receipt += "-------------------------------------------\nTOTAL: $" + total.toFixed(2);
+  return receipt;
 }
-
-
+ 
 
 // Do not change anything below this line.
 module.exports = {
