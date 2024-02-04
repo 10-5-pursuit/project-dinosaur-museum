@@ -74,8 +74,8 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
  */
 
     function getConnectedRoomNamesById(rooms, id) {
-      const roomIds = rooms.find(room => room.roomId === id)?.connectsTo; //add ?
-      if (!roomIds) { //roomIds == undefined
+      const roomIds = rooms.find(room => room.roomId === id)?.connectsTo; 
+      if (!roomIds) { 
         return `Room with ID of '${id}' could not be found.`;
       }
       else{
