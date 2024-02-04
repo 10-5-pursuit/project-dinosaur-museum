@@ -5,6 +5,8 @@
 */
 const exampleDinosaurData = require("../data/dinosaurs");
 const exampleRoomData = require("../data/rooms");
+
+const dinoFacts = require("../src/01-dinosaur-facts");
 // Do not change the lines above.
 
 /**
@@ -25,7 +27,25 @@ const exampleRoomData = require("../data/rooms");
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
+function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  //id will have the return of the helper function getDinosaurId from 01-dinodaur-facts
+  const id = dinoFacts.getDinosaurId(dinosaurs,dinosaurName)
+
+  if (id== '') return `Dinosaur with name '${dinosaurName}' cannot be found.`;
+
+  let DinosaurRoom = '';
+
+  rooms.forEach(room =>{
+    if(room.dinosaurs.includes(id)){
+      DinosaurRoom = room.name;
+    }
+  })
+
+  if(DinosaurRoom == '') return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
+
+  return DinosaurRoom;
+}
+getRoomByDinosaurName(exampleDinosaurData,exampleRoomData,'Tyrannosaurus')
 
 /**
  * getConnectedRoomNamesById()
@@ -49,7 +69,38 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) {}
+// helper function 01 checks if the id is in the data, return true or false
+function checkRoomId (rooms, id){
+  //return true if at least 1 element of the array match the id. returns false if no id in the data
+  return rooms.some(room => room.roomId === id)
+}
+
+// helper function 02 checks the ids of the array 'connects To' and return the name if it find a connected room that is not in the data
+function checkConnectedRooms (rooms){
+
+  for (let room of rooms) {
+    for (let connectedId of room.connectsTo) {
+      if (!checkRoomId(rooms, connectedId)) {
+        return connectedId;
+      }
+    }
+  }
+  return undefined;
+}
+
+function getConnectedRoomNamesById(rooms, id) {
+
+  const roomDoesNotExist = checkConnectedRooms(rooms);
+
+  if (roomDoesNotExist) return `Room with ID of '${roomDoesNotExist}' could not be found.`;
+  
+  if (!checkRoomId(rooms, id)) return `Room with ID of '${id}' could not be found.`;
+  
+  const connectedRooms = rooms.filter(room => room.connectsTo.includes(id)).map(room => room.name);
+
+  return connectedRooms;
+}
+// console.log(getConnectedRoomNamesById(exampleRoomData,"A6QaYdyKra"))
 
 module.exports = {
   getRoomByDinosaurName,
