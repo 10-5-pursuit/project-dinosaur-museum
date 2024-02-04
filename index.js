@@ -115,12 +115,12 @@ function purchaseTickets(ticketData, purchases) {
       if(i === purchases.length - 1){
         //  If it is the last element in the extrasArr we add to the receiptDescription withput a new line. And add to the total 
         receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
-        total += price;
+        total += calculateTicketPrice(ticketData, purchases[i])
         break;
       }
       // If The extrasArray is empty we just add the description to the receiptDescription and add the price to the total 
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}\n`
-      total += price;
+      total += calculateTicketPrice(ticketData, purchases[i])
     // else If the extrasArray is not empty Calculate the elements in the array, Along with the description.
     }else{
       // Looping to through the extrasarr
@@ -131,7 +131,7 @@ function purchaseTickets(ticketData, purchases) {
           return `Extra type 'incorrect-extra' cannot be found.`
         }
         // Check if the current element in the extrasArr is on the last element or if the extras arr only has one element we want to push the description without a space. If false push the description with a space. and then add the price 
-        j === extrasArr.length - 1 || extrasArr.length === 1 ? extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}`) : extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}, `)
+        j === extrasArr.length - 1 ? extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}`) : extrasStrOfArrays.push(`${ticketData.extras[extrasArr[j]].description}, `)
         price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
       }
       // * If discount is true apply a 10% discount.
@@ -139,7 +139,7 @@ function purchaseTickets(ticketData, purchases) {
         price = apply10Discount(price)
       }
       // Add the price to the total
-      total += price
+      total += calculateTicketPrice(ticketData, purchases[i])
       // Now we want to reduce the created array with string sentences to an a string with the description.
       let extraStr = extrasStrOfArrays.reduce((str, item) => {
         str += `${item}`
@@ -153,6 +153,7 @@ function purchaseTickets(ticketData, purchases) {
       // else we add to the receiptDescription with a new line
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})\n`
     }
+    // total += calculateTicketPrice(ticketData, purchases[i])
   }
   // Return Finihsed receipt 
   return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`// Total converted
@@ -162,7 +163,6 @@ const purchases = [
     ticketType: "general",
     entrantType: "adult",
     extras: ["movie", "terrace"],
-    discount: true
   },
   {
     ticketType: "general",
@@ -181,4 +181,66 @@ const purchases = [
   },
 ];
 
-console.log(purchaseTickets(exampleTicketData, purchases))
+// console.log(purchaseTickets(exampleTicketData, purchases))
+
+function calculateTicketPrice(ticketData, ticketInfo) {
+  // Creating a variable Total to hold the total. Also creating a variable entrant to hold the value of the given ticketInfo entrantTypr
+  let total = 0;
+  let entrant = ticketInfo.entrantType
+  // Checking to see if the ticket data does not have key from the given ticketInfo ticketType
+  if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
+  }
+  if(!ticketData[ticketInfo.ticketType].priceInCents.hasOwnProperty(entrant)) {
+    // If the ticketdata does not have a key for the given entrant return given error message
+    return `Entrant type '${entrant}' cannot be found.`
+  }
+  // Add the correct priceInCents to the total
+  total += ticketData[ticketInfo.ticketType].priceInCents[entrant]
+  // Now we check if the ticketInfo had any extras
+  if(ticketInfo.extras.length == 0) {
+    // If the ticket info had no extras the lenegth of the array is 0 and we return the total.
+    return total
+  }else {
+    // Else we have to loop through the extras array and add that extras price to the total
+    for(const x of ticketInfo.extras) {
+      if(ticketData.extras.hasOwnProperty(x)) {
+        total += ticketData.extras[x].priceInCents[entrant]
+      }else { 
+        // Else the current extra element is not an extra in the ticketdata we return the given error message
+        return `Extra type '${ticketInfo.extras}' cannot be found.`
+      }
+    }
+  }
+  // Return the total at the end
+  return total
+}
+
+const getConnectedRoomNamesById = (rooms, id) => {
+  // Filtering through the rooms array of rooms object to find the rooms the given ID is connected to.
+  let roomArray = rooms.filter(room => room.connectsTo.includes(id));
+  // Checking if the newly filtered room array is empty. If empty return given error message.
+  if(roomArray.length == 0){
+    return `Room with ID of '${id}' could not be found.`;
+  }
+
+  // console.log(roomArray)
+  for(let i = 0; i < roomArray.length; i++) {
+    let connectedTo = roomArray[i].connectsTo
+    for(let j = 0; j < connectedTo.length; j++) {
+      let word = connectedTo[j].split("")
+      if(!isNaN(...word)){
+        return `Room with ID of '${id}' could not be found.`
+      }
+      break;
+    }
+  }
+
+  // If the room array isnt empty it is connected to. So we want to create a an array that holds the room names the room is connected to and return that Array.
+  // return roomArray.reduce((arr, room) => {
+  //   arr.push(room.name);
+  //   return arr;
+  // },[]);
+}
+
+console.log(getConnectedRoomNamesById(exampleRoomData, "Gp6nCN1JGT"))

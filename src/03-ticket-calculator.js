@@ -202,11 +202,11 @@ function purchaseTickets(ticketData, purchases) {
       // Looping to through the extrasarr
       for(let j = 0; j < extrasArr.length; j++){
         // Checking If the purchases extras key does not exist with in the extrasArray
-        if(!ticketData.extras.hasOwnProperty(...purchases[i].extras)){
+        if(!ticketData.extras.hasOwnProperty(extrasArr[j])){
           // If it doesnt exist return the given error message
           return `Extra type 'incorrect-extra' cannot be found.`
         }
-        // Check if the current element in the extrasArr is on the last element or if the extras arr only has one element we want the description without a space added to the extrasStr. If false add the description with a space to the extrasStr. and then add the price 
+        // Check if the current element in the extrasArr is on the last element we want the description without a space added to the extrasStr. If false add the description with a space to the extrasStr. and then add the price 
         j === extrasArr.length - 1 ? extrasStr += `${ticketData.extras[extrasArr[j]].description}` : extrasStr +=`${ticketData.extras[extrasArr[j]].description}, `
         price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
       }
