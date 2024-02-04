@@ -67,7 +67,29 @@ console.log("Problem 4: ", getRoomByDinosaurName(exampleDinosaurData, exampleRoo
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) { }
+function getConnectedRoomNamesById(rooms, id) {
+  let arr = null;
+  rooms.forEach(a => {
+    if (a.roomId == id)
+      arr = a.connectsTo.map(b => b);
+  });
+  if (arr == null)
+    return `Room with ID of '${id}' could not be found.`;
+  let roomArr = arr.map(b => b);
+  arr.forEach((a, i) => {
+    rooms.forEach(b => {
+      if (a == b.roomId)
+        roomArr[i] = b.name;
+    })
+  });
+  for (let i = 0; i < roomArr.length; i++) {
+    if (roomArr[i] == arr[i])
+      return `Room with ID of '${roomArr[i]}' could not be found.`;
+  }
+  return roomArr;
+}
+console.log("Problem 5: ", getConnectedRoomNamesById(exampleRoomData, "A6QaYdyKra"));
+console.log("Problem 5: ", getConnectedRoomNamesById(exampleRoomData, "Test"));
 
 module.exports = {
   getRoomByDinosaurName,
