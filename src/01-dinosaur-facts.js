@@ -6,6 +6,7 @@
   Keep in mind that your functions must still have and use a parameter for accepting all dinosaurs.
 */
 const exampleDinosaurData = require("../data/dinosaurs");
+const {metersToFeet, displayDinosaurInfo, isDinosaurAlive} = require('./helperFunctions');
 // Do not change the line above.
 
 /**
@@ -22,7 +23,18 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  let longestDinosaur = {};
+  let currLongest = 0;
+  dinosaurs.forEach(dino =>{
+    const {name, lengthInMeters} = dino;
+    if(metersToFeet(lengthInMeters) > currLongest){
+      currLongest = metersToFeet(lengthInMeters);
+      longestDinosaur = {[name]: currLongest};
+    }
+  })
+  return longestDinosaur;
+}
 
 /**
  * getDinosaurDescription()
@@ -44,7 +56,10 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  const dinosaurInfo = dinosaurs.find(dino => dino.dinosaurId == id);
+  return displayDinosaurInfo(dinosaurInfo, id);
+}
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +86,10 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  return dinosaurs.filter(dino => isDinosaurAlive(dino, mya))
+                  .map(dino => (key in dino ? dino[key] : dino.dinosaurId));
+}
 
 module.exports = {
   getLongestDinosaur,

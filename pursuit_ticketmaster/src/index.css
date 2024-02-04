@@ -1,0 +1,14 @@
+body {
+  background-image: url('./pursuit.png');
+  background-color: navy;
+  background-repeat: no-repeat;
+  background-size: 20%;
+  margin-left: 300px;
+  margin-top: 50px;
+}
+#display{
+  margin-left: 150px;
+  font-family: cursive;
+  font-size: x-large;
+  color: white;
+}
