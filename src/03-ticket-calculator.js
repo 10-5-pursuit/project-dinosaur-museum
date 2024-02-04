@@ -54,26 +54,23 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-/** The function first checks if the ticketType and entrantType provided in ticketInfo are valid.
-    It then initializes the sum variable with the base price for the specified ticketType and entrantType.
-It iterates over the extras array (if any) and adds their prices to the sum.
-It returns the total price.*/
+
+
+
+
 
 function calculateTicketPrice(ticketData, ticketInfo) {
   // Check if the ticket type exists in ticketData
   if (!ticketData[ticketInfo.ticketType]) {
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
   }
-
   // Check if the entrant type exists for the ticket type
   let priceInCents = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
   if (priceInCents === undefined) {
     return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
   }
-
   // Start with the base price for the ticket
   let sum = priceInCents;
-
   // Add the price of extras
   for (let extra of ticketInfo.extras) {
     if (!ticketData.extras[extra]) {
@@ -81,11 +78,18 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     }
     sum += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
   }
-
-  return sum;
+    return sum;
 }
+/** The function first checks if the ticketType and entrantType provided in ticketInfo are valid.
+  *It then initializes the sum variable with the base price for the specified ticketType and entrantType.
+  *It iterates over the extras array (if any) and adds their prices to the sum.
+  *It returns the total price.*/
 
-/**
+
+
+
+
+  /**
  * purchaseTickets()
  * ---------------------
  * Returns a receipt based off of a number of purchase. Each "purchase" maintains the shape from `ticketInfo` in the previous function.
@@ -146,55 +150,61 @@ function calculateTicketPrice(ticketData, ticketInfo) {
 ** @param {Object[]} purchases - An array of objects. Each object represents a single ticket being purchased.
 ** @returns {string} - a string explaining what is wrong.
 **/
+
+
+
+
+
 function errorCheckforPurchase(ticketData, purchases){
   const extrlist = ['movie', 'terrace', 'education'];
-  for (let idx=0; idx<purchases.length; idx++){
-      // Check if the ticket type exists in ticketData
-    if (!ticketData[purchases[idx].ticketType]) {
+  for(let idx=0; idx<purchases.length; idx++){
+  // Check if the ticket type exists in ticketData
+    if(!ticketData[purchases[idx].ticketType]) {
       return `Ticket type '${purchases[idx].ticketType}' cannot be found.`;
-    }
-     
+    }   
     if(purchases[idx].extras.length>0){
       if (purchases[idx].extras.every(v => extrlist.includes(v))==false) {
         return `Extra type '${purchases[idx].extras[0]}' cannot be found.`;
       }
     }
-       // Check if the entrant type exists in ticketData
-  if (!ticketData[purchases[idx].entrantType]) {
-    return `Entrant type '${purchases[idx].entrantType}' cannot be found.`;
+  // Check if the entrant type exists in ticketData
+    if(!ticketData[purchases[idx].entrantType]) {
+      return `Entrant type '${purchases[idx].entrantType}' cannot be found.`;
+    }
   }
 }
-}
+
+
 /**The function starts by defining an array extrlist containing valid extra types.
-*It then iterates over each purchase in the purchases array and performs the following checks:
+   *It then iterates over each purchase in the purchases array and performs the following checks:
    *Ticket Type Check: Ensures that the specified ticketType exists in the ticketData.
    *Extra Type Check: If extras are specified, it checks if all the specified extra types are valid based on extrlist.
    *Entrant Type Check: Ensures that the specified entrantType exists in the ticketData.
 *If any of the checks fail, it returns an error message indicating what type (ticket, extra, or entrant) cannot be found. */
+
+
 function purchaseTickets(ticketData, purchases) {
   let receipt="Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n"
   let total=0;
   let str= errorCheckforPurchase(ticketData, purchases)
-
   // Check for errors and invalid entrant types
-   if (str.match("cannot be found.") && !(str.match("adult") || str.match('senior') || str.match('child')))
-   {
-    return str;
-   }
+  if(str.match("cannot be found.") && !(str.match("adult") || str.match('senior') || str.match('child'))){
+     return str;
+  }
    
-   for (let i = 0; i < purchases.length; i++) {
-     // Extract relevant information from each purchase
-    let capitalizedEntrant = purchases[i].entrantType.charAt(0).toUpperCase() + purchases[i].entrantType.slice(1);
-    let capitalizedTicket = purchases[i].ticketType.charAt(0).toUpperCase() + purchases[i].ticketType.slice(1);
-    let priceInDol = ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType] / 100;
-
-    let capitalizedExtras = "";
-    let str1 = [];
+  for (let i = 0; i < purchases.length; i++) {
+  // Extract relevant information from each purchase
+   let capitalizedEntrant = purchases[i].entrantType.charAt(0).toUpperCase() + purchases[i].entrantType.slice(1);
+   let capitalizedTicket = purchases[i].ticketType.charAt(0).toUpperCase() + purchases[i].ticketType.slice(1);
+   let priceInDol = ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType] / 100;
+   
+   let capitalizedExtras = "";
+   let str1 = [];
   // Process extras if they exist
-    if (purchases[i].extras.length > 0) {
+    if(purchases[i].extras.length > 0) {
       capitalizedExtras = purchases[i].extras
-        .map((extra) => extra.charAt(0).toUpperCase() + extra.slice(1))
-        .join(' Access, ');
+      .map((extra) => extra.charAt(0).toUpperCase() + extra.slice(1))
+      .join(' Access, ');
 
       priceInDol += purchases[i].extras.reduce((acc, extra) => {
         return acc + ticketData.extras[extra].priceInCents[purchases[i].entrantType] / 100;
@@ -202,22 +212,27 @@ function purchaseTickets(ticketData, purchases) {
 
       str1.push(` (${capitalizedExtras} Access)`);
     }
-   // Build the receipt for the current purchase
-    receipt += capitalizedEntrant + " " + capitalizedTicket + " Admission: $" + priceInDol.toFixed(2);
-    receipt += str1.join('');
-    receipt += "\n";
-    // Accumulate the total price
-    total += priceInDol;
-  }
- // Add total and return the complete receipt
-  receipt += "-------------------------------------------\nTOTAL: $" + total.toFixed(2);
-  return receipt;
+  // Build the receipt for the current purchase
+     receipt += capitalizedEntrant + " " + capitalizedTicket + " Admission: $" + priceInDol.toFixed(2);
+     receipt += str1.join('');
+     receipt += "\n";
+  // Accumulate the total price
+     total += priceInDol;
+    }
+  // Add total and return the complete receipt
+     receipt += "-------------------------------------------\nTOTAL: $" + total.toFixed(2);
+     return receipt;
 }
- /**The function starts by initializing the receipt string and calling errorCheckforPurchase to check for errors in the purchases.
+  /**The function starts by initializing the receipt string and calling errorCheckforPurchase to check for errors in the purchases.
      *It checks if there are errors and if there are no valid entrant types (adult, senior, child), it returns the error message.
      *The function then iterates over each purchase, extracting information and calculating the total price.
      *For each purchase, it processes extras, if any, and builds the receipt accordingly.
-   *Finally, it adds the total amount to the receipt and returns the complete receipt string. */
+     *Finally, it adds the total amount to the receipt and returns the complete receipt string. */
+
+
+
+
+
 
 // Do not change anything below this line.
 module.exports = {
