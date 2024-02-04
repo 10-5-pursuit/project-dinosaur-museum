@@ -54,7 +54,10 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-
+/** The function first checks if the ticketType and entrantType provided in ticketInfo are valid.
+    It then initializes the sum variable with the base price for the specified ticketType and entrantType.
+It iterates over the extras array (if any) and adds their prices to the sum.
+It returns the total price.*/
 
 function calculateTicketPrice(ticketData, ticketInfo) {
   // Check if the ticket type exists in ticketData
@@ -210,7 +213,11 @@ function purchaseTickets(ticketData, purchases) {
   receipt += "-------------------------------------------\nTOTAL: $" + total.toFixed(2);
   return receipt;
 }
- 
+ /**The function starts by initializing the receipt string and calling errorCheckforPurchase to check for errors in the purchases.
+     *It checks if there are errors and if there are no valid entrant types (adult, senior, child), it returns the error message.
+     *The function then iterates over each purchase, extracting information and calculating the total price.
+     *For each purchase, it processes extras, if any, and builds the receipt accordingly.
+   *Finally, it adds the total amount to the receipt and returns the complete receipt string. */
 
 // Do not change anything below this line.
 module.exports = {
