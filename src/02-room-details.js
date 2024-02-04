@@ -28,7 +28,6 @@ const exampleRoomData = require("../data/rooms");
 
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   // Create variables to hold data
-  let roomName;
   let dinoId;
   let dino;
   let room;
@@ -46,8 +45,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
     return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
   }
   // Else assign the found found to the roomName variable and return the found roomName.
-  roomName = room[0].name;
-  return roomName;
+  return room[0].name;
 }
 
 /**
@@ -80,12 +78,13 @@ const getConnectedRoomNamesById = (rooms, id) => {
   if(roomArray.length == 0){
     return `Room with ID of '${id}' could not be found.`;
   }
+
+  
   // If the room array isnt empty it is connected to. So we want to create a an array that holds the room names the room is connected to and return that Array.
   return roomArray.reduce((arr, room) => {
     arr.push(room.name);
     return arr;
   },[]);
-  return roomArray
 }
 
 module.exports = {

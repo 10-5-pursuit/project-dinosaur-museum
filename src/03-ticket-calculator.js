@@ -55,27 +55,19 @@ const exampleTicketData = require("../data/tickets");
     //> "Entrant type 'kid' cannot be found."
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
+  // Creating a variable Total to hold the total. Also creating a variable entrant to hold the value of the given ticketInfo entrantTypr
+  let total = 0;
+  let entrant = ticketInfo.entrantType
   // Checking to see if the ticket data does not have key from the given ticketInfo ticketType
   if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
   }
-  // Creating a variable Total to hold the total. Also creating a variable entrant to hold the value of the given ticketInfo entrantTypr
-  let total = 0;
-  let entrant = ticketInfo.entrantType
-  // Now we distingush between the different ticketTypes general and memebership.
-  if(ticketInfo.ticketType === "general") {
-    if(!ticketData.general.priceInCents.hasOwnProperty(entrant)) {
-      // If general does not have a key for the given entrant return given error message
-      return `Entrant type '${entrant}' cannot be found.`
-    }
-    // Else we add the priceInCents to the total variable
-    total += ticketData.general.priceInCents[entrant]
-  }else if(!ticketData.membership.priceInCents.hasOwnProperty(entrant)) {
-    // The tickettype was not general it was memebership so we run the same algorithm 
+  if(!ticketData[ticketInfo.ticketType].priceInCents.hasOwnProperty(entrant)) {
+    // If the ticketdata does not have a key for the given entrant return given error message
     return `Entrant type '${entrant}' cannot be found.`
-  }else {
-    total += ticketData.membership.priceInCents[entrant]
   }
+  // Add the correct priceInCents to the total
+  total += ticketData[ticketInfo.ticketType].priceInCents[entrant]
   // Now we check if the ticketInfo had any extras
   if(ticketInfo.extras.length == 0) {
     // If the ticket info had no extras the lenegth of the array is 0 and we return the total.
@@ -92,7 +84,6 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     }
   }
   // Return the total at the end
-
   return total
 }
 
@@ -178,12 +169,12 @@ function purchaseTickets(ticketData, purchases) {
 
   // We loop through the purchases array. 
   for(let i = 0; i < purchases.length; i++) {
-    // Check if the purchases tickettype does not exist in the ticketdata array
+    // Check if the purchases tickettype does not exist in the ticketdata object
     if(!ticketData.hasOwnProperty(purchases[i].ticketType)) {
       // if true return given error message
       return `Ticket type '${purchases[i].ticketType}' cannot be found.`
     }
-    // Check if the purchases entranttype does not exist in the ticketdata array
+    // Check if the purchases entranttype does not exist in the ticketdata object
     if(!ticketData[purchases[i].ticketType].priceInCents.hasOwnProperty(purchases[i].entrantType)){
       // If true return given error message
       return `Entrant type '${purchases[i].entrantType}' cannot be found.`
@@ -193,12 +184,12 @@ function purchaseTickets(ticketData, purchases) {
     let entrant = purchases[i].entrantType.slice(0,1).toUpperCase() + purchases[i].entrantType.slice(1).toLowerCase()
     let description = `${ticketData[purchases[i].ticketType].description}`;
     let extrasArr = purchases[i].extras
-    let extrasStr = []
-    //  Checking if extrasArray is empty or not. If empty process the description and add to the total
+    let extrasStr = ""
+    // Checking if extrasArray is empty or not. If empty process the description and add to the total
     if(extrasArr.length === 0) {
-      // Checking if the current index is on the last element in the extrasArr.\
+      // Checking if the current index is on the last element in the extrasArr.
       if(i === purchases.length - 1){
-        //  If it is the last element in the extrasArr we add to the receiptDescription withput a new line. And add to the total 
+        //  If it is the last element in the extrasArr we add to the receiptDescription without a new line. And add to the total 
         receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}`
         total += price;
         break;
@@ -210,13 +201,13 @@ function purchaseTickets(ticketData, purchases) {
     }else{
       // Looping to through the extrasarr
       for(let j = 0; j < extrasArr.length; j++){
-        // If the purchases extras key does not exist with in the extrasArray
+        // Checking If the purchases extras key does not exist with in the extrasArray
         if(!ticketData.extras.hasOwnProperty(...purchases[i].extras)){
           // If it doesnt exist return the given error message
           return `Extra type 'incorrect-extra' cannot be found.`
         }
         // Check if the current element in the extrasArr is on the last element or if the extras arr only has one element we want the description without a space added to the extrasStr. If false add the description with a space to the extrasStr. and then add the price 
-        j === extrasArr.length - 1 || extrasArr.length === 1 ? extrasStr += `${ticketData.extras[extrasArr[j]].description}` : extrasStr +=`${ticketData.extras[extrasArr[j]].description}, `
+        j === extrasArr.length - 1 ? extrasStr += `${ticketData.extras[extrasArr[j]].description}` : extrasStr +=`${ticketData.extras[extrasArr[j]].description}, `
         price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
       }
       // * If discount is true apply a 10% discount.
@@ -225,7 +216,7 @@ function purchaseTickets(ticketData, purchases) {
       }
       // Add the price to the total
       total += price
-      // If the current index is on the last index we want to add on to the receiptDescription without a new line and break out the code
+      // If the current index is on the last index we want to add on to the receiptDescription without a new line and break out the loop
       if(i === purchases.length - 1){
         receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extrasStr})`
         break;

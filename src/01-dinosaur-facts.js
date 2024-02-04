@@ -110,32 +110,24 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
     if(dino.mya.length == 1){
       // Want to check if the given maya is equal to OR one less equal than the idicated mya
       if(mya == dino.mya[0] || mya == dino.mya[0] - 1){
-        // checking If key exists within the parameter 
-        if(key){
-          // Now checking if the key does not exist within the object 
-          if(!dino[key]){
-            // If it does not exist we push the dinosaurs ID into the array
-            array.push(dino.dinosaurId)
-          }else { // Else we push the found key in the object to the array
-            array.push(dino[key]);
-          } 
-        }else { // Else if key doesnt not exist within the parameter we push the ID
-          array.push(dino.dinosaurId);
-        }
+        // checking If key exists within the object 
+        if(!dino[key]){
+          // If it does not exist we push the dinosaurs ID into the array
+          array.push(dino.dinosaurId)
+        }else { // Else we push the found key in the object to the array
+          array.push(dino[key]);
+        } 
       } // If the mya array did not have 1 element it had 2. So we have to check if the given mya is within range of the 2 mya elemets.
     }else if(mya <= dino.mya[0] && mya >= dino.mya[1]){
-      // Follows the same algorithm on pushing to the array ^^^^^^^^
-      if(key){
-        if(!dino[key]){
-          array.push(dino.dinosaurId)
-        }else {
-          array.push(dino[key]);
-        }
-      }else{
-        array.push(dino.dinosaurId);
+        // Follows the same algorithm on pushing into the array ^^^^^^^^
+      if(!dino[key]){
+        array.push(dino.dinosaurId)
+      }else {
+        array.push(dino[key]);
       }
     }
-  } // Return the array with the pushed elements.
+  }
+  // Return the array with the pushed elements.
   return array; 
 }
 

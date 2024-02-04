@@ -162,6 +162,7 @@ const purchases = [
     ticketType: "general",
     entrantType: "adult",
     extras: ["movie", "terrace"],
+    discount: true
   },
   {
     ticketType: "general",
