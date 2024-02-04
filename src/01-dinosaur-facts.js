@@ -54,7 +54,7 @@ const exampleDinosaurData = require("../data/dinosaurs");
   }
 }
 
-  console.log(getLongestDinosaur(dinosaurs));
+  console.log('prob 1:', getLongestDinosaur(dinosaurs));
   
 // using traditional for loop
 // function getLongestDinosaur(dinosaurs) {
@@ -118,8 +118,8 @@ function getDinosaurDescription(dinosaurs, id) {
   return `A dinosaur with an ID of '${id}' cannot be found.`;
 }
 
-console.log(getDinosaurDescription(dinosaurs, "GOycwH_EiU"));
-console.log(getDinosaurDescription(dinosaurs, "rizelrex"));
+console.log('prob 2:', getDinosaurDescription(dinosaurs, "GOycwH_EiU"));
+console.log('prob 2:', getDinosaurDescription(dinosaurs, "rizelrex"));
 
 // 1. Initialize a variable to store the found dinosaur
 // 2. Iterate through the dinosaurs array to find the one with the specified ID
@@ -186,36 +186,25 @@ console.log(getDinosaurDescription(dinosaurs, "rizelrex"));
 // 8. Map the filtered array to transform it into an array of selected properties.
 
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-//   return dinosaurs
-//     .filter(dinosaur => {
-//       const [startMya, endMya] = dinosaur.mya;
+  return dinosaurs
+    .filter(dinosaur => {
+      const [startMya, endMya] = dinosaur.mya;
 
-//       if (dinosaur.mya.length === 1) {
-//         return mya === startMya || mya === startMya - 1;
-//       } else if (dinosaur.mya.length === 2) {
-//         return mya >= endMya && mya <= startMya;
-//       }
+      if (dinosaur.mya.length === 1) {
+        return mya === startMya || mya === startMya - 1;
+      } else if (dinosaur.mya.length === 2) {
+        return mya >= endMya && mya <= startMya;
+      }
 
-//       return false;
-//     })
-//     .map(dinosaur => (key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId));
-// }
+      return false;
+    })
+    .map(dinosaur => (key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId));
+}
 
-
-
- 
 console.log(getDinosaursAliveMya(dinosaurs, 65, "name"));
 console.log(getDinosaursAliveMya(dinosaurs, 150));
 
-
-
-
-
-
-
-
-
-
+// using traditional for loop and no destructuring
 // function getDinosaursAliveMya(dinosaurs, mya, key) {
 //   const result = [];
 
