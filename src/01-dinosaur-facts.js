@@ -24,21 +24,20 @@ const exampleDinosaurData = require("../data/dinosaurs");
  */
 function getLongestDinosaur(dinosaurs) {
   let longestDinosaur = 0;  //initialized variable to hold longestDino
-  let longestDinoObj = {}; //create empty object
-  let dinoInFeet; //declare to convert into feet, used in each iteration
+  let longestDinoObj = {}; //create empty object to hold values of data returned
+  let dinoInFeet; //initialize variable to convert meters into feet, used in each iteration
 
-  for(let dinosaursObj of dinosaurs) { //for of loop, creates obj to hold info from dinosaurs
-    let lengthInMeters = dinosaursObj.lengthInMeters  //intialize variable 
+  for(let dinosaursObj of dinosaurs) { //for of loop, creates object to hold info from looping(searching) dinosaurs array (of objects)
+    let lengthInMeters = dinosaursObj.lengthInMeters  //intialize variable to locate user's height
 
-    if (lengthInMeters > longestDinosaur) {
-      longestDinosaur = lengthInMeters;
-      dinoInFeet = lengthInMeters * 3.281;
-      longestDinoObj = {[dinosaursObj.name]: dinoInFeet}
+    if (lengthInMeters > longestDinosaur) { //conditional statement, checks if current record searched is larger than stored record, if it is, then it updates variable
+      longestDinosaur = lengthInMeters; //updates longestDinosaur with length in meters
+      dinoInFeet = lengthInMeters * 3.281; // converts dino meters into feet
+      longestDinoObj = {[dinosaursObj.name]: dinoInFeet} //updates dino object with dino name as key and length as value
     }  
-  } return longestDinoObj
-
+  } 
+  return longestDinoObj //returns longest Dinosaur
 }
-
 
 
 /**
@@ -64,16 +63,15 @@ function getLongestDinosaur(dinosaurs) {
 function getDinosaurDescription(dinosaurs, id) {
 
   const findDinosaur = dinosaurs.find((dinosaur) => dinosaur.dinosaurId === id);
-  
-  if (findDinosaur) {
-      let myaIndex = 0
-  if (findDinosaur.mya.length > 1){
-      myaIndex +=1
-    } return(`${findDinosaur.name} (${findDinosaur.pronunciation})\n${findDinosaur.info} It lived in the ${findDinosaur.period} period, over ${findDinosaur.mya[myaIndex]} million years ago.`)    
-    } else {
-      return(`A dinosaur with an ID of '${id}' cannot be found.`)
-    }
-
+  //used the find array method to search through the array (dinosaur) using a callback function that finds the dinosaur with the specified id
+  if (findDinosaur) { //checks if specified dinosaur is found
+      let myaIndex = 0 //initializes mya Index variable to hold position of index found
+  if (findDinosaur.mya.length > 1) { //checks if mya array has more than 1 element
+      myaIndex += 1 //if yes, increment the MyaIndex
+      } return(`${findDinosaur.name} (${findDinosaur.pronunciation})\n${findDinosaur.info} It lived in the ${findDinosaur.period} period, over ${findDinosaur.mya[myaIndex]} million years ago.`) //return formated message with template literal if specified id is found 
+      } else {
+        return(`A dinosaur with an ID of '${id}' cannot be found.`)
+        } //returns formatted message if specified id is not found
 }
 
 /**
@@ -102,18 +100,18 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  let arr = []; //declare empty array
+  // let arr = []; //declare empty array
 
-  for(let dinoMyaObj of dinosaurs) { //creates variable dinoMyObj and it returns ALL objects in array
-    dinosaurs.mya[0].length > 1 || dinosaurs.mya[1] > 1 ? arr.push[dinosaurs.dinosaurId]: null;
+  // for(let dinoMyaObj of dinosaurs) { //creates variable dinoMyObj and it returns ALL objects in array
+  //   dinosaurs.mya[0].length > 1 || dinosaurs.mya[1] > 1 ? arr.push[dinosaurs.dinosaurId]: null;
 
    
     
 
   
 
-  return arr;
-  }
+  // return arr;
+  // }
 
 }
 

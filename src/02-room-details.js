@@ -26,10 +26,19 @@ const exampleRoomData = require("../data/rooms");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
-  const dinosaurName = dinosaurs.find((dinosaur) => dinosaur.name)
+  const getDinosaur = dinosaurs.find((dinosaur) => dinosaur.name === dinosaurName);  //.find method searches through array and finds specified  element (parameter to pass as the argument when the function is called)
 
-  
+  if (getDinosaur) { //if specified dino is found (true)
+    const roomName = rooms.find((room) => room.dinosaurs.includes(getDinosaur.dinosaurId)); //then .find method searches the rooms array and finds the room the dinosaur is assigned using .include that checks for a specified element is there, returns boolean true or false value
 
+    if (roomName) { //nested if statement, if room where dino is located is found 
+      return roomName.name; //returns room name if true
+    } else {
+      return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`; //temperal literal to return formatted sentence if false
+    }
+  } else {
+    return `Dinosaur with name '${dinosaurName}' cannot be found.`; //if dino is not found, uses temperal literal to return formatted sentence that dino can't be found
+  }
 }
 
 /**
