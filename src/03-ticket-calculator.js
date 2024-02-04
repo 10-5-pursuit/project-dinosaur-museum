@@ -5,7 +5,7 @@
 
   Keep in mind that your functions must still have and use a parameter for accepting all tickets.
 */
-const exampleTicketData = require("../data/tickets");
+
 // Do not change the line above.
 
 /**
@@ -54,7 +54,46 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+    const exampleTicketData = require("../data/tickets");
+
+    function calculateTicketPrice(ticketData, ticketInfo) {
+
+      // Created a variable for the total.
+    let ticketTotal = 0;
+
+    // Created a variable to classify which entry type is on given Ticket. 
+    let ticketEntrants = ticketInfo.entrantType;
+
+    // Crossreferencing to check if the ticket Type on the Physical Ticket matches with the Ticket Data in the system. 
+    let ticketStatus = ticketData[ticketInfo.ticketType]
+
+    // These are the  ticket Extras on the Physical ticket. 
+    let theExtrasOnTicket = ticketInfo.extras
+
+    // This if statement is checking to see if the ticket type does not equal general and membership because we are assimilating any other other outcome between the two admission types that we only have and if it is true, run the error message specified in temperal literal specifying the given ticket type on the Ticket. 
+      if(ticketInfo.ticketType !== 'general' && ticketInfo.ticketType !== 'membership') {
+        return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
+      }
+
+      // This if statement checks if any of the ticket entrants does not match child, adult, or senior on the entrant Type on the customer ticket and assimilates any other outcome and if it is true, run the error message specified in the temperal literal specifying the given ticket type on the Ticket. 
+      if(ticketInfo.entrantType !== 'child' && ticketInfo.entrantType !== 'adult' && ticketInfo.entrantType !== 'senior') {
+        return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
+      }
+      // updates the Sum of ticketTotal to the match the standard price of the tickets entry type. aka (child, senior, adult).
+      ticketTotal += ticketStatus.priceInCents[ticketEntrants]
+
+      // Within the for Loop we are checking to see if our Ticket Data has any property of the extra ticket iteration(s) and if it does not match with our Data it runs an error message indicated below. Our second execution will add to sum of the all extraTicket iteration that is found and crossreferenced with our data found with the prices associated with that iteration/extraTicket. 
+      for(let i = 0; i < theExtrasOnTicket.length; i++) {
+        if(!ticketData.extras.hasOwnProperty(theExtrasOnTicket[i])) {
+          return `Extra type '${theExtrasOnTicket[i]}' cannot be found.`
+        } else {
+          ticketTotal += ticketData.extras[theExtrasOnTicket[i]].priceInCents[ticketEntrants]
+        }
+      }
+      // this one is self explanatory. >:)
+    return ticketTotal; 
+    }
+    
 
 /**
  * purchaseTickets()
