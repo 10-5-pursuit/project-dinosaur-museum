@@ -8,14 +8,14 @@
 const exampleDinosaurData = require("../data/dinosaurs");
 // Do not change the line above.
 
-//Helper functions
+//Helper functions used in room details, return '' if the the dinasaur name is not found.
 
 function getDinosaurId (dinosaurs, name){
-  let id =''
+  let id ='';
   dinosaurs.forEach(dino =>{
-    if (dino.name ==name) id=dino.dinosaurId
+    if (dino.name ==name) id=dino.dinosaurId;
   })
-  return id
+  return id;
 }
 // console.log(getDinosaurId(exampleDinosaurData,'Tyrannosaurus'))
 
@@ -38,19 +38,20 @@ function getLongestDinosaur(dinosaurs) {
   //initial validation in case that the input data is empty
   if(dinosaurs.length===0) return {}
   
-  let maxDino ={}
-  let maxLength = 0
-  let dinoName = ''
+  const maxDino ={};
+  let maxLength = 0;
+  let dinoName = '';
+
   dinosaurs.forEach(dino =>{
     if(dino.lengthInMeters>maxLength){
-      maxLength=dino.lengthInMeters
-      dinoName = dino.name
+      maxLength=dino.lengthInMeters;
+      dinoName = dino.name;
     }
   } )
-  maxLength = maxLength * 3.281
+  maxLength = maxLength * 3.281;
 
-  maxDino[dinoName] = maxLength
-  return maxDino
+  maxDino[dinoName] = maxLength;
+  return maxDino;
 
 }
 // console.log(getLongestDinosaur(exampleDinosaurData))
@@ -76,10 +77,13 @@ function getLongestDinosaur(dinosaurs) {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
-  let dinosaur = dinosaurs.filter(dino => dino.dinosaurId == id) [0]
-  if(dinosaur == undefined ) return `A dinosaur with an ID of '${id}' cannot be found.`
   
-  return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${dinosaur.mya[dinosaur.mya.length-1]} million years ago.`
+  //create a variable that storage the firts element of the return array from filter.
+  let dinosaur = dinosaurs.filter(dino => dino.dinosaurId == id) [0]
+  // validate if the id is not not in the data
+  if(dinosaur == undefined ) return `A dinosaur with an ID of '${id}' cannot be found.`;
+  
+  return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${dinosaur.mya[dinosaur.mya.length-1]} million years ago.`;
 }
 // console.log(getDinosaurDescription(exampleDinosaurData,'U9vuZmgKwUr'))
 
@@ -108,34 +112,34 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-
+//helper function that check the value of 'key' and return the name or the id of dinasaur based on the value of 'key'
 function checkKey (obj, key){
   if(key=='name'){
-    return obj.name 
+    return obj.name;
   }else{ 
-    return obj.dinosaurId
+    return obj.dinosaurId;
   }
 }
 
 
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  let arrOfIds =[]
+  let arrOfIds =[];
   
   dinosaurs.forEach(dino =>{
     if (dino.mya.length==1 && (dino.mya == mya || dino.mya-1 == mya)){
-      arrOfIds.push(checkKey(dino,key))
+      arrOfIds.push(checkKey(dino,key));
     } else if(mya <= dino.mya[0] && mya >= dino.mya[1] ){
-      arrOfIds.push(checkKey(dino,key))
+      arrOfIds.push(checkKey(dino,key));
     }
   })
 
-  return arrOfIds
-
+  return arrOfIds;
 }
 
 
-getDinosaursAliveMya(exampleDinosaurData,150)
+// getDinosaursAliveMya(exampleDinosaurData,150)
 
+//add getDinosaurId to the export module
 module.exports = {
   getDinosaurId,
   getLongestDinosaur,

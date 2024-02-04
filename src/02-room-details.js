@@ -28,21 +28,22 @@ const dinoFacts = require("../src/01-dinosaur-facts");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  //id will have the return of the helper function getDinosaurId from 01-dinodaur-facts
+  const id = dinoFacts.getDinosaurId(dinosaurs,dinosaurName)
 
-  let id = dinoFacts.getDinosaurId(dinosaurs,dinosaurName)
+  if (id== '') return `Dinosaur with name '${dinosaurName}' cannot be found.`;
 
-  if (id== '') return `Dinosaur with name '${dinosaurName}' cannot be found.`
-
-  let DinosaurRoom = ''
+  let DinosaurRoom = '';
 
   rooms.forEach(room =>{
     if(room.dinosaurs.includes(id)){
-      DinosaurRoom = room.name
+      DinosaurRoom = room.name;
     }
   })
-  if(DinosaurRoom == '') return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`
 
-  return DinosaurRoom
+  if(DinosaurRoom == '') return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
+
+  return DinosaurRoom;
 }
 getRoomByDinosaurName(exampleDinosaurData,exampleRoomData,'Tyrannosaurus')
 
@@ -68,44 +69,36 @@ getRoomByDinosaurName(exampleDinosaurData,exampleRoomData,'Tyrannosaurus')
       "Kit Hopkins Education Wing"
     ]
  */
-// helper function 01
+// helper function 01 checks if the id is in the data, return true or false
 function checkRoomId (rooms, id){
-  let result = false
-  rooms.forEach(room =>{
-    if(room.roomId==id) result=true
-  })
-  return result
+  //return true if at least 1 element of the array match the id. returns false if no id in the data
+  return rooms.some(room => room.roomId === id)
 }
-// helper function 
-function checkConnectedRooms (rooms){
-  let roomDoesNotExist = false
-  let roomName = ''
-  rooms.forEach(room =>{
-    room.connectsTo.forEach(connectedId=>{
-      if(!checkRoomId(rooms,connectedId)){
-        roomDoesNotExist = true
-        roomName = connectedId
-      } 
-    })
-  })
-  return [roomDoesNotExist, roomName]
 
+// helper function 02 checks the ids of the array 'connects To' and return the name if it find a connected room that is not in the data
+function checkConnectedRooms (rooms){
+
+  for (let room of rooms) {
+    for (let connectedId of room.connectsTo) {
+      if (!checkRoomId(rooms, connectedId)) {
+        return connectedId;
+      }
+    }
+  }
+  return undefined;
 }
 
 function getConnectedRoomNamesById(rooms, id) {
 
-  if(checkConnectedRooms(rooms)[0]) return `Room with ID of '${checkConnectedRooms(rooms)[1]}' could not be found.`
+  const roomDoesNotExist = checkConnectedRooms(rooms);
 
-  if(!checkRoomId(rooms, id)) return `Room with ID of '${id}' could not be found.`
+  if (roomDoesNotExist) return `Room with ID of '${roomDoesNotExist}' could not be found.`;
+  
+  if (!checkRoomId(rooms, id)) return `Room with ID of '${id}' could not be found.`;
+  
+  const connectedRooms = rooms.filter(room => room.connectsTo.includes(id)).map(room => room.name);
 
-  let connectedRooms = []
-  rooms.forEach(room=>{
-    if(room.connectsTo.includes(id)){
-      connectedRooms.push(room.name)
-    }
-  })
-
-  return connectedRooms
+  return connectedRooms;
 }
 // console.log(getConnectedRoomNamesById(exampleRoomData,"A6QaYdyKra"))
 
