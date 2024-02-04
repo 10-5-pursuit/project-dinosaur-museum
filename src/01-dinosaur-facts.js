@@ -175,68 +175,71 @@ console.log(getDinosaurDescription(dinosaurs, "rizelrex"));
  *  //> ["WHQcpcOj0G"]
  */
 
-// Function to filter dinosaurs based on their existence in a specified time range (in millions of years ago)
-// function getDinosaursAliveMya(dinosaurs, mya, key) {
-//   // Use the filter function to select dinosaurs that existed during the specified time (mya)
+// Recipe for > getDinosaursAliveMya(dinosaurs, mya, key)
+// 1. Filter dinosaurs based on their time range and return selected properties.
+// 2. Destructure the mya array of the current dinosaur into startMya and endMya.
+// 3. Check if the dinosaur's time range is represented by a single value.
+// 4. Return true if the given mya matches the single value or is one unit less.
+// 5. Check if the dinosaur's time range is represented by two values.
+// 6. Return true if the given mya falls within that range.
+// 7. If neither of the above conditions is met, exclude the dinosaur from the filtered array.
+// 8. Map the filtered array to transform it into an array of selected properties.
+
+function getDinosaursAliveMya(dinosaurs, mya, key) {
 //   return dinosaurs
 //     .filter(dinosaur => {
-//       // Destructure the mya array into startMya and endMya variables
 //       const [startMya, endMya] = dinosaur.mya;
 
-//       // Check if the mya array has only one element, indicating a single point in time
 //       if (dinosaur.mya.length === 1) {
-//         // Return true if the specified mya is equal to the startMya or one million year earlier
 //         return mya === startMya || mya === startMya - 1;
-//       }
-//       // Check if the mya array has two elements, indicating a time range
-//       else if (dinosaur.mya.length === 2) {
-//         // Return true if the specified mya is within the range of endMya to startMya
+//       } else if (dinosaur.mya.length === 2) {
 //         return mya >= endMya && mya <= startMya;
 //       }
 
-//       // If the mya array has neither one nor two elements, return false
 //       return false;
 //     })
-//     // Use map to transform the result array, selecting a specific property (key) if provided
-//     // or defaulting to the dinosaurId if key is not provided
 //     .map(dinosaur => (key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId));
 // }
 
-// Function to filter dinosaurs based on their existence in a specified time range (in millions of years ago)
-function getDinosaursAliveMya(dinosaurs, mya, key) {
-  const result = [];
 
-  for (let i = 0; i < dinosaurs.length; i++) {
-    const dinosaur = dinosaurs[i];
-    const myaValues = dinosaur.mya;
 
-    // Check if the mya array has only one element, indicating a single point in time
-    if (myaValues.length === 1) {
-      // Return true if the specified mya is equal to the startMya or one million year earlier
-      if (mya === myaValues[0] || mya === myaValues[0] - 1) {
-        result.push(
-          key && dinosaur[key] !== undefined
-            ? dinosaur[key]
-            : dinosaur.dinosaurId
-        );
-      }
-    }
-    // Check if the mya array has two elements, indicating a time range
-    else if (myaValues.length === 2) {
-      // Return true if the specified mya is within the range of endMya to startMya
-      if (mya >= myaValues[1] && mya <= myaValues[0]) {
-        result.push(
-          key && dinosaur[key] !== undefined
-            ? dinosaur[key]
-            : dinosaur.dinosaurId
-        );
-      }
-    }
-  }
+ 
+console.log(getDinosaursAliveMya(dinosaurs, 65, "name"));
+console.log(getDinosaursAliveMya(dinosaurs, 150));
 
-  return result;
-}
-console.log(getDinosaursAliveMya(dinosaurs, 65, "name" ))
+
+
+
+
+
+
+
+
+
+// function getDinosaursAliveMya(dinosaurs, mya, key) {
+//   const result = [];
+
+//   for (let i = 0; i < dinosaurs.length; i++) {
+//     const dinosaur = dinosaurs[i];
+//     const startMya = dinosaur.mya[0];
+//     const endMya = dinosaur.mya[1];
+
+//     if (dinosaur.mya.length === 1) {
+//       if (mya === startMya || mya === startMya - 1) {
+//         result.push(key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId);
+//       }
+//     } else if (dinosaur.mya.length === 2) {
+//       if (mya >= endMya && mya <= startMya) {
+//         result.push(key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId);
+//       }
+//     }
+//   }
+
+//   return result;
+// }
+
+// console.log(getDinosaursAliveMya(dinosaurs, 65, "name"));
+// console.log(getDinosaursAliveMya(dinosaurs, 150));
 
 
 module.exports = {
