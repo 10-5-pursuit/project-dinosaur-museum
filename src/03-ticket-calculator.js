@@ -54,8 +54,41 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  let total = 0;
+  if (ticketData.hasOwnProperty(ticketInfo.ticketType)) {
+    if (ticketData[ticketInfo.ticketType].priceInCents.hasOwnProperty(ticketInfo.entrantType)) {
+      if (ticketInfo.extras.length == 0) {
+        total += ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
 
+      }
+      else if (ticketData.extras.hasOwnProperty(ticketInfo.extras[0])) {
+        total += ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+        ticketInfo.extras.forEach(a => {
+          total += ticketData.extras[a].priceInCents[ticketInfo.entrantType];
+        })
+
+
+      } else {
+        return `Extra type '${ticketInfo.extras[0]}' cannot be found.`
+      }
+
+    } else {
+      return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+    }
+  }
+  else {
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
+
+
+  return total;
+}
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo));
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo2));
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo3));
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo4));
+console.log("Problem 1: ", calculateTicketPrice(exampleTicketData, ticketInfo5));
 /**
  * purchaseTickets()
  * ---------------------
@@ -109,7 +142,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) { }
 
 // Do not change anything below this line.
 module.exports = {
