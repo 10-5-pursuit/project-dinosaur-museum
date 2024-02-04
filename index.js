@@ -15,11 +15,11 @@ for (let dinoMya of exampleDinosaurData) { //name and mya info
     console.log({ name: dinoMya.name, mya: dinoMya.mya });
 }
 
-for (let roomId of exampleRoomData) {
+for (let roomId of exampleRoomData) { //room ID
     console.log(roomId.roomId);
 }
 
-for (let roomId of exampleRoomData) {
+for (let roomId of exampleRoomData) { //room ID and room name returned (logged as object)
   console.log({ roomNum: roomId.roomId, roomName: roomId.name });
 }
 
