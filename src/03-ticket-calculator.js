@@ -56,9 +56,9 @@ const exampleTicketData = require("../data/tickets");
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
 
-  if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
-    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
-  }
+  // if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
+  //   return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
+  // }
 
   let ticketCost = 0;
   let entrants = ['adult','child','senior'];

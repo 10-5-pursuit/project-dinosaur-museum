@@ -23,15 +23,15 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 function getLongestDinosaur(dinosaurs) {
-if(!dinosaurs || dinosaurs.length === 0) { // created a conditional to check if a dinosaur doesn't exist in the object or the whole
-    return {};                             //array it returns an empty object;
+if(!dinosaurs || dinosaurs.length === 0) { // created a conditional to check if a dinosaur doesn't exist in the array or undefined
+    return {};                             //array returns an empty object;
 }
   
-let longestDino = dinosaurs[0]  //declared a variable and intialized to the first dino object
+let longestDino = dinosaurs[0]  //declared a variable and intialized to the first dino in array
 
 for(let i = 1; i < dinosaurs.length; i++){                        //Looping through the array to get to the key lengthInMeters
-  if(longestDino.lengthInMeters < dinosaurs[i].lengthInMeters){   //comparing each dinosaur to the initial and holding in each value in 
-    longestDino = dinosaurs[i]                                    //the longestDino Variable until we reach the longest one
+  if(longestDino.lengthInMeters < dinosaurs[i].lengthInMeters){   //comparing each dinosaur to the current dinosaur
+    longestDino = dinosaurs[i]                                    //update the longestDino Variable until we reach the longest one
   }
 }
   let newHeight = longestDino.lengthInMeters * 3.281    //converting the height from meters to feet
@@ -39,15 +39,9 @@ for(let i = 1; i < dinosaurs.length; i++){                        //Looping thro
   return {
     [longestDino.name] : newHeight  // returning the tallest dinosaur in an object
    }
-
-  }
+ }
  
- 
-
- 
-
-
-console.log(getLongestDinosaur(exampleDinosaurData))
+ console.log(getLongestDinosaur(exampleDinosaurData))
 
 /**
  * getDinosaurDescription()
@@ -71,12 +65,12 @@ console.log(getLongestDinosaur(exampleDinosaurData))
  */
 function getDinosaurDescription(dinosaurs, id) {
 
-  let errorMessage = `A dinosaur with an ID of '${id}' cannot be found.` //creating the err message to be returned later
+  let errorMessage = `A dinosaur with an ID of '${id}' cannot be found.` //creating the error message to be returned later if an id isn't found
 
   for (const dino of dinosaurs) {
     if (dino.dinosaurId === id) {
-      return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${dino.mya[dino.mya.length - 1]} million years ago.`   //looped through the dinosaur data to check if the inputted id matches the dinosaurId if so all the 
-    }                             //dinosaur's information reformatted to a string.
+      return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${dino.mya[dino.mya.length - 1]} million years ago.`   //looped through the dinosaur data to check if the inputted id matches the dinosaurId if so all the dinosaur's information is reformatted to a string.
+    }                             
   }
   return errorMessage;  
 }
@@ -107,13 +101,36 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
+// function getDinosaursAliveMya(dinosaurs, mya, key) {
+//   let dinoArr = [];  // created an empty array to be return the results in
+
+//   for (let dino of dinosaurs) { // looping through the data
+//     let oneDate = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya) && mya <= dino.mya[0]; //declaring a variable checking if there is only one date in the array and checking if the date entered matches or needs to be minus by 1
+
+//     let twoDates = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0]; //declaring a variabe to check if there are dinosaurs within the 2 dates
+
+//     if (oneDate || twoDates) {
+//       pushToArray(dinoArr, key, dino)       
+//   }
+//   return dinoArr;
+// }
+
+// function pushToArray(dinoArr, key, dino) {  //helper function that checks if the key and push value into array  
+//   if (!key || !(key in dino)){ //check If key isn't provided or the key entered doesn't exist                
+//     dinoArr.push(dino.dinosaurId)           //push Id into that array
+//   } else {                                  
+//     dinoArr.push(dino[key])
+//   }
+// }  // or push whatever value of the key that was entered
+// };
+
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   let dinoArr = [];  // created an empty array to be returned later
 
   for (let dino of dinosaurs) { // looping through the data
-    let oneDate = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya) && mya <= dino.mya[0]; //declaring a variable checking if there is only one value in the array and if so either returning the one entered or the minusing it by 1;
+    let oneDate = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya) && mya <= dino.mya[0];//declaring a variable checking if there is only one date in the array and checking if the date entered matches or needs to be minus by 1
 
-    let twoDates = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0]; //declaring a variabe to check if there are dinosaurs with 2 dates
+    let twoDates = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0]; //declaring a variabe to check if there are dinosaurs within the 2 dates
 
     if (oneDate) {
       pushToArray(dinoArr, key, dino)       //pushing dinosaurs into the new array  
@@ -124,13 +141,13 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   return dinoArr;
 }
 
-function pushToArray(dinoArr, key, dino) {  //helper function that checks if the key  
-  if (!key || !(key in dino)) {             //or the key entered doesn't exist it will        
-    dinoArr.push(dino.dinosaurId)           //return the ID but if it does it will return 
-  } else {                                  //whatever value of the key that was entered
+function pushToArray(dinoArr, key, dino) {  //helper function that checks if the key and push value into array 
+  if (!key || !(key in dino)) {             //check If key isn't provided or the key entered doesn't exist         
+    dinoArr.push(dino.dinosaurId)           //push Id into that array
+  } else {                                 
     dinoArr.push(dino[key])
   }
-}
+} //or push whatever value of the key that was entered
 
 
 

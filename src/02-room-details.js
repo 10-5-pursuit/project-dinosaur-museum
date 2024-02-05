@@ -26,7 +26,7 @@ const exampleRoomData = require("../data/rooms");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
-  let dino = dinosaurs.find(dinos => dinos.name === dinosaurName); // declaring a variablet to find if the name given matches the name in the dinosaur data
+  let dino = dinosaurs.find(dinos => dinos.name === dinosaurName); // declaring a variable to find dinosaur with a specific name
                                                                     
   if (!dino) {
     return `Dinosaur with name '${dinosaurName}' cannot be found.`; // if the name doesn't exist we return a message stating so
@@ -35,11 +35,11 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   let dinoId = dino.dinosaurId; // declaring a variable to store the dinosaur's IDs
 
   for (let room of rooms) {
-    if (room.dinosaurs.includes(dinoId)) { //looping through the rooms to check if the rooms have the same ID as dinoId you return the room name if not you
-      return `${room.name}`;                //return an error message with the dinosaur's name you were trying to find.
+    if (room.dinosaurs.includes(dinoId)) { //looping through the rooms to check if the rooms have the same ID as dinoId you return the room name 
+      return `${room.name}`;              
     }
   }
-  return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`
+  return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`  //return an error message with the dinosaur's name you were trying to find.
 }
 
 console.log(getRoomByDinosaurName(exampleDinosaurData, exampleRoomData, "Pterodactyl"))
@@ -67,38 +67,24 @@ console.log(getRoomByDinosaurName(exampleDinosaurData, exampleRoomData, "Pteroda
     ]
  */
 function getConnectedRoomNamesById(rooms, id) {
-  let newRoom = rooms.find(room => room.roomId === id) // declaring a variable to hold any matching Ids
+  let roomArr = [];  // declaring a variable with an empty array that will be return the rooms
+  let newRoom = rooms.find(room => room.roomId === id) // declaring a variable to find and hold Ids
 
-  if(!newRoom){
-    return `Room with ID of '${id}' could not be found.`; //if there is no matching room Ids this   
-  };                                                      //message is returned.
-
-  let roomArr = [];  // delaring a variable with an empty array that will be returned at the end
+  if (!newRoom) {
+    return `Room with ID of '${id}' could not be found.`; //if there are no room Ids this message is returned.  
+  };                                                      
 
   for (let i = 0; i < newRoom.connectsTo.length; i++) { // created a loop to loop through the data
-    let connectedRoomId = newRoom.connectsTo[i]; //declared a variable to hold array
-    
+    let connectedRoomId = newRoom.connectsTo[i]; //declared a variable to hold array ids
     let roomConnected = rooms.find(room => room.roomId === connectedRoomId) //making sure the roomIDs match the IDs in connectedRoom
 
-    if(!roomConnected){
+    if (!roomConnected) {
       return `Room with ID of 'incorrect-id' could not be found.`  //if the id doesn't exist we return a message saying the room cannot be found;
-    } 
-      roomArr.push(roomConnected.name) //if the roomId exist we are pushing in the name of the room to the array
-
-    
+    }
+    roomArr.push(roomConnected.name) //if the roomId exist we are pushing in the name of the room to the array
   }
-
- 
   return roomArr; // we return the array;
 }
-
-
-
-
-
-
- 
-  
 
 
 module.exports = {
