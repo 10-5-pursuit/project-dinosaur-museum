@@ -67,23 +67,31 @@ console.log(getRoomByDinosaurName(exampleDinosaurData, exampleRoomData, "Pteroda
     ]
  */
 function getConnectedRoomNamesById(rooms, id) {
-  let roomArr = [];  // declaring a variable with an empty array that will be return the rooms
-  let newRoom = rooms.find(room => room.roomId === id) // declaring a variable to find and hold Ids
+  // declaring a variable with an empty array that will be return the rooms
+  let roomArr = [];  
+  // declaring a variable to find and hold Ids
+  let newRoom = rooms.find(room => room.roomId === id) 
 
+  //if there are no room Ids this message is returned.  
   if (!newRoom) {
-    return `Room with ID of '${id}' could not be found.`; //if there are no room Ids this message is returned.  
+    return `Room with ID of '${id}' could not be found.`; 
   };                                                      
 
-  for (let i = 0; i < newRoom.connectsTo.length; i++) { // created a loop to loop through the data
-    let connectedRoomId = newRoom.connectsTo[i]; //declared a variable to hold array ids
-    let roomConnected = rooms.find(room => room.roomId === connectedRoomId) //making sure the roomIDs match the IDs in connectedRoom
+  // created a loop to loop through the data
+  for (let i = 0; i < newRoom.connectsTo.length; i++) { 
+    //declared a variable to hold array ids
+    let connectedRoomId = newRoom.connectsTo[i]; 
+     //making sure the roomIDs match the IDs in connectedRoom
+    let roomConnected = rooms.find(room => room.roomId === connectedRoomId)
 
+    //if the id doesn't exist we return a message saying the room cannot be found;
     if (!roomConnected) {
-      return `Room with ID of 'incorrect-id' could not be found.`  //if the id doesn't exist we return a message saying the room cannot be found;
+      return `Room with ID of 'incorrect-id' could not be found.`  
     }
-    roomArr.push(roomConnected.name) //if the roomId exist we are pushing in the name of the room to the array
+    //if the roomId exist we are pushing in the name of the room to the array
+    roomArr.push(roomConnected.name) 
   }
-  return roomArr; // we return the array;
+  return roomArr; 
 }
 
 

@@ -55,18 +55,22 @@ const exampleTicketData = require("../data/tickets");
     //> "Entrant type 'kid' cannot be found."
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
-  let ticketCost = 0; // declaring the total to be returned later
-  let entrants = ticketInfo.entrantType; //declaring a variable to hold entrants
-  let membership = ticketInfo.ticketType; //declaring a varible to hold type
+  // declaring the total to be returned later
+  let ticketCost = 0; 
+  //declaring a variable to hold entrants
+  let entrants = ticketInfo.entrantType; 
+  //declaring a varible to hold type
+  let membership = ticketInfo.ticketType; 
 
 
 
-
-  if(!ticketData.hasOwnProperty(membership)) { // if the data doesn't have the same membership as ticketInfo returns an error
+  // if the data doesn't have the same membership as ticketInfo returns an error
+  if(!ticketData.hasOwnProperty(membership)) { 
     return `Ticket type '${membership}' cannot be found.`;
   }
 
-  if(!ticketData[membership].priceInCents.hasOwnProperty(entrants)) { //if the data doesn't have the same entrants as ticketInfo returns an error
+  //if the data doesn't have the same entrants as ticketInfo returns an error
+  if(!ticketData[membership].priceInCents.hasOwnProperty(entrants)) { 
     return `Entrant type '${entrants}' cannot be found.`;
   }
 
@@ -75,15 +79,15 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   }
   
  
-
-  for(let extra of ticketInfo.extras){
+  // If there are extras we loop through the extras array and whatever extras are there will then update the ticketCost, if no extras are there an error message will appear.
+ for(let extra of ticketInfo.extras){
     if(ticketData.extras.hasOwnProperty(extra)){
       ticketCost += ticketData.extras[extra].priceInCents[entrants];
     }else {
       return `Extra type '${ticketInfo.extras}' cannot be found.`;
     }
   }
-return ticketCost;// If there are extras we loop through the extras array and whatever extras are there will then update the ticketCost, if no extras are there an error message will appear.
+return ticketCost;
 }
 
 console.log(calculateTicketPrice(exampleTicketData, 'kid'))
