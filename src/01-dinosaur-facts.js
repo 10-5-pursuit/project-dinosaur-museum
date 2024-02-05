@@ -33,11 +33,11 @@ const exampleDinosaurData = require("../data/dinosaurs");
 // 6. Check if the length of the current dinosaur is greater than the length of the longest dinosaur.
 // 7. If true, update the longestDinosaur variable with the current dinosaur.
 // 8. Return an object with the name of the longest dinosaur as the [key] and its length converted from meters to feet as the value.
-// 9. Call the function. 
+// 9. Call the function.
 // 10. Check value against example.
 
-  // using for - of
-  function getLongestDinosaur(dinosaurs) {
+// using for - of
+function getLongestDinosaur(dinosaurs) {
   if (dinosaurs.length === 0) {
     return {};
   }
@@ -45,18 +45,18 @@ const exampleDinosaurData = require("../data/dinosaurs");
   let longestDinosaur = dinosaurs[0];
   for (dino of dinosaurs) {
     if (dino.lengthInMeters > longestDinosaur.lengthInMeters) {
-      longestDinosaur = dino
+      longestDinosaur = dino;
     }
   }
 
   return {
-    [longestDinosaur.name]: longestDinosaur.lengthInMeters * 3.281
-  }
+    [longestDinosaur.name]: longestDinosaur.lengthInMeters * 3.281,
+  };
 }
 
-  console.log('prob 1:', getLongestDinosaur(dinosaurs));
-  
-// using traditional for loop
+console.log("prob 1:", getLongestDinosaur(dinosaurs));
+
+// using for loop
 // function getLongestDinosaur(dinosaurs) {
 //   if (dinosaurs.length === 0) {
 //     return {};
@@ -76,8 +76,7 @@ const exampleDinosaurData = require("../data/dinosaurs");
 
 // console.log(getLongestDinosaur(dinosaurs));
 
-
-/** 
+/**
  * getDinosaurDescription()
  * ---------------------
  * Returns a formatted description of a dinosaur. If the dinosaur cannot be found, returns an error message.
@@ -101,14 +100,14 @@ const exampleDinosaurData = require("../data/dinosaurs");
 // Recipe for > getDinosaurDescription(dinosaurs, id)
 // 1. Find the dinosaur with the specified ID in the array.
 // 2. Check if the dinosaur is found.
-// 3. If foundDinosaur: 
+// 3. If foundDinosaur:
 // 4. Extract the first value from the mya array.
 // 5. Construct the dinosaur description.
 // 6. Return the constructed description.
 // 7. Else: Return an error message if the dinosaur is not found.
-   
+
 function getDinosaurDescription(dinosaurs, id) {
-  const foundDinosaur = dinosaurs.find(dino => dino.dinosaurId === id);
+  const foundDinosaur = dinosaurs.find((dino) => dino.dinosaurId === id);
 
   if (foundDinosaur) {
     const mya = foundDinosaur.mya[0];
@@ -118,8 +117,8 @@ function getDinosaurDescription(dinosaurs, id) {
   return `A dinosaur with an ID of '${id}' cannot be found.`;
 }
 
-console.log('prob 2:', getDinosaurDescription(dinosaurs, "GOycwH_EiU"));
-console.log('prob 2:', getDinosaurDescription(dinosaurs, "rizelrex"));
+console.log("prob 2:", getDinosaurDescription(dinosaurs, "GOycwH_EiU"));
+console.log("prob 2:", getDinosaurDescription(dinosaurs, "rizelrex"));
 
 // 1. Initialize a variable to store the found dinosaur
 // 2. Iterate through the dinosaurs array to find the one with the specified ID
@@ -147,7 +146,6 @@ console.log('prob 2:', getDinosaurDescription(dinosaurs, "rizelrex"));
 
 // console.log(getDinosaurDescription(dinosaurs, "GOycwH_EiU"))
 // console.log(getDinosaurDescription(dinosaurs, "rizelrex"))
-
 
 /**
  * getDinosaursAliveMya()
@@ -187,7 +185,7 @@ console.log('prob 2:', getDinosaurDescription(dinosaurs, "rizelrex"));
 
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   return dinosaurs
-    .filter(dinosaur => {
+    .filter((dinosaur) => {
       const [startMya, endMya] = dinosaur.mya;
 
       if (dinosaur.mya.length === 1) {
@@ -198,13 +196,15 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
 
       return false;
     })
-    .map(dinosaur => (key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId));
+    .map((dinosaur) =>
+      key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId,
+    );
 }
 
 console.log(getDinosaursAliveMya(dinosaurs, 65, "name"));
 console.log(getDinosaursAliveMya(dinosaurs, 150));
 
-// using traditional for loop and no destructuring
+// using for loop and no destructuring
 // function getDinosaursAliveMya(dinosaurs, mya, key) {
 //   const result = [];
 
@@ -229,7 +229,6 @@ console.log(getDinosaursAliveMya(dinosaurs, 150));
 
 // console.log(getDinosaursAliveMya(dinosaurs, 65, "name"));
 // console.log(getDinosaursAliveMya(dinosaurs, 150));
-
 
 module.exports = {
   getLongestDinosaur,

@@ -72,7 +72,7 @@ function calculateTicketPrice(tickets, ticketInfo) {
   // Check if all extras are valid
   if (extras.some((extra) => !tickets.extras[extra])) {
     return `Extra type '${extras.find(
-      (extra) => !tickets.extras[extra]
+      (extra) => !tickets.extras[extra],
     )}' cannot be found.`;
   }
 
@@ -80,7 +80,7 @@ function calculateTicketPrice(tickets, ticketInfo) {
   const basePrice = tickets[ticketType].priceInCents[entrantType];
   const extrasPrice = extras.reduce(
     (total, extra) => total + tickets.extras[extra].priceInCents[entrantType],
-    0
+    0,
   );
 
   return basePrice + extrasPrice;
