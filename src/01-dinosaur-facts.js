@@ -20,21 +20,27 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *
  * EXAMPLE:
  *  getLongestDinosaur(dinosaurs);
- *  //> { Brachiosaurus: 98.43 }
+ *  //> { Brachiosaurus: 98.43d }
  */
-function getLongestDinosaur(dinosaurs) {
-  let longest = 0
-  let dinoName = "";
- for (let i = 0; i < dinosaurs.length; i++){
-   dinosaurs[i].lengthInMeters
-     if (longest < dinosaurs[i].lengthInMeters){
-       longest = dinosaurs[i].lengthInMeters
-       dinoName = dinosaurs[i].name
-      }
-   }
-   return (`${dinoName} : ${longest * 3.281}`)
-}
 
+/// I'm returning an object 
+// look through dino object and find the length
+// loop through each dino 
+// find the length of longest dino based of the lengthInMeters which identifys what the name of the dino is 
+// then acess the name of the dino 
+// then return object where the key is the name of the dino and the value is the height of the dino
+function getLongestDinosaur(dinosaurs) {
+  let longestDino = 0  /// placeholder for the lonest dino 
+  let longestDinoObj = {} // create dino object because you have to return object where the key is the name of the dino and the value is the height of the dino 
+  
+  for (let i = 0; i < dinosaurs.length; i++){ // loop through dino object
+    if(longestDino < dinosaurs[i].lengthInMeters){ // condition if longestDino is less than dino lengthInMeter
+      longestDino = dinosaurs[i].lengthInMeters /// then longestdino converts to dino lengthInMeters
+      longestDinoObj = {[dinosaurs[i].name] : longestDino * 3.281} // object holds the name of dino and the length * 3.281
+    }
+  }
+  return longestDinoObj
+}
 /**
  * getDinosaurDescription()
  * ---------------------
@@ -55,7 +61,22 @@ function getLongestDinosaur(dinosaurs) {
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+
+
+// Return a string with the description of a dinosaur 
+// first Loop through dinosaur
+// then find ID of dinosaur because based of it's ID I can identify the specific dino and have it's specific description
+/// make sure that the dinosaur has the id attached in the dino object  
+// if dino is not found then return an error message
+
+function getDinosaurDescription(dinosaurs, id) {
+  for (let i = 0; i < dinosaurs.length; i++){
+    if (dinosaurs[i].dinosaurId === id){
+      return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${Math.min(...dinosaurs[i].mya)} million years ago.`
+    }
+  }
+  return "A dinosaur with an ID of 'incorrect-id' cannot be found."
+}
 
 /**
  * getDinosaursAliveMya()
@@ -82,8 +103,32 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
 
+
+/// return an array of dino that were alive at a given mya (years)
+//// loop through dino 
+/// if dino.mya (years) ==== the mya (year) provided
+/// then push the to the arr 
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let arr = []
+  if (!(key in dinosaurs[0])) 
+    key = "dinosaurId"
+  for (let i = 0; i < dinosaurs.length; i++){
+    if (dinosaurs[i].mya[0] === mya && dinosaurs[i].mya.length === 1){
+      arr.push(dinosaurs[i][key])
+    }
+    else if(mya >= dinosaurs[i].mya[1] && mya <= dinosaurs[i].mya[0]){
+      arr.push(dinosaurs[i][key])
+    }
+    else if (dinosaurs[i].mya[0] -1 === mya && dinosaurs[i].mya.length === 1){
+       arr.push(dinosaurs[i][key])
+    }
+  }
+  return arr
+  }
+
+
+  
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
