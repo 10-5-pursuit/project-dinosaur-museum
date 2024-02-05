@@ -101,31 +101,9 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-// function getDinosaursAliveMya(dinosaurs, mya, key) {
-//   let dinoArr = [];  // created an empty array to be return the results in
-
-//   for (let dino of dinosaurs) { // looping through the data
-//     let oneDate = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya) && mya <= dino.mya[0]; //declaring a variable checking if there is only one date in the array and checking if the date entered matches or needs to be minus by 1
-
-//     let twoDates = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0]; //declaring a variabe to check if there are dinosaurs within the 2 dates
-
-//     if (oneDate || twoDates) {
-//       pushToArray(dinoArr, key, dino)       
-//   }
-//   return dinoArr;
-// }
-
-// function pushToArray(dinoArr, key, dino) {  //helper function that checks if the key and push value into array  
-//   if (!key || !(key in dino)){ //check If key isn't provided or the key entered doesn't exist                
-//     dinoArr.push(dino.dinosaurId)           //push Id into that array
-//   } else {                                  
-//     dinoArr.push(dino[key])
-//   }
-// }  // or push whatever value of the key that was entered
-// };
 
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  let dinoArr = [];  // created an empty array to be returned later
+  let dinoArr = []; // created an empty array to be return the results in
 
   for (let dino of dinosaurs) { // looping through the data
     let oneDate = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya) && mya <= dino.mya[0];//declaring a variable checking if there is only one date in the array and checking if the date entered matches or needs to be minus by 1
@@ -158,3 +136,40 @@ module.exports = {
   getDinosaurDescription,
   getDinosaursAliveMya,
 };
+
+
+/** Created my own function
+ * getDinosaurDiet()
+ * 
+ * Return an object of the total number of herbivores and carnivores.
+ * @param {Object[]} dinosaurs - An array of dinosaur objects. See the `data/dinosaurs.js` file for an example of the input.
+ * @returns {Object} An object where there will be a count of Herbivores and Carnivores
+ * EXAMPLE:
+ *  {Herbivores : 0 , Carnivores : 0}
+ */
+
+function getDinosaurDiet(dinosaurs){
+  let herbDino = 0;
+  let carnDino = 0;
+  let omniDino = 0;
+
+  for(let i = 0; i < dinosaurs.length; i++){
+    let dino = dinosaurs[i].diet;
+
+    if(dino === "herbivorous"){
+      herbDino++;
+    }else if(dino === "carnivorous"){
+      carnDino++;
+    } else{
+      omniDino++
+    }
+  }
+  return {
+    Herbivores : herbDino,
+    Carnivores : carnDino,
+    Omnivore : omniDino,
+  }
+}
+
+
+console.log(getDinosaurDiet(exampleDinosaurData))

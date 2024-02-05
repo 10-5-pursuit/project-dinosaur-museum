@@ -55,38 +55,38 @@ const exampleTicketData = require("../data/tickets");
     //> "Entrant type 'kid' cannot be found."
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
+  let ticketCost = 0; // declaring the total to be returned later
+  let entrants = ticketInfo.entrantType; //declaring a variable to hold entrants
+  let membership = ticketInfo.ticketType; //declaring a varible to hold type
 
-  // if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
-  //   return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
-  // }
 
-  let ticketCost = 0;
-  let entrants = ['adult','child','senior'];
 
-  if(!person.includes(entrantType)){
-    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
-  };
 
-  if(ticketInfo.ticketType === 'general'){
-    ticketCost += ticketData.general.priceInCents[ticketInfo.entrantType];
+  if(!ticketData.hasOwnProperty(membership)) { // if the data doesn't have the same membership as ticketInfo returns an error
+    return `Ticket type '${membership}' cannot be found.`;
   }
-  else{
-    ticketCost += ticketData.membership.priceInCents[ticketInfo.entrantType]; 
-  };
+
+  if(!ticketData[membership].priceInCents.hasOwnProperty(entrants)) { //if the data doesn't have the same entrants as ticketInfo returns an error
+    return `Entrant type '${entrants}' cannot be found.`;
+  }
+
+  if(ticketData.hasOwnProperty(membership) && ticketData[membership].priceInCents.hasOwnProperty(entrants)){
+    ticketCost += ticketData[membership].priceInCents[entrants]
+  }
+  
+ 
 
   for(let extra of ticketInfo.extras){
-    if(!ticketData.extras[extra]){
-      return `Exta type '${ticketInfo.extras}' cannot be found. `
+    if(ticketData.extras.hasOwnProperty(extra)){
+      ticketCost += ticketData.extras[extra].priceInCents[entrants];
+    }else {
+      return `Extra type '${ticketInfo.extras}' cannot be found.`;
     }
-    ticketCost += ticketData.extras[extra].priceInCents[ticketInfo.entrantType]
   }
-
-
-
-return ticketCost;
+return ticketCost;// If there are extras we loop through the extras array and whatever extras are there will then update the ticketCost, if no extras are there an error message will appear.
 }
 
-console.log(calculateTicketPrice(exampleTicketData))
+console.log(calculateTicketPrice(exampleTicketData, 'kid'))
 
 
 
