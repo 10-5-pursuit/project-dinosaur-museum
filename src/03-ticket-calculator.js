@@ -54,7 +54,86 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+
+  let ticketPrice = 0;
+
+  // Use helper functions to check for invalid entries.
+  if (!checkTicketType(ticketInfo)){ 
+  return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
+  }
+
+  else if (!checkEntrantTypeByKeys(ticketData, ticketInfo)){
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  }
+
+  else if(!getExtraDescriptions(ticketData, ticketInfo)){
+    return `Extra type '${identifyInvalidExtra(ticketData, ticketInfo)}' cannot be found.`
+  }
+
+  // Calculate total ticketPrice based on ticketType, entrantType and extras.
+  let typeCost = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+  let extrasCost = 0;
+
+  if(ticketInfo.extras.length > 0){
+    
+    for(extra of ticketInfo.extras){
+      extrasCost += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
+    } 
+  }
+
+  ticketPrice += typeCost + extrasCost;
+
+  return ticketPrice;
+}
+
+// HELPER FUNCTIONS
+
+//1. Helper function to check for valid ticket type and return appropriate price or false.
+function checkTicketType(ticketInfo){
+  // create an array that includes all valid ticket types, and check if value from ticketInfo is present in the array.
+ 
+   let validTicketTypes = ["general", "membership"];
+ 
+   return validTicketTypes.includes(ticketInfo.ticketType);
+ }
+
+ //2. Helper function to check for valid entrantType.
+
+ function checkEntrantType(ticketInfo){
+  let validEntrantTypes = ["child", "adult", "senior"]
+
+  return validEntrantTypes.includes(ticketInfo.entrantType);
+}
+// 2.1 Another option for checking validity using keys. Would be more effective for larger data-sets.
+function checkEntrantTypeByKeys(tickets, ticketInfo){
+
+  return Object.keys(tickets[ticketInfo.ticketType].priceInCents).includes(ticketInfo.entrantType);
+}
+
+//3. Helper function that serves two purposes; combines extra descriptions and returns false if invalid extra exists.
+
+function getExtraDescriptions(data, ticketInfo){
+
+  if (ticketInfo.extras.some(extra => !Object.keys(data.extras).includes(extra))){
+    
+    return false;
+  } 
+  
+  else {
+  let extrasMap = ticketInfo.extras.map(extra => data.extras[extra].description)
+  
+    return `(${extrasMap.join(", ")})`;
+  }
+}
+
+//4. Helper function to identify invalid extra:
+function identifyInvalidExtra(data, ticketInfo){
+  if (ticketInfo.extras.some(extra => !Object.keys(data.extras).includes(extra))){
+    return ticketInfo.extras.find(extra => !Object.keys(data.extras).includes(extra));
+  }
+    return false;
+  }
 
 /**
  * purchaseTickets()
@@ -109,6 +188,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
+
 function purchaseTickets(ticketData, purchases) {}
 
 // Do not change anything below this line.

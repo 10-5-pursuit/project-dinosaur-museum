@@ -18,7 +18,7 @@ const exampleDinosaurData = require("../data/dinosaurs");
  * @param {Object[]} dinosaurs - An array of dinosaur objects. See the `data/dinosaurs.js` file for an example of the input.
  * @returns {Object} An object where the key is the name of the dinosaur and the value is the height of the dinosaur in feet.
  *
- * EXAMPLE:
+ * EXAMPLE:ç
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
@@ -31,7 +31,7 @@ function getLongestDinosaur(dinosaurs) {
 
   let lengthMap = dinosaurs.map(dinosaur => dinosaur.lengthInMeters);
   let greatestLength = Math.max(...lengthMap);
-  let longestDinosaur =dinosaurs.find(dinosaur => dinosaur.lengthInMeters === greatestLength);
+  let longestDinosaur = dinosaurs.find(dinosaur => dinosaur.lengthInMeters === greatestLength);
   longestDinosaurObj[longestDinosaur.name] = longestDinosaur.lengthInMeters * 3.281;
 
   return longestDinosaurObj;
