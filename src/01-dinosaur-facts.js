@@ -39,20 +39,7 @@ function getLongestDinosaur(dinosaurs) {
   }
   return {[longestDinosaur]: longestLengthInFeet};
 }
-// function getLongestDinosaur(dinosaurs) {
-//   const longestDinosaurObj = {};
 
-//   if (dinosaurs.length === 0){
-//     return {};
-//   }
-
-//   let lengthMap = dinosaurs.map(dinosaur => dinosaur.lengthInMeters);
-//   let greatestLength = Math.max(...lengthMap);
-//   let longestDinosaur = dinosaurs.find(dinosaur => dinosaur.lengthInMeters === greatestLength);
-//   longestDinosaurObj[longestDinosaur.name] = longestDinosaur.lengthInMeters * 3.281;
-
-//   return longestDinosaurObj;
-// }
 
 /**
  * getDinosaurDescription()
@@ -135,17 +122,7 @@ for (const dinoKey in dinosaurs) {
 return arr;
   }
   getDinosaursAliveMya()
-  // let dinoArr = [];
 
-  // dinosaurs.forEach(function(dinosaur)) {
-  //   let myaRange = dino.mya;
-
-  //   if (
-  //     (myaRange.length === 1 && (myaRange[0] === mya || myaRange[0] - 1 === mya)) || (myaRange.length === 2 && mya <= myaRange[0] && mya >= myaRange[1]){
-  //     result.push(key in dino ?[key] : dino.dinosaurId);
-  //   }
-  // });
-  // return result;
 
 
 
