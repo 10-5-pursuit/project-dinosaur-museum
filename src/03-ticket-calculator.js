@@ -54,8 +54,41 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  let total = 0;
+  if (ticketData.hasOwnProperty(ticketInfo.ticketType)) {
+    if (ticketData[ticketInfo.ticketType].priceInCents.hasOwnProperty(ticketInfo.entrantType)) {
+      if (ticketInfo.extras.length == 0) {
+        total += ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
 
+      }
+      else if (ticketData.extras.hasOwnProperty(ticketInfo.extras[0])) {
+        total += ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+        ticketInfo.extras.forEach(a => {
+          total += ticketData.extras[a].priceInCents[ticketInfo.entrantType];
+        })
+
+
+      } else {
+        return `Extra type '${ticketInfo.extras[0]}' cannot be found.`
+      }
+
+    } else {
+      return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+    }
+  }
+  else {
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
+
+
+  return total;
+}
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo));
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo2));
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo3));
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo4));
+//console.log("Problem 1: ", calculateTicketPrice(exampleTicketData, ticketInfo5));
 /**
  * purchaseTickets()
  * ---------------------
@@ -109,7 +142,98 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  let txt = `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n`;
+  let grandTotal = 0;
+  for (let i = 0; i < purchases.length; i++) {
+    let total = 0;
+    let temp = '';
+    if (ticketData.hasOwnProperty(purchases[i].ticketType)) {
+      if (ticketData[purchases[i].ticketType].priceInCents.hasOwnProperty(purchases[i].entrantType)) {
+        if (purchases[i].extras.length == 0) {
+          total += ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType];
+          txt += `${purchases[i].entrantType.charAt(0).toUpperCase() + purchases[i].entrantType.slice(1)} ${ticketData[purchases[i].ticketType].description}: $${(ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType] / 100).toFixed(2)}\n`;
+        }
+        else if (ticketData.extras.hasOwnProperty(purchases[i].extras[0])) {
+          total += ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType];
+          purchases[i].extras.forEach(b => {
+            total += ticketData.extras[b].priceInCents[purchases[i].entrantType];
+            temp += `${b.charAt(0).toUpperCase() + b.slice(1)} Access, `
+          })
+          txt += `${purchases[i].entrantType.charAt(0).toUpperCase() + purchases[i].entrantType.slice(1)} ${ticketData[purchases[i].ticketType].description}: $${(total / 100).toFixed(2)} (`;
+          if (temp.charAt(temp.length - 1) == ' ')
+            temp = temp.slice(0, temp.length - 2);
+          txt += temp + ')\n';
+        } else {
+          return `Extra type '${purchases[i].extras[0]}' cannot be found.`
+        }
+      } else {
+        return `Entrant type '${purchases[i].entrantType}' cannot be found.`;
+      }
+    }
+    else {
+      return `Ticket type '${purchases[i].ticketType}' cannot be found.`;
+    }
+    grandTotal += total;
+  }
+  txt += `-------------------------------------------\nTOTAL: $${(grandTotal / 100).toFixed(2)}`;
+  return txt;
+}
+const purchases = [
+  {
+    ticketType: "discount", // Incorrect
+    entrantType: "adult",
+    extras: ["movie", "terrace"],
+  }
+]
+
+const purchases2 = [
+  {
+    ticketType: "general",
+    entrantType: "adult",
+    extras: [],
+  }
+]
+
+const purchases3 = [
+  {
+    ticketType: "general",
+    entrantType: "adult",
+    extras: ["movie", "terrace"],
+  },
+];
+
+const purchases4 = [
+  {
+    ticketType: "general",
+    entrantType: "adult",
+    extras: ["movie", "terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "senior",
+    extras: ["terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "child",
+    extras: ["education", "movie", "terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "child",
+    extras: ["education", "movie", "terrace"],
+  },
+];
+
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo));
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo2));
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo3));
+// console.log("Problem 1: ", calculateTicketPrice(exampleTicketData,ticketInfo4));
+// console.log("Problem 2: ", purchaseTickets(exampleTicketData, purchases));
+// console.log(purchaseTickets(exampleTicketData, purchases2));
+// console.log(purchaseTickets(exampleTicketData, purchases3));
+console.log(purchaseTickets(exampleTicketData, purchases4));
 
 // Do not change anything below this line.
 module.exports = {
