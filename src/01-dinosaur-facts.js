@@ -6,6 +6,7 @@
   Keep in mind that your functions must still have and use a parameter for accepting all dinosaurs.
 */
 const exampleDinosaurData = require("../data/dinosaurs");
+
 // Do not change the line above.
 
 /**
@@ -22,7 +23,39 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+
+
+
+
+
+function getLongestDinosaur(dinosaurs) {
+  // Check if the input array is empty
+  if(dinosaurs.length===0) return {}
+  // Initialize variables to keep track of the maximum height and corresponding dinosaur
+  let maxDino={}
+  let maxHeigth=0
+  let dinoName=''
+  // Iterate through each dinosaur in the input array
+   dinosaurs.forEach(din => {
+  // Check if the current dinosaur's length is greater than the current maximum heigh
+    if(din.lengthInMeters > maxHeigth){
+  // Update the maximum height and corresponding dinosaur's name
+      maxHeigth=din.lengthInMeters
+      dinoName=din.name
+      }
+   })
+  // Convert the maximum height from meters to feet (assuming 1 meter = 3.281 feet)
+      maxHeigth= maxHeigth * 3.281
+
+  // Create an object with the dinosaur's name as the key and its height as the value
+      maxDino[dinoName]=maxHeigth 
+  // Return the object containing the name and height of the tallest dinosaur
+      return maxDino;
+}
+
+
+
+
 
 /**
  * getDinosaurDescription()
@@ -44,7 +77,23 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+
+
+
+
+
+function getDinosaurDescription(dinosaurs, id) {
+  // Use the filter method to find the dinosaur with the given ID
+  let din= dinosaurs.filter(dinos => dinos.dinosaurId == id)[0]
+  // Check if the dinosaur with the specified ID was not found
+    if(din===undefined) return `A dinosaur with an ID of '${id}' cannot be found.`
+  // Construct the description string using information from the found dinosaur object
+    return `${din.name} (${din.pronunciation})\n${din.info} It lived in the ${din.period} period, over ${din.mya[din.mya.length-1]} million years ago.`
+}
+
+
+
+
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +120,32 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+
+
+
+
+
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+// Use the filter method to find dinosaurs that were alive during the specified time period
+  let dino=dinosaurs.filter(din =>{
+    if (din.mya.length == 1 && (din.mya==mya ||din.mya-1==mya)) return din.dinosaurId
+    else if (mya<=din.mya[0] && mya>=din.mya[1]) return din.dinosaurId
+  })
+   // Initialize an array to store either dinosaur IDs or name
+  let dinOfId=[];
+  // Populate the array based on the specified key ('name' or 'dinosaurId')
+   if(key== 'name'){
+    dino.forEach(din=> dinOfId.push(din.name))}
+   else{
+    dino.forEach(din=> dinOfId.push(din.dinosaurId))}
+  
+  // Return the array of either dinosaur IDs
+   return dinOfId
+}
+
+
+
+
 
 module.exports = {
   getLongestDinosaur,
