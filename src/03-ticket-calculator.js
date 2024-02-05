@@ -163,7 +163,7 @@ function purchaseTickets(ticketData, purchases) {
 TOTAL: $${(total / 100).toFixed(2)}`;
 }
 
-//used another helper function to print receipts
+//used helper function to print receipts
 function getReceiptLine(ticketData, purchase, priceInCents) {
   const { entrantType, ticketType, extras } = purchase;
   const entrant = entrantType[0].toUpperCase() + entrantType.slice(1);
