@@ -22,7 +22,23 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  let longestDinosaur = 0;  //initialized variable to hold longestDino
+  let longestDinoObj = {}; //create empty object to hold values of data returned
+  let dinoInFeet; //initialize variable to convert meters into feet, used in each iteration
+
+  for(let dinosaursObj of dinosaurs) { //for of loop, creates object to hold info from looping(searching) dinosaurs array (of objects)
+    let lengthInMeters = dinosaursObj.lengthInMeters  //intialize variable to locate user's height
+
+    if (lengthInMeters > longestDinosaur) { //conditional statement, checks if current record searched is larger than stored record, if it is, then it updates variable
+      longestDinosaur = lengthInMeters; //updates longestDinosaur with length in meters
+      dinoInFeet = lengthInMeters * 3.281; // converts dino meters into feet
+      longestDinoObj = {[dinosaursObj.name]: dinoInFeet} //updates dino object with dino name as key and length as value
+    }  
+  } 
+  return longestDinoObj //returns longest Dinosaur
+}
+
 
 /**
  * getDinosaurDescription()
@@ -39,12 +55,24 @@ function getLongestDinosaur(dinosaurs) {}
  *
  * EXAMPLE:
  *  getDinosaurDescription(dinosaurs, "U9vuZmgKwUr");
- *  //> "Xenoceratops (ZEE-no-SEH-ruh-tops)\nXenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago."
+ *  //> "Xenoceratops (ZEE-no-SEH-ruh-tops)\n Xenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago."
  *
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+
+  const findDinosaur = dinosaurs.find((dinosaur) => dinosaur.dinosaurId === id);
+  //used the find array method to search through the array (dinosaur) using a callback function that finds the dinosaur with the specified id
+  if (findDinosaur) { //checks if specified dinosaur is found
+      let myaIndex = 0 //initializes mya Index variable to hold position of index found
+  if (findDinosaur.mya.length > 1) { //checks if mya array has more than 1 element
+      myaIndex += 1 //if yes, increment the MyaIndex
+      } return(`${findDinosaur.name} (${findDinosaur.pronunciation})\n${findDinosaur.info} It lived in the ${findDinosaur.period} period, over ${findDinosaur.mya[myaIndex]} million years ago.`) //return formated message with template literal if specified id is found 
+      } else {
+        return(`A dinosaur with an ID of '${id}' cannot be found.`)
+        } //returns formatted message if specified id is not found
+}
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +99,24 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  // let arr = []; //declare empty array
+
+  // for(let dinoMyaObj of dinosaurs) { //creates variable dinoMyObj and it returns ALL objects in array
+  //   dinosaurs.mya[0].length > 1 || dinosaurs.mya[1] > 1 ? arr.push[dinosaurs.dinosaurId]: null;
+
+   
+    
+
+  
+
+  // return arr;
+  // }
+
+}
+
+
+
 
 module.exports = {
   getLongestDinosaur,
