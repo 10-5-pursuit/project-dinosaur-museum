@@ -33,22 +33,29 @@ const rooms = require("../data/rooms");
 //  5. Return the name of the room.
 
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  // Find the dinosaur object by matching the given dinosaur name
   let dinosaur = dinosaurs.find((dino) => dino.name === dinosaurName);
 
+  // Check if the dinosaur with the given name exists
   if (!dinosaur) {
     return `Dinosaur with name '${dinosaurName}' cannot be found.`;
   }
 
+  // Find the room containing the identified dinosaur based on its dinosaurId
   let room = rooms.find((room) => room.dinosaurs.includes(dinosaur.dinosaurId));
 
+  // Check if the room containing the dinosaur is found
   if (!room) {
     return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
   }
 
+  // Return the name of the room containing the specified dinosaur
   return room.name;
 }
+
 console.log(getRoomByDinosaurName(dinosaurs, rooms, "Tyrannosaurus"));
-console.log(getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl"));
+console.log(getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl"));  
+
 
 // using for loop
 // function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
@@ -120,35 +127,50 @@ console.log(getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl"));
 // Else:
 //     Return an empty array
 
-
 function getConnectedRoomNamesById(rooms, id) {
+  // Find the room with the specified ID
   const targetRoom = rooms.find((room) => room.roomId === id);
 
+  // Check if the room with the given ID exists
   if (!targetRoom) {
     return `Room with ID of '${id}' could not be found.`;
   }
 
+  // Destructure the connectsTo array from the targetRoom
   const { connectsTo } = targetRoom;
-  // destructured line equivalent to const connectsTo = targetRoom.connectsTo;
+  // Equivalent line without destructuring: const connectsTo = targetRoom.connectsTo;
 
+  // Check if there are no connections for the room
   if (!connectsTo) {
     return "No connections found for the room.";
   }
 
+  // Map the connected room IDs to their names
   const connectedRoomNames = connectsTo.map((connectionId) => {
+    // Find the room with the connected ID
     const connectedRoom = rooms.find((room) => room.roomId === connectionId);
+
+    // Check if the connected room is not found
     if (!connectedRoom) {
       return `Connected room not found for ID: ${connectionId}`;
     }
+
+    // Return the name of the connected room
     return connectedRoom.name;
   });
 
+  // Check if there are any errors in finding connected rooms
   if (connectedRoomNames.includes(`Connected room not found for ID: incorrect-id`)) {
     return [`Room with ID of 'incorrect-id' could not be found.`];
   }
 
+  // Return the array of connected room names, or an empty array if none are found
   return connectedRoomNames.length > 0 ? connectedRoomNames : [];
 }
+
+console.log(getConnectedRoomNamesById(rooms, "aIA6tevTne"));
+console.log(getConnectedRoomNamesById(rooms, "A6QaYdyKra"));
+
 
 // function getConnectedRoomNamesById(rooms, id) {
  

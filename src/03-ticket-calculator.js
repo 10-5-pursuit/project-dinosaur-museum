@@ -86,6 +86,27 @@ function calculateTicketPrice(tickets, ticketInfo) {
   return basePrice + extrasPrice;
 }
 
+const ticketInfo1 = {
+  ticketType: "general",
+  entrantType: "adult",
+  extras: [],
+};
+console.log(calculateTicketPrice(tickets, ticketInfo1));
+
+const ticketInfo2 = {
+  ticketType: "membership",
+  entrantType: "child",
+  extras: ["movie"],
+};
+console.log(calculateTicketPrice(tickets, ticketInfo2));
+
+const ticketInfo3 = {
+  ticketType: "general",
+  entrantType: "kid", // Incorrect
+  extras: ["movie"],
+};
+console.log(calculateTicketPrice(tickets, ticketInfo3));
+
 /**
  * purchaseTickets()
  * ---------------------
@@ -181,6 +202,39 @@ function getReceiptLine(ticketData, purchase, priceInCents) {
 
   return `${line}\n`;
 }
+
+const purchases1 = [
+  {
+    ticketType: "general",
+    entrantType: "adult",
+    extras: ["movie", "terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "senior",
+    extras: ["terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "child",
+    extras: ["education", "movie", "terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "child",
+    extras: ["education", "movie", "terrace"],
+  },
+];
+console.log(purchaseTickets(tickets, purchases1));
+
+const purchases2 = [
+  {
+    ticketType: "discount", // Incorrect
+    entrantType: "adult",
+    extras: ["movie", "terrace"],
+  }
+]
+console.log(purchaseTickets(tickets, purchases2));
 
 // Do not change anything below this line.
 module.exports = {

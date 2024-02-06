@@ -181,27 +181,35 @@ console.log("prob 2:", getDinosaurDescription(dinosaurs, "rizelrex"));
 // 6. Return true if the given mya falls within that range.
 // 7. If neither of the above conditions is met, exclude the dinosaur from the filtered array.
 // 8. Map the filtered array to transform it into an array of selected properties.
-
 function getDinosaursAliveMya(dinosaurs, mya, key) {
+  // Filter dinosaurs based on the specified time range
   return dinosaurs
     .filter((dinosaur) => {
+      // Destructuring to get the start and end mya values from the dinosaur object
       const [startMya, endMya] = dinosaur.mya;
 
+      // Check if the dinosaur existed in a single mya period
       if (dinosaur.mya.length === 1) {
+        // Return true if the specified mya matches the start mya or the previous mya
         return mya === startMya || mya === startMya - 1;
-      } else if (dinosaur.mya.length === 2) {
+      } 
+      // Check if the dinosaur existed in a range of mya periods
+      else if (dinosaur.mya.length === 2) {
+        // Return true if the specified mya is within the range of the dinosaur's existence
         return mya >= endMya && mya <= startMya;
       }
 
+      // Return false for invalid cases
       return false;
     })
+    // Map the result to either the specified key or the dinosaurId
     .map((dinosaur) =>
       key && dinosaur[key] !== undefined ? dinosaur[key] : dinosaur.dinosaurId,
     );
 }
 
 console.log(getDinosaursAliveMya(dinosaurs, 65, "name"));
-console.log(getDinosaursAliveMya(dinosaurs, 150));
+console.log(getDinosaursAliveMya(dinosaurs, 150));  
 
 // using for loop and no destructuring
 // function getDinosaursAliveMya(dinosaurs, mya, key) {
