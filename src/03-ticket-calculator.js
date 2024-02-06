@@ -58,6 +58,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   // Creating a variable Total to hold the total. Also creating a variable entrant to hold the value of the given ticketInfo entrantTypr
   let total = 0;
   let entrant = ticketInfo.entrantType
+
   // Checking to see if the ticket data does not have key from the given ticketInfo ticketType
   if(!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
@@ -66,6 +67,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     // If the ticketdata does not have a key for the given entrant return given error message
     return `Entrant type '${entrant}' cannot be found.`
   }
+
   // Add the correct priceInCents to the total
   total += ticketData[ticketInfo.ticketType].priceInCents[entrant]
   // Now we check if the ticketInfo had any extras
@@ -83,6 +85,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
       }
     }
   }
+
   // Return the total at the end
   return total
 }
@@ -144,12 +147,15 @@ function calculateTicketPrice(ticketData, ticketInfo) {
 
 // ? Helper Function to convert string(number) into dollars. 
 const moneyConverter = (strNum) => {
+
   if(strNum.length > 4){
     // If the strNum length is greater than 4 (10000) we want to add a money symbol, slice from index 0 up until index 3, add a dot, then slice the rest of the strNum
     return `$${strNum.slice(0, 3)}.${strNum.slice(3)}`
+
   }else if(strNum.length > 5){
     // else If the strNum length is greater than 5 (100000) we want to add a money symbol, slice from index 0 up until index 4, add a dot, then slice the rest of the strNum
     return `$${strNum.slice(0, 4)}.${strNum.slice(4)}`
+
   }
   // if none of the conditions are true, the strNum length is 4 (1000) so we want to add a money symbol, slice from index 0 up until index 2, add a dot, then slice the rest of the strNum
   return `$${strNum.slice(0, 2)}.${strNum.slice(2)}`
@@ -179,12 +185,14 @@ function purchaseTickets(ticketData, purchases) {
       // If true return given error message
       return `Entrant type '${purchases[i].entrantType}' cannot be found.`
     }
+
     // Creating variables and assinging them values from the purchases
-    let price = ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType]
-    let entrant = purchases[i].entrantType.slice(0,1).toUpperCase() + purchases[i].entrantType.slice(1).toLowerCase()
+    let price = ticketData[purchases[i].ticketType].priceInCents[purchases[i].entrantType];
+    let entrant = purchases[i].entrantType.slice(0,1).toUpperCase() + purchases[i].entrantType.slice(1).toLowerCase();
     let description = `${ticketData[purchases[i].ticketType].description}`;
-    let extrasArr = purchases[i].extras
+    let extrasArr = purchases[i].extras;
     let extrasStr = ""
+
     // Checking if extrasArray is empty or not. If empty process the description and add to the total
     if(extrasArr.length === 0) {
       // Checking if the current index is on the last element in the extrasArr.
@@ -197,8 +205,9 @@ function purchaseTickets(ticketData, purchases) {
       // If The extrasArray is empty we just add the description to the receiptDescription and add the price to the total 
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))}\n`
       total += price;
+
     // else If the extrasArray is not empty Calculate the elements in the array, Along with the description.
-    }else{
+    }else {
       // Looping to through the extrasarr
       for(let j = 0; j < extrasArr.length; j++){
         // Checking If the purchases extras key does not exist with in the extrasArray
@@ -210,10 +219,12 @@ function purchaseTickets(ticketData, purchases) {
         j === extrasArr.length - 1 ? extrasStr += `${ticketData.extras[extrasArr[j]].description}` : extrasStr +=`${ticketData.extras[extrasArr[j]].description}, `
         price += ticketData.extras[extrasArr[j]].priceInCents[purchases[i].entrantType]
       }
+
       // * If discount is true apply a 10% discount.
       if(purchases[i].discount === true){
         price = apply10Discount(price)
       }
+
       // Add the price to the total
       total += price
       // If the current index is on the last index we want to add on to the receiptDescription without a new line and break out the loop
@@ -221,10 +232,12 @@ function purchaseTickets(ticketData, purchases) {
         receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extrasStr})`
         break;
       }
+
       // else we add to the receiptDescription with a new line
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extrasStr})\n`
     }
   }
+  
   // Return Finihsed receipt 
   return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`// Total converted
 }

@@ -3,6 +3,7 @@ const exampleRoomData = require("./data/rooms");
 const exampleTicketData = require("./data/tickets");
 /// Program your functions below //
 /*
+
 * EXAMPLE:
 const purchases = [
   {
@@ -12,6 +13,7 @@ const purchases = [
   }
 ]
 */
+
 const moneyConverter = (strNum) => {
   if(strNum.length > 4){
     // If the strNum length is greater than 4 (10000) we want to add a money symbol, slice from index 0 up until index 3, add a dot, then slice the rest of the strNum
@@ -153,11 +155,12 @@ function purchaseTickets(ticketData, purchases) {
       // else we add to the receiptDescription with a new line
       receiptDescription += `${entrant} ${description}: ${moneyConverter(String(price))} (${extraStr})\n`
     }
-    // total += calculateTicketPrice(ticketData, purchases[i])
   }
   // Return Finihsed receipt 
   return `${receipt}${receiptDescription}\n-------------------------------------------\nTOTAL: ${moneyConverter(String(total))}`// Total converted
 }
+
+
 const purchases = [
   {
     ticketType: "general",
@@ -180,6 +183,8 @@ const purchases = [
     extras: ["education", "movie", "terrace"],
   },
 ];
+
+console.log(purchaseTickets(exampleTicketData, purchases))
 
 // console.log(purchaseTickets(exampleTicketData, purchases))
 
@@ -224,17 +229,16 @@ const getConnectedRoomNamesById = (rooms, id) => {
     return `Room with ID of '${id}' could not be found.`;
   }
 
-  // console.log(roomArray)
-  for(let i = 0; i < roomArray.length; i++) {
-    let connectedTo = roomArray[i].connectsTo
-    for(let j = 0; j < connectedTo.length; j++) {
-      let word = connectedTo[j].split("")
-      if(!isNaN(...word)){
-        return `Room with ID of '${id}' could not be found.`
-      }
-      break;
-    }
-  }
+  // for(let i = 0; i < roomArray.length; i++) {
+  //   let connectedTo = roomArray[i].connectsTo
+  //   for(let j = 0; j < connectedTo.length; j++) {
+  //     let word = connectedTo[j].split("")
+  //     if(word.includes()){
+  //       return `Room with ID of '${id}' could not be found.`
+  //     }
+  //     break;
+  //   }
+  // }
 
   // If the room array isnt empty it is connected to. So we want to create a an array that holds the room names the room is connected to and return that Array.
   // return roomArray.reduce((arr, room) => {
