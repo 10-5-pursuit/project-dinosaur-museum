@@ -54,7 +54,8 @@
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-    const exampleTicketData = require("../data/tickets");
+    const tickets = require("../data/tickets");
+const exampleTicketData = require("../data/tickets");
 
     function calculateTicketPrice(ticketData, ticketInfo) {
 
@@ -136,7 +137,7 @@
     ];
     purchaseTickets(tickets, purchases);
     //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n-------------------------------------------\nTOTAL: $175.00"
-
+`
  * EXAMPLE:
     const purchases = [
       {
@@ -148,7 +149,44 @@
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+let listOfGuest = ''
+let total = 0
+// if(purchases.length <= 1) {
+//   purchases.forEach(ticket => {
+//     if (!ticketData[ticket.ticketType]) {
+//         ticketResults = calculateTicketPrice(ticketData, ticket);
+
+//     } else if (!ticketData[ticket.entrantType]) {
+//         ticketResults = calculateTicketPrice(ticketData, ticket);
+
+//     } else if (!ticketData[ticket.extras[0]]) {
+//          return ticketResults = calculateTicketPrice(ticketData, ticket);
+
+//     }
+// });
+// }
+purchases.forEach(guestTicket => {
+
+  let description = ticketData[guestTicket.ticketType].description
+
+  let entrancesDescription = guestTicket.entrantType.charAt(0).toUpperCase() + guestTicket.entrantType.substring(1).toLowerCase()
+
+  let ticketPrice = ticketData[guestTicket.ticketType].priceInCents[guestTicket.entrantType]
+
+  listOfGuest += `${entrancesDescription} ${description}: $${ticketPrice/100}.00\n`
+
+})
+
+purchases.forEach(ticketPriceTotal => {
+  total += calculateTicketPrice(ticketData,ticketPriceTotal)
+
+})
+
+
+return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${listOfGuest}\n-------------------------------------------\nTOTAL: $${total/100}.00`;
+}
+
 
 // Do not change anything below this line.
 module.exports = {
