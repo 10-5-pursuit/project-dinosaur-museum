@@ -32,7 +32,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   
   if(foundDinosaur){
 
-// Obtain the Id for FoundDinosaur and find room where the Id is present in room.dinosaurs array.
+// Obtain the Id for FoundDinosaur and find room where the Id is present.
     let foundId = dinosaurs.find(dinosaur => dinosaur.name === dinosaurName).dinosaurId;
     let foundRoom = rooms.find(room => room.dinosaurs.includes(foundId));
     
@@ -80,7 +80,7 @@ function getConnectedRoomNamesById(rooms, id) {
     }
   }
 
-  rooms.forEach(room => connectedRoomIds.includes(room.roomId) ? connectedRoomNames.push(room.name) : `Room with ID of '${id}' could not be found.`);
+  rooms.forEach(room => connectedRoomIds.includes(room.roomId) ? connectedRoomNames.push(room.name) : null);
 
   return connectedRoomNames;
 }
