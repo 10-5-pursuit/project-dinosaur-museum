@@ -54,7 +54,7 @@ function getLongestDinosaur(dinosaurs) {
   };
 }
 
-console.log("prob 1:", getLongestDinosaur(dinosaurs));
+console.log(getLongestDinosaur(dinosaurs));
 
 // using for loop
 // function getLongestDinosaur(dinosaurs) {
@@ -116,8 +116,8 @@ function getDinosaurDescription(dinosaurs, id) {
   return `A dinosaur with an ID of '${id}' cannot be found.`;
 }
 
-console.log("prob 2:", getDinosaurDescription(dinosaurs, "GOycwH_EiU"));
-console.log("prob 2:", getDinosaurDescription(dinosaurs, "rizelrex"));
+console.log(getDinosaurDescription(dinosaurs, "GOycwH_EiU"));
+console.log(getDinosaurDescription(dinosaurs, "rizelrex"));
 
 // 1. Initialize a variable to store the found dinosaur
 // 2. Iterate through the dinosaurs array to find the one with the specified ID
@@ -181,8 +181,10 @@ console.log("prob 2:", getDinosaurDescription(dinosaurs, "rizelrex"));
 // 6. Return true if the given mya falls within that range.
 // 7. If neither of the above conditions is met, exclude the dinosaur from the filtered array.
 // 8. Map the filtered array to transform it into an array of selected properties.
+
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  // Filter dinosaurs based on the specified time range
+ 
+  // // Filter dinosaurs based on the specified time range
   return dinosaurs
     .filter((dinosaur) => {
       // Destructuring to get the start and end mya values from the dinosaur object
