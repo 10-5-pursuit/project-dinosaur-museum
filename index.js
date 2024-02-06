@@ -28,11 +28,3 @@ TOTAL: $30.00"
     TOTAL: $48.00"
 
 */
-
-const ticketInfo = {
-    ticketType: "general",
-    entrantType: "child",
-    extras: ["education", "movie", "terrace"],
-  }
-
-

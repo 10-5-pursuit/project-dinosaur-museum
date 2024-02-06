@@ -90,6 +90,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
 // HELPER FUNCTIONS
 
 //1. Helper function to check for valid ticket type and return appropriate price or false.
+
 function checkTicketType(ticketInfo){
   // create an array that includes all valid ticket types, and check if value from ticketInfo is present in the array.
  
@@ -105,13 +106,15 @@ function checkTicketType(ticketInfo){
 
   return validEntrantTypes.includes(ticketInfo.entrantType);
 }
-// 2.1 Another option for checking validity using keys. Would be more effective for larger data-sets.
+
+// 2.1 Another option for checking validity using keys. Might be more effective for larger data-sets.
+
 function checkEntrantTypeByKeys(tickets, ticketInfo){
 
   return Object.keys(tickets[ticketInfo.ticketType].priceInCents).includes(ticketInfo.entrantType);
 }
 
-//3. Helper function that serves two purposes; combines extra descriptions and returns false if invalid extra exists.
+//3. Helper function that serves two purposes; concatonates extra descriptions and returns false if invalid extra exists.
 
 function getExtraDescriptions(data, ticketInfo){
 
@@ -128,6 +131,7 @@ function getExtraDescriptions(data, ticketInfo){
 }
 
 //4. Helper function to identify invalid extra:
+
 function identifyInvalidExtra(data, ticketInfo){
   if (ticketInfo.extras.some(extra => !Object.keys(data.extras).includes(extra))){
     return ticketInfo.extras.find(extra => !Object.keys(data.extras).includes(extra));
@@ -189,7 +193,34 @@ function identifyInvalidExtra(data, ticketInfo){
     //> "Ticket type 'discount' cannot be found."
  */
 
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  let total = 0;
+  let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------";
+
+  for(let i = 0; i < purchases.length; i++){
+
+    if(typeof calculateTicketPrice(ticketData, purchases[i]) === "string"){
+      return calculateTicketPrice(ticketData, purchases[i]);
+    }
+
+    let currentEntrant = purchases[i].entrantType;
+    let entrantCapitalized = currentEntrant[0].toUpperCase().concat(currentEntrant.substring(1, currentEntrant.length).toLowerCase());
+    let currentPrice = calculateTicketPrice(ticketData, purchases[i]);
+
+    if(purchases[i].extras.length > 0){
+      receipt += `\n${entrantCapitalized} ${ticketData[purchases[i].ticketType].description}: $${currentPrice / 100}.00 ${getExtraDescriptions(ticketData, purchases[i])}`;
+    }
+      
+    else{
+      receipt += `\n${entrantCapitalized} ${ticketData[purchases[i].ticketType].description}: $${currentPrice / 100}.00`
+    }
+    
+    total += currentPrice;
+    
+  }
+
+  return receipt + `\n-------------------------------------------\nTOTAL: $${total / 100}.00`;
+}
 
 // Do not change anything below this line.
 module.exports = {
