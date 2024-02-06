@@ -229,3 +229,22 @@ function identifyInvalidExtra(data, ticketInfo){
     return receipt + `\n-------------------------------------------\nTOTAL: $${total / 100}.00`;
   }
   
+/// STRETCH: Create object that classifies dinosaurs based on "diet" or "period".
+
+function groupByKey(dinosaursData, key){
+  if(key !== "diet" && key !== "period"){
+    return `"${key}" is not a valid key for this function. Please try a valid key value.`
+  }
+  let dinosaursByKey = {};
+  for(dinosaur of dinosaursData){
+    if(dinosaursByKey.hasOwnProperty(dinosaur[key])){
+      dinosaursByKey[dinosaur[key]].push(dinosaur.name);
+    }
+    else{
+      dinosaursByKey[dinosaur[key]] = [dinosaur.name];
+    }
+  }
+  return dinosaursByKey;
+}
+
+console.log(groupByKey(exampleDinosaurData, "mya"))
