@@ -32,11 +32,11 @@ const exampleRoomData = require("../data/rooms");
 
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   for (let i = 0; i < dinosaurs.length; i++) {
-    const dino = dinosaurs[i];
+    const dino = dinosaurs[i];//stores object for each iteration
     if (dino.name === dinosaurName) {
-      for (let j = 0; j < rooms.length; j++) {
+      for (let j = 0; j < rooms.length; j++) {//now find the room it's in
         const room = rooms[j];
-        if (room.dinosaurs.includes(dino.dinosaurId)) {
+        if (room.dinosaurs.includes(dino.dinosaurId)) {//dino.dinosaurID from outer loop
           return room.name;
         }
       }
