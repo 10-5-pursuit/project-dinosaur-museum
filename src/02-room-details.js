@@ -24,8 +24,26 @@ const exampleRoomData = require("../data/rooms");
  * EXAMPLE:
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
- */
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
+*/ //selectedDinosaurObj.dinosaurId
+function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  // The variable below is searching/finding if the dinosaurName is within dinosaurs data set.
+  let selectedDinosaurObj = dinosaurs.find(dinoName => dinosaurName === dinoName.name)
+  
+  // If the name of the dinosaur is not found it will return the error message of that it's not found.
+  if(!selectedDinosaurObj) {
+    return `Dinosaur with name '${dinosaurName}' cannot be found.`
+  }
+
+  // The variable below is searching/finding to see if there is any room that includes the ID of the object collected above.
+  let selectedRoom = rooms.find(dinoInRoom => dinoInRoom.dinosaurs.includes(selectedDinosaurObj.dinosaurId))
+
+  // If there are no rooms that includes the objects ID stated above it will return that the specified dinosaur Name is not in any of the rooms. 
+  if(!selectedRoom) {
+    return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`
+  }
+
+  return selectedRoom.name
+}
 
 /**
  * getConnectedRoomNamesById()
@@ -49,7 +67,16 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) {}
+function getConnectedRoomNamesById(rooms, id) {
+  let connectedRooms = []
+  let roomsById = rooms.filter(idPerRoom => idPerRoom.connectsTo.includes(id))
+
+
+      roomsById.forEach(everyRoom => connectedRooms.push(everyRoom.name))
+  
+  return connectedRooms.length === 0 ? `Room with ID of '${id}' could not be found.`: connectedRooms;
+}
+
 
 module.exports = {
   getRoomByDinosaurName,
