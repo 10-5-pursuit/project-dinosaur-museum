@@ -5,6 +5,7 @@
 
   Keep in mind that your functions must still have and use a parameter for accepting all tickets.
 */
+const { validate } = require("@babel/types");
 const exampleTicketData = require("../data/tickets");
 // Do not change the line above.
 
@@ -54,7 +55,53 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  //Validate ticket type
+  let error = validateTicketType(ticketData, ticketInfo.ticketType);
+  if (error) return error;
+
+  // Validate entrant type
+  error = validateEntrantType(ticketData, ticketInfo.ticketType, ticketInfo.entrantType);
+  if (error) return error; // return error IF entrant type validation fails.
+
+  // Calulate price only after passing validations.
+  let price = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]; // Calculate base price
+
+  // Assume calculateExtrasPrice is implemented correctly
+  let extrasResult = calculateExtrasPrice(ticketData, ticketInfo.extras, ticketInfo.entrantType);
+  if (extrasResult.error) return extrasResult.error;
+  price += extrasResult.price;
+
+  return price;
+}
+
+// 1st helper function to validate if the provided entrantType is valid for a ticketType
+function validateTicketType(ticketData, ticketType) {
+  if (!ticketData[ticketType]) {
+    return "Ticket type 'incorrect-type' cannot be found.";
+  }
+  return null;
+}
+
+// 2nd helper function to validate entrantType and if its valid for 
+function validateEntrantType(ticketData, ticketType, entrantType) {
+  if (!ticketData[ticketType] || !ticketData[ticketType].priceInCents[entrantType]) {
+    return "Entrant type 'incorrect-entrant' cannot be found."
+  }
+  return null;
+}
+
+// 3rd helper function to calulcate 'extrasPrice'
+function calculateExtrasPrice(ticketData, extras, entrantType) {
+  let extrasPrice = 0;
+  for (let extra of extras) {
+    if (!ticketData.extras[extra]) {
+      return { error: `Extra type '${extra}' cannot be found.` };
+    }
+    extrasPrice += ticketData.extras[extra].priceInCents[entrantType];
+  }
+  return { price: extrasPrice };
+}
 
 /**
  * purchaseTickets()
@@ -109,7 +156,61 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  let total = 0;
+  let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+
+  for (let purchase of purchases) {
+    let { ticketType, entrantType, extras } = purchase;
+
+    // validate ticketType
+    if (!ticketData[ticketType]) {
+      return `Ticket type '${ticketType}' cannot be found.'`;
+    }
+
+    // validate entrantType
+    if (!ticketData[ticketType].priceInCents[entrantType]) {
+      return `Entrant type '${entrantType}' cannot be found.'`;
+    }
+
+    // calculate ticket price
+    let ticketPrice = ticketData[ticketType].priceInCents[entrantType] / 100;
+    total += ticketPrice;
+
+    // Start building ticket description
+    let ticketDescription = `${capitalize(entrantType)} ${capitalize(ticketType)} Admission: $${ticketPrice.toFixed(2)}`;
+
+
+    // validate & calculate extras
+    if (extras.length > 0) {
+      let extrasDescription = [];
+      let extrasTotal = 0;
+      for (let extra of extras) {
+        if (!ticketData.extras[extras]) {
+          return `Extras type '${extra}' cannot be found.`;
+        }
+        let extrasPrice = ticketData.extras[extra].priceInCents[entrantType] / 100;
+        extrasTotal += extrasPrice;
+        extrasDescription.push(ticketData.extras[extra].description);
+      }
+      total += extrasTotal;
+      ticketDescription += ` (${extrasDescription.join(", ")} Access)`;
+    }
+    // Add the ticket description to the receipt
+    receipt += ticketDescription + "\n";
+  }
+
+  // Add total to the receipt
+  receipt += "-------------------------------------------\n";
+  receipt += `TOTAL: $${total.toFixed(2)}`;
+
+  return receipt;
+}
+
+// Helper function to capitalize the 1st letter of a word.
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
 
 // Do not change anything below this line.
 module.exports = {

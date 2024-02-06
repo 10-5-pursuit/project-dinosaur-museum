@@ -22,7 +22,21 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  if (dinosaurs.length === 0) {
+    return {};
+  }
+  let longest = dinosaurs[0];
+  for (let i = 1; i < dinosaurs.length; i++) {
+    if (dinosaurs[i].lengthInMeters > longest.lengthInMeters) {
+      longest = dinosaurs[i];
+    }
+  }
+  const metersToFeet = 3.281;
+  const lengthInFeet = longest.lengthInMeters * metersToFeet;
+  return { [longest.name]: lengthInFeet };
+}
+
 
 /**
  * getDinosaurDescription()
@@ -44,7 +58,20 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  let foundDinosaur;
+
+  for (let i = 0; i < dinosaurs.length; i++) {
+    if (dinosaurs[i].dinosaurId === id) {
+      foundDinosaur = dinosaurs[i];
+      break; // Breaking out of loop as we have found the dinosaur 🦖
+    }
+  }
+  if (foundDinosaur === undefined) {
+    return 'A dinosaur with an ID of \'' + id + '\' cannot be found.';
+  }
+  return foundDinosaur.name + ' (' + foundDinosaur.pronunciation + ')\n' + foundDinosaur.info;
+}
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +98,19 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  return dinosaurs.filter(function (dino) {
+    const myaRange = dino.mya;
+    return myaRange[0] >= mya && mya >= (myaRange[1] || myaRange[0] - 1);
+  })
+    .map(function (dino) {
+      if (key && dino[key]) {
+        return dino[key];
+      } else {
+        return dino.dinosaurId;
+      }
+    });
+}
 
 module.exports = {
   getLongestDinosaur,
