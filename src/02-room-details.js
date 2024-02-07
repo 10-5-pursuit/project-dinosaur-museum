@@ -77,6 +77,13 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
  */
 
 const getConnectedRoomNamesById = (rooms, id) => {
+  // Loop through to check if any of the connected rooms has an incorrect ID. If so return given error message 
+  for(let i = 0; i < rooms.length; i++) {
+    if(rooms[i].connectsTo.includes("incorrect-id")){
+      return `Room with ID of 'incorrect-id' could not be found.`
+    }
+  }
+
   // Filtering through the rooms array of rooms object to find the rooms the given ID is connected to.
   let roomArray = rooms.filter(room => room.connectsTo.includes(id));
   
@@ -85,11 +92,6 @@ const getConnectedRoomNamesById = (rooms, id) => {
     return `Room with ID of '${id}' could not be found.`;
   }
 
-  for(let i = 0; i < rooms.length; i++) {
-    if(rooms[i].connectsTo.includes("incorrect-id")){
-      return `Room with ID of 'incorrect-id' could not be found.`
-    }
-  }
 
   // If the room array isnt empty it is connected to. So we want to create a an array that holds the room names the room is connected to and return that Array.
   return roomArray.reduce((arr, room) => {
