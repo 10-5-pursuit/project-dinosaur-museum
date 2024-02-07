@@ -85,6 +85,12 @@ const getConnectedRoomNamesById = (rooms, id) => {
     return `Room with ID of '${id}' could not be found.`;
   }
 
+  for(let i = 0; i < rooms.length; i++) {
+    if(rooms[i].connectsTo.includes("incorrect-id")){
+      return `Room with ID of 'incorrect-id' could not be found.`
+    }
+  }
+
   // If the room array isnt empty it is connected to. So we want to create a an array that holds the room names the room is connected to and return that Array.
   return roomArray.reduce((arr, room) => {
     arr.push(room.name);

@@ -82,41 +82,41 @@ describe("getConnectedRoomNamesById()", () => {
     expect(actual).toEqual(expected);
   });
 
-  // test("if connected room ID is incorrect, should return an error message", () => {
-  //   const input = [
-  //     {
-  //       roomId: "xwG7O4wQl",
-  //       name: "Room A",
-  //       requiredTicketPermissions: [],
-  //       dinosaurs: [],
-  //       connectsTo: [
-  //         "GHPLI7EmD", // Room B
-  //         "eU46gvYUF", // Room C
-  //         "incorrect-id", // Incorrect Room. Does not exist.
-  //       ],
-  //     },
-  //     {
-  //       roomId: "GHPLI7EmD",
-  //       name: "Room B",
-  //       requiredTicketPermissions: [],
-  //       dinosaurs: [],
-  //       connectsTo: [
-  //         "xwG7O4wQl", // Room A
-  //       ],
-  //     },
-  //     {
-  //       roomId: "eU46gvYUF", // 3
-  //       name: "Room C",
-  //       requiredTicketPermissions: [],
-  //       dinosaurs: [],
-  //       connectsTo: [
-  //         "xwG7O4wQl", // Room A
-  //       ],
-  //     },
-  //   ];
-  //   const id = "xwG7O4wQl";
-  //   const actual = getConnectedRoomNamesById(input, id);
-  //   const expected = `Room with ID of 'incorrect-id' could not be found.`;
-  //   expect(actual).toEqual(expected);
-  // });
+  test("if connected room ID is incorrect, should return an error message", () => {
+    const input = [
+      {
+        roomId: "xwG7O4wQl",
+        name: "Room A",
+        requiredTicketPermissions: [],
+        dinosaurs: [],
+        connectsTo: [
+          "GHPLI7EmD", // Room B
+          "eU46gvYUF", // Room C
+          "incorrect-id", // Incorrect Room. Does not exist.
+        ],
+      },
+      {
+        roomId: "GHPLI7EmD",
+        name: "Room B",
+        requiredTicketPermissions: [],
+        dinosaurs: [],
+        connectsTo: [
+          "xwG7O4wQl", // Room A
+        ],
+      },
+      {
+        roomId: "eU46gvYUF", // 3
+        name: "Room C",
+        requiredTicketPermissions: [],
+        dinosaurs: [],
+        connectsTo: [
+          "xwG7O4wQl", // Room A
+        ],
+      },
+    ];
+    const id = "xwG7O4wQl";
+    const actual = getConnectedRoomNamesById(input, id);
+    const expected = `Room with ID of 'incorrect-id' could not be found.`;
+    expect(actual).toEqual(expected);
+  });
 });

@@ -163,7 +163,7 @@ const moneyConverter = (strNum) => {
 
 // ? Helper function to calculate discount
 function apply10Discount(price) {
-  // This function takes in the price and applies a 10% discount to the price
+  // This function takes the price and applies a 10% discount to the price
   return price - (price / 10);
 }    
 
