@@ -42,14 +42,14 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   // Else assign the found dinosaurs ID to the dinoId variable
   dinoId = dino[0].dinosaurId;
   // Now filter through the rooms array of room objects to find the room the given dinosaur is located.
-  room = rooms.filter(room => room.dinosaurs.includes(dinoId));
+  room = rooms.find(room => room.dinosaurs.includes(dinoId));
   
   // Checking if the newly filtered room array is empty. If empty return given error message.
-  if(room.length === 0) {
+  if(!room) {
     return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
   }
   // Else assign the found found to the roomName variable and return the found roomName.
-  return room[0].name;
+  return room.name;
 
 }
 
