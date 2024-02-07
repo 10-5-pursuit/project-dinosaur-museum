@@ -39,7 +39,7 @@ function getLongestDinosaur(dinosaurs) {
       resultArr = { [dinoName]: longestLengthOfDinosaur  };
     }
   }
-  // return { [dinoName]: longestLengthOfDinosaur };
+
   return resultArr;
 }
 
