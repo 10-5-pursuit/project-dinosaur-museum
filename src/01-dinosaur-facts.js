@@ -126,7 +126,7 @@ console.log(getDinosaurDescription(dinosaurs, "rizelrex"));
 // 5. Construct and return the dinosaur description
 // 6. Return a message indicating that the dinosaur with the specified ID cannot be found
 
-// using traditional for loop
+// using for loop
 // function getDinosaurDescription(dinosaurs, id) {
 //   let foundDinosaur = '';
 
