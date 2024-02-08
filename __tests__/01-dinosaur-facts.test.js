@@ -57,7 +57,7 @@ describe("getDinosaurDescription()", () => {
     const id = "U9vuZmgKwUr";
     const actual = getDinosaurDescription(dinosaurs, id);
     const expected =
-      "Xenoceratops (ZEE-no-SEH-ruh-tops)\nXenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago.";
+      "Xenoceratops (ZEE-no-SEH-ruh-tops)\nXenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 78.5 million years ago.";
     expect(actual).toEqual(expected);
   });
 

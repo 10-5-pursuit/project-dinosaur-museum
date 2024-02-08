@@ -5,6 +5,7 @@
 
   Keep in mind that your functions must still have and use a parameter for accepting all tickets.
 */
+const tickets = require("../data/tickets");
 const exampleTicketData = require("../data/tickets");
 // Do not change the line above.
 
@@ -54,7 +55,91 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+
+function calculateTicketPrice(tickets, ticketInfo) {
+  const { ticketType, entrantType, extras } = ticketInfo;
+
+  // Check if the ticket type is valid and not "extras"
+  if (!(ticketType in tickets) || ticketType === "extras") {
+    return `Ticket type '${ticketType}' cannot be found.`;
+  }
+
+  // Check if the entrant type is valid for the specified ticket type
+  if (!(entrantType in tickets[ticketType].priceInCents)) {
+    return `Entrant type '${entrantType}' cannot be found.`;
+  }
+
+  // Check if all extras are valid
+  if (extras.some((extra) => !tickets.extras[extra])) {
+    return `Extra type '${extras.find(
+      (extra) => !tickets.extras[extra],
+    )}' cannot be found.`;
+  }
+
+  // Calculate the total price including base price and extras
+  const basePrice = tickets[ticketType].priceInCents[entrantType];
+  const extrasPrice = extras.reduce(
+    (total, extra) => total + tickets.extras[extra].priceInCents[entrantType],
+    0,
+  );
+
+  return basePrice + extrasPrice;
+}
+
+// function calculateTicketPrice(tickets, ticketInfo) {
+//   const { ticketType, entrantType, extras } = ticketInfo;
+
+//   // Check if the ticket type is valid and not "extras"
+//   if (!(ticketType in tickets) || ticketType === "extras") {
+//     return `Ticket type '${ticketType}' cannot be found.`;
+//   }
+
+//   // Check if the entrant type is valid for the specified ticket type
+//   if (!(entrantType in tickets[ticketType].priceInCents)) {
+//     return `Entrant type '${entrantType}' cannot be found.`;
+//   }
+
+//   // Loop through extras to check validity and calculate extrasPrice
+//   let extrasPrice = 0;
+//   for (let i = 0; i < extras.length; i++) {
+//     const extra = extras[i];
+
+//     // Check if the extra is valid
+//     if (!tickets.extras[extra]) {
+//       return `Extra type '${extra}' cannot be found.`;
+//     }
+
+//     // Calculate extrasPrice
+//     extrasPrice += tickets.extras[extra].priceInCents[entrantType];
+//   }
+
+//   // Calculate the total price including base price and extras
+//   const basePrice = tickets[ticketType].priceInCents[entrantType];
+
+//   return basePrice + extrasPrice;
+// }
+
+
+const ticketInfo1 = {
+  ticketType: "general",
+  entrantType: "adult",
+  extras: [],
+};
+console.log(calculateTicketPrice(tickets, ticketInfo1));
+
+const ticketInfo2 = {
+  ticketType: "membership",
+  entrantType: "child",
+  extras: ["movie"],
+};
+console.log(calculateTicketPrice(tickets, ticketInfo2));
+
+const ticketInfo3 = {
+  ticketType: "general",
+  entrantType: "kid", // Incorrect
+  extras: ["movie"],
+};
+console.log(calculateTicketPrice(tickets, ticketInfo3));
 
 /**
  * purchaseTickets()
@@ -109,7 +194,81 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+
+function purchaseTickets(ticketData, purchases) {
+  let total = 0;
+  let receipt =
+    "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+
+  // Loop through each purchase to calculate total price and generate receipt lines
+  for (const purchase of purchases) {
+    const priceInCents = calculateTicketPrice(tickets, purchase);
+
+    // Check for errors in ticket price calculation
+    if (typeof priceInCents === "string") {
+      return priceInCents;
+    }
+
+    total += priceInCents;
+    receipt += getReceiptLine(ticketData, purchase, priceInCents);
+  }
+
+  // Generate the final receipt with total price
+  return `${receipt}-------------------------------------------
+TOTAL: $${(total / 100).toFixed(2)}`;
+}
+
+//used helper function to print receipts
+function getReceiptLine(ticketData, purchase, priceInCents) {
+  const { entrantType, ticketType, extras } = purchase;
+  const entrant = entrantType[0].toUpperCase() + entrantType.slice(1);
+  const ticketTypeDescription = ticketData[ticketType].description;
+  const price = (priceInCents / 100).toFixed(2);
+  let line = `${entrant} ${ticketTypeDescription}: $${price}`;
+
+  // Add extras to the line if there are any
+  if (extras.length > 0) {
+    line +=
+      " (" +
+      extras.map((extra) => ticketData.extras[extra].description).join(", ") +
+      ")";
+  }
+
+  return `${line}\n`;
+}
+
+const purchases1 = [
+  {
+    ticketType: "general",
+    entrantType: "adult",
+    extras: ["movie", "terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "senior",
+    extras: ["terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "child",
+    extras: ["education", "movie", "terrace"],
+  },
+  {
+    ticketType: "general",
+    entrantType: "child",
+    extras: ["education", "movie", "terrace"],
+  },
+];
+console.log(purchaseTickets(tickets, purchases1));
+
+const purchases2 = [
+  {
+    ticketType: "discount", // Incorrect
+    entrantType: "adult",
+    extras: ["movie", "terrace"],
+  }
+]
+console.log(purchaseTickets(tickets, purchases2));
 
 // Do not change anything below this line.
 module.exports = {

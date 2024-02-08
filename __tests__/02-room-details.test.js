@@ -90,9 +90,9 @@ describe("getConnectedRoomNamesById()", () => {
         requiredTicketPermissions: [],
         dinosaurs: [],
         connectsTo: [
-          "GHPLI7EmD", // Room B
-          "eU46gvYUF", // Room C
-          "incorrect-id", // Incorrect Room. Does not exist.
+           "GHPLI7EmD", // Room B
+           "eU46gvYUF", // Room C
+           "incorrect-id", // Incorrect Room. Does not exist.
         ],
       },
       {
@@ -116,7 +116,7 @@ describe("getConnectedRoomNamesById()", () => {
     ];
     const id = "xwG7O4wQl";
     const actual = getConnectedRoomNamesById(input, id);
-    const expected = `Room with ID of 'incorrect-id' could not be found.`;
+    const expected = [`Room with ID of 'incorrect-id' could not be found.`];
     expect(actual).toEqual(expected);
   });
 });
