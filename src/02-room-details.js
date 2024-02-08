@@ -32,55 +32,55 @@ const rooms = require("../data/rooms");
 // 4. If the dinosaur is not in any room, return an error message.
 //  5. Return the name of the room.
 
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
-  // Find the dinosaur object by matching the given dinosaur name
-  let dinosaur = dinosaurs.find((dino) => dino.name === dinosaurName);
+// function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+//   // Find the dinosaur object by matching the given dinosaur name
+//   let dinosaur = dinosaurs.find((dino) => dino.name === dinosaurName);
 
-  // Check if the dinosaur with the given name exists
-  if (!dinosaur) {
-    return `Dinosaur with name '${dinosaurName}' cannot be found.`;
-  }
+//   // Check if the dinosaur with the given name exists
+//   if (!dinosaur) {
+//     return `Dinosaur with name '${dinosaurName}' cannot be found.`;
+//   }
 
-  // Find the room containing the identified dinosaur based on its dinosaurId
-  let room = rooms.find((room) => room.dinosaurs.includes(dinosaur.dinosaurId));
+//   // Find the room containing the identified dinosaur based on its dinosaurId
+//   let room = rooms.find((room) => room.dinosaurs.includes(dinosaur.dinosaurId));
 
-  // Check if the room containing the dinosaur is found
-  if (!room) {
-    return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
-  }
+//   // Check if the room containing the dinosaur is found
+//   if (!room) {
+//     return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
+//   }
 
-  // Return the name of the room containing the specified dinosaur
-  return room.name;
-}
+//   // Return the name of the room containing the specified dinosaur
+//   return room.name;
+// }
 
-console.log(getRoomByDinosaurName(dinosaurs, rooms, "Tyrannosaurus"));
-console.log(getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl"));  
+// console.log(getRoomByDinosaurName(dinosaurs, rooms, "Tyrannosaurus"));
+// console.log(getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl"));  
 
 
 // using for loop
-// function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
-//   let dinosaur = "";
+function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  let dinosaur = "";
 
-//   for (let i = 0; i < dinosaurs.length; i++) {
-//     if (dinosaurs[i].name === dinosaurName) {
-//       dinosaur = dinosaurs[i];
-//     }
-//   } 
+  for (let i = 0; i < dinosaurs.length; i++) {
+    if (dinosaurs[i].name === dinosaurName) {
+      dinosaur = dinosaurs[i];
+    }
+  } 
 
-//   if (!dinosaur) {
-//     return `Dinosaur with name '${dinosaurName}' cannot be found.`;
-//   } 
+  if (!dinosaur) {
+    return `Dinosaur with name '${dinosaurName}' cannot be found.`;
+  } 
 
-//   for (let j = 0; j < rooms.length; j++) {
-//     if (rooms[j].dinosaurs.includes(dinosaur.dinosaurId)) {
-//       return rooms[j].name;
-//     }
-//   } 
+  for (let j = 0; j < rooms.length; j++) {
+    if (rooms[j].dinosaurs.includes(dinosaur.dinosaurId)) {
+      return rooms[j].name;
+    }
+  } 
 
-//   return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
-// }
-// console.log(getRoomByDinosaurName(dinosaurs, rooms, "Tyrannosaurus"));
-// console.log(getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl"));
+  return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
+}
+console.log(getRoomByDinosaurName(dinosaurs, rooms, "Tyrannosaurus"));
+console.log(getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl"));
 
 
 /**

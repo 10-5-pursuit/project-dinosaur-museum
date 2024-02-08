@@ -86,6 +86,40 @@ function calculateTicketPrice(tickets, ticketInfo) {
   return basePrice + extrasPrice;
 }
 
+// function calculateTicketPrice(tickets, ticketInfo) {
+//   const { ticketType, entrantType, extras } = ticketInfo;
+
+//   // Check if the ticket type is valid and not "extras"
+//   if (!(ticketType in tickets) || ticketType === "extras") {
+//     return `Ticket type '${ticketType}' cannot be found.`;
+//   }
+
+//   // Check if the entrant type is valid for the specified ticket type
+//   if (!(entrantType in tickets[ticketType].priceInCents)) {
+//     return `Entrant type '${entrantType}' cannot be found.`;
+//   }
+
+//   // Loop through extras to check validity and calculate extrasPrice
+//   let extrasPrice = 0;
+//   for (let i = 0; i < extras.length; i++) {
+//     const extra = extras[i];
+
+//     // Check if the extra is valid
+//     if (!tickets.extras[extra]) {
+//       return `Extra type '${extra}' cannot be found.`;
+//     }
+
+//     // Calculate extrasPrice
+//     extrasPrice += tickets.extras[extra].priceInCents[entrantType];
+//   }
+
+//   // Calculate the total price including base price and extras
+//   const basePrice = tickets[ticketType].priceInCents[entrantType];
+
+//   return basePrice + extrasPrice;
+// }
+
+
 const ticketInfo1 = {
   ticketType: "general",
   entrantType: "adult",
