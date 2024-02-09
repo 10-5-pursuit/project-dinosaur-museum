@@ -54,7 +54,41 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+
+function calculateTicketPrice(ticketData, ticketInfo) {
+  let totalSum = 0;
+  const { ticketType, entrantType, extras } = ticketInfo;
+
+  if (ticketType in ticketData) {
+    if (entrantType in ticketData[ticketType].priceInCents) {
+      totalSum += ticketData[ticketType].priceInCents[entrantType];
+      if (extras.length) {
+        for (const extra of extras) {
+          if (extra in ticketData.extras) {
+            totalSum += ticketData.extras[extra].priceInCents[entrantType];
+          } else {
+            return `Extra type 'incorrect-extra' cannot be found.`;
+          }
+        } 
+      }
+    } else {
+      return `Entrant type 'incorrect-entrant' cannot be found.`;
+    }
+  } else {
+    return `Ticket type 'incorrect-type' cannot be found.`;
+  }
+
+  return totalSum;
+}
+
+
+// const ticketInfo = {
+//   ticketType: "membership",
+//   entrantType: "child",
+//   extras: ["movie"],
+// };
+// console.log(calculateTicketPrice(exampleTicketData, ticketInfo));
+
 
 /**
  * purchaseTickets()
@@ -109,7 +143,70 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+
+
+    function purchaseTickets(ticketData, purchases) {
+      let completeOrder = [];
+    
+      for (const purchase of purchases) {
+    
+        const { ticketType, entrantType, extras } = purchase;
+        let ticketSummary = {};
+    
+        if (ticketType in ticketData) {
+          if (entrantType in ticketData[ticketType].priceInCents) {
+    
+            ticketSummary['entrantType'] = entrantType[0].toUpperCase() + entrantType.slice(1);
+            ticketSummary['admissionType'] = ticketData[ticketType].description;
+            ticketSummary['ticketSumPriceInPennies'] = ticketData[ticketType].priceInCents[entrantType];
+            ticketSummary['extraPurchases'] = [];
+    
+            if (extras.length) {
+              for (const extra of extras) {
+                if (extra in ticketData.extras) {
+    
+                  ticketSummary.ticketSumPriceInPennies += ticketData.extras[extra].priceInCents[entrantType];
+                  ticketSummary.extraPurchases.push(ticketData.extras[extra].description);
+    
+                } else {
+                  return `Extra type 'incorrect-extra' cannot be found.`;
+                }
+              }
+            }
+    
+          } else {
+            return `Entrant type 'incorrect-entrant' cannot be found.`;
+          }
+    
+          completeOrder.push(ticketSummary);
+        } else {
+          return `Ticket type 'incorrect-type' cannot be found.`;
+        }
+      }
+    
+      function completeOrderDescript(fullOrder) {
+        let stringResult = '';
+    
+        for (const order of fullOrder) {
+          stringResult += `${order.entrantType} ${order.admissionType}: $${(order.ticketSumPriceInPennies / 100).toFixed(2)}${order.extraPurchases.length ? ` (${order.extraPurchases.join(', ')})` : ''}\n`;
+        }
+    
+        return stringResult;
+      }
+    
+      function totalGrossSumInDollars(fullOrder) {
+        let sum = 0;
+    
+        for (const order of fullOrder) {
+          sum += order.ticketSumPriceInPennies;
+        }
+    
+        return (sum / 100).toFixed(2);
+      }
+    
+      return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${completeOrderDescript(completeOrder)}-------------------------------------------\nTOTAL: $${totalGrossSumInDollars(completeOrder)}`;
+    }
+
 
 // Do not change anything below this line.
 module.exports = {
