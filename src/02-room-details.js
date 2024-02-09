@@ -69,9 +69,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
 
 function getConnectedRoomNamesById(rooms, id) {
   let arrayOfIds = [];
-
   let roomsArr = [];
-
   let connectedRoomsIdArr = [];
 
   for (const roomObj of rooms) {
@@ -87,16 +85,12 @@ function getConnectedRoomNamesById(rooms, id) {
     return `Room with ID of 'incorrect-id' could not be found.`;
   }
 
-
   for (const roomObj2 of rooms) {
     if (connectedRoomsIdArr.includes(roomObj2.roomId)) {
       roomsArr.push(roomObj2.name);
     }
   }
 
-  // if (!connectedRoomsIdArr.includes(id)) {
-  //   return `Room with ID of 'incorrect-id' could not be found.`;
-  // }
 
   return roomsArr;
 }
