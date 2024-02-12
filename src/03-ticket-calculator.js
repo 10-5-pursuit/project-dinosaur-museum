@@ -72,33 +72,24 @@ const exampleTicketData = require("../data/tickets");
 //   extras: [],
 // };
 
-function calculateTicketPrice(ticketData, ticketInfo) {
-  const { ticketType, entrantType, extras } = ticketInfo;
-  let totalPrice = 0;
-
-  if (ticketType in ticketData) {
-    if (entrantType in ticketData[ticketType].priceInCents) {
-      totalPrice = ticketData[ticketType].priceInCents[entrantType];
-
-      if (extras.length) {
-        for (const extra of extras) {
-          if (extra in ticketData.extras) {
-            totalPrice += ticketData.extras[extra].priceInCents[entrantType];
-          } else {
-            return `Extra type 'incorrect-extra' cannot be found.`;
-          }
-        }
-      }
-
-    } else {
-      return `Entrant type 'incorrect-entrant' cannot be found.`;
-    }
-  } else {
-    return `Ticket type 'incorrect-type' cannot be found.`;
+function calculateTicketPrice(ticketData, ticketInfo){
+  if(!ticketData[ticketInfo.ticketType]){
+    return `Ticket type 'incorrect-type' cannot be found.`
   }
-
-  return totalPrice;
+  if(!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]){
+     return `Entrant type 'incorrect-entrant' cannot be found.`
+  }
+  let total = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+  for(const extra of ticketInfo.extras){
+    if(!ticketData.extras[extra]){
+      return `Extra type 'incorrect-extra' cannot be found.`
+    }
+    total += ticketData.extras[extra].priceInCents[ticketInfo.entrantType]
+  }
+  return total
 }
+
+
 
 /**
  * purchaseTickets()
@@ -155,7 +146,15 @@ function calculateTicketPrice(ticketData, ticketInfo) {
       },
     ];
     purchaseTickets(tickets, purchases);
-    //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n-------------------------------------------\nTOTAL: $175.00"
+    //> "Thank you for visiting the Dinosaur 
+    Museum!\n-------------------------------------------\n
+    Adult General Admission: $50.00 (Movie Access, Terrace Access)\n
+    Senior General Admission: $35.00 (Terrace Access)\n
+    Child General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n
+    Child General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n
+    -------------------------------------------\nTOTAL: $175.00"
+
+  
 
  * EXAMPLE:
     const purchases = [
@@ -168,9 +167,41 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {
-  
 
+  const extrasDisplay = extras => {
+    return extras.map((extra, idx) => {
+        const capitalizedExtra = capitalizeFirstLetter(extra);
+        return idx !== extras.length - 1 ? `${capitalizedExtra} Access,` : `${capitalizedExtra} Access`;
+    }).join(' ');
+}
+
+const capitalizeFirstLetter = str => str[0].toUpperCase() + str.slice(1);
+
+const centsToDollars = cents => cents / 100;
+
+const formatPriceDisplay = num => `$${centsToDollars(num)}.00`;
+
+
+function purchaseTickets(ticketData, purchases){
+  let totalForAllTickets = 0;
+  let receiptFormat = []
+  for(const ticket of purchases){
+    let total = calculateTicketPrice(ticketData, ticket);
+    if(typeof(total) == 'string'){
+      return calculateTicketPrice(ticketData, ticket);
+    }
+    totalForAllTickets += total;
+    const {ticketType, entrantType, extras} = ticket;
+    if(extras.length){
+      receiptFormat.push(`${capitalizeFirstLetter(entrantType)} ${capitalizeFirstLetter(ticketType)} Admission: ${formatPriceDisplay(total)} (${extrasDisplay(extras)})`);
+    }
+    else{
+      receiptFormat.push(`${capitalizeFirstLetter(entrantType)} ${capitalizeFirstLetter(ticketType)} Admission: ${formatPriceDisplay(total)}`);
+    }
+  }
+  receiptFormat.unshift('Thank you for visiting the Dinosaur Museum!', '-------------------------------------------');
+  receiptFormat.push('-------------------------------------------', `TOTAL: ${formatPriceDisplay(totalForAllTickets)}`);
+  return receiptFormat.join('\n');
 }
 
 // Do not change anything below this line.
