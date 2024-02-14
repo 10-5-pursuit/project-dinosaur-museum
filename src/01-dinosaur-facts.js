@@ -109,22 +109,22 @@ console.log(getDinosaurDescription(exampleDinosaurData, 'V53DvdhV2A'))
 
 
   function getDinosaursAliveMya(dinosaurs, mya, key) {
-    const filteredDinosaurs = dinosaurs.filter(dinosaur => {
-      if (dinosaur.mya.length === 1) {
-        return dinosaur.mya[0] === mya || dinosaur.mya[0] === mya - 1;
-      } else {
-        return dinosaur.mya.includes(mya) || dinosaur.mya.includes(mya - 1);
+      let arr = []
+      if (!(key in dinosaurs[0]))
+        key = "dinosaurId"
+      for (let i = 0; i < dinosaurs.length; i++){
+        if (dinosaurs[i].mya[0] === mya && dinosaurs[i].mya.length === 1){
+          arr.push(dinosaurs[i][key])
+        }
+        else if(mya >= dinosaurs[i].mya[1] && mya <= dinosaurs[i].mya[0]){
+          arr.push(dinosaurs[i][key])
+        }
+        else if (dinosaurs[i].mya[0] -1 === mya && dinosaurs[i].mya.length === 1){
+           arr.push(dinosaurs[i][key])
+        }
       }
-    });
-    // If a key is provided, return the values of that key for the filtered dinosaurs
-    if (key) {
-      return filteredDinosaurs.map(dinosaur => dinosaur[key]);
-    }
-    // Otherwise, return the IDs of the filtered dinosaurs
-    return filteredDinosaurs.map(dinosaur => dinosaur.dinosaurId);
-  }
-
-
+      return arr
+      }
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
