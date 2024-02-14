@@ -103,22 +103,6 @@ let connectedRooms = []
 
 
 
-// let connectedRooms = []
-  // for (let i = 0; i < rooms.length; i++){
-  //   if (rooms[i].roomId === id){
-  //     connectedRooms = rooms[i].connectsTo
-  //   }
-  //   for (let j = 0; j < connectedRooms.length; j++){
-  //     for (let k = 0; k < rooms.length; k++){
-  //       if (connectedRooms[j] == rooms[k].roomId){
-  //         connectedRooms[j] = rooms[k].name
-  //       }
-  //     }
-  //   }
-  // } if (connectedRooms.length == 0){
-  //   return `Room with ID of '${id}' could not be found.`
-  // }
-  // return connectedRooms
 module.exports = {
   getRoomByDinosaurName,
   getConnectedRoomNamesById,

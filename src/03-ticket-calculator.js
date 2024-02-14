@@ -54,8 +54,20 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  let price = 0;
+  let { ticketType, entrantType, extras } = ticketInfo;
+  if (!(ticketType in ticketData)) return `Ticket type '${ticketType}' cannot be found.`;
+  if (!(entrantType in ticketData[ticketType].priceInCents)) return `Entrant type '${entrantType}' cannot be found.`;
+  price += ticketData[ticketType].priceInCents[entrantType];
 
+  for (let extra of extras){
+    if (!(extra in ticketData.extras)) return `Extra type '${extra}' cannot be found.`
+    price += ticketData.extras[extra].priceInCents[entrantType];
+  }
+
+  return price;
+}
 /**
  * purchaseTickets()
  * ---------------------
@@ -109,8 +121,55 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
 
+
+const capitalizeFirstLtr = str => str[0].toUpperCase() + str.substring(1);
+const toDollars = priceInCents => `$${(priceInCents/100)}.00`;
+    
+function purchaseTickets(ticketData, purchases) {
+  let receipt = `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n`;
+  let receiptTotal = 0;
+    
+  const purchasesIterator = purchases[Symbol.iterator]();
+  purchasesIterator.next();
+    
+  for (let purchase of purchases) {
+    let { ticketType, entrantType, extras } = purchase;
+    
+    if (!(ticketType in ticketData))
+      return `Ticket type '${ticketType}' cannot be found.`;
+    else if (!(entrantType in ticketData[ticketType].priceInCents)) 
+      return `Entrant type '${entrantType}' cannot be found.`;
+    
+    else {
+      let price = ticketData[ticketType].priceInCents[entrantType];
+      let extrasList = "";
+    
+      let extrasIterator = extras[Symbol.iterator]();
+      extrasIterator.next();
+    
+      for (const extra of extras){
+        if (!(extra in ticketData.extras))
+          return `Extra type '${extra}' cannot be found.`;
+    
+        price += ticketData.extras[extra].priceInCents[entrantType];
+        extrasList += `${capitalizeFirstLtr(extra)} Access`;
+    
+        if (!extrasIterator.next().done)
+          extrasList += ", ";
+      }
+      receiptTotal += price;
+      receipt += `${capitalizeFirstLtr(entrantType)} ${capitalizeFirstLtr(ticketType)} Admission: ${toDollars(price)}`;
+      if (extrasList != "")
+        receipt += ` (${extrasList})`;
+    
+      if (!purchasesIterator.next().done) receipt += "\n";
+    }
+  }
+  receipt += `\n-------------------------------------------\nTOTAL: ${toDollars(receiptTotal)}`;
+  return receipt;
+}
+    
 // Do not change anything below this line.
 module.exports = {
   calculateTicketPrice,
