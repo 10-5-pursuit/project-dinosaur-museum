@@ -22,7 +22,59 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+// function getLongestDinosaur(dinosaurs) {
+//     //if the input arr is empty, return an empty obj
+//     //not needed - can just return longestDinosaurObj
+//     if(dinosaurs.length === 0) return {};
+
+//     //init variable as an empty obj to store longest dinosaur
+//     let longestDinosaurObj = {};
+//     let maxLength = 0;
+//     let dinoName = '';
+    
+//     //look through all dinosaurs (loop or method)if the dinosaur length is > maxLength, update maxLength to dinosaur length and update dinoName to dinosaur's name
+//     dinosaurs.forEach(dino => {
+//       if(dino.lengthInMeters > maxLength){
+//         maxLength = dino.lengthInMeters;
+//         dinoName = dino.name;
+//     }
+//   })
+//     //convert length in meters to feet
+//     maxLength = maxLength * 3.281
+
+//     //new key + value pair
+//     longestDinosaurObj[dinoName] = maxLength
+//     return longestDinosaurObj
+
+// }
+
+function getLongestDinosaur(dinosaurs) {
+  //init variable as an empty obj to store longest dinosaur
+  let longestDinosaurObj = {};
+  
+    //using reduce you only iterate through the array once to find the longest dino
+    //maxLength is the accumulator and it is set to 0, currentDino is dynamic variable/placeholder for each specifc dinosaur in the data.
+    dinosaurs.reduce((maxLength,currentDino) => {
+      //if currentDino.lengthInMeters > maxLength, populate empty obj with current dinosaur name as a key && length in feet as a value
+      //[bracket notation]=> key using the dynamic variable created inside reduce method
+      //dot.notation => access the length in meters value from the obj in dinosaurs data
+      
+      if(currentDino.lengthInMeters > maxLength){
+        longestDinosaurObj = {[currentDino.name]: currentDino.lengthInMeters * 3.281};
+          return currentDino.lengthInMeters
+    
+      } else {
+      //if currentDino.lengthInMeters is not greater than maxLength (0), return the longest length found so far
+          return maxLength
+  
+  }}, 0);
+  
+  //return obj with the longest dinosaur and it's length in feet, or an empty obj if the dinosaurs array is empty
+  return longestDinosaurObj
+
+}
+
+
 
 /**
  * getDinosaurDescription()
@@ -44,7 +96,20 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+
+function getDinosaurDescription(dinosaurs, id) {
+  //initialize variable and assign it to the result of filter method => creates a new array with filtered elements. The filter checks for unique dinosaur Id meaning that it will return an element if id exists. [0] means that the array isn't empty.
+  let dinosaur = dinosaurs.filter (dino => dino.dinosaurId === id) [0]
+    
+  //if the dinosaur doesn't exist return an error msg. The error msg is in the test file and description.
+  if(!dinosaur) return `A dinosaur with an ID of '${id}' cannot be found.`
+    
+  //if dinosaur id exists, return detailed description using template literal. Access the key/value pairs using dot notation. The specific string to pass the test is in the test and description.
+  return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${dinosaur.mya[dinosaur.mya.length-1]} million years ago.`
+
+}
+
+// getDinosaurDescription(exampleDinosaurData, 'YLtkN9R37')
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +136,69 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+
+
+// this is my helper function 
+// the function takes two params and checks if the specified key is "name". If it is, it returns the name property of the object. If the key is not "name" it returns the Id property of the object.
+function getNameOrId(key, obj){
+  if(key === 'name') return obj.name
+  else return obj.dinosaurId
+}
+
+
+// function getDinosaursAliveMya(dinosaurs, mya, key) {
+//   //init an empty arr
+//   let myaDinoArr = []
+  
+//   //loop through the dinosaurs array
+//   //check if the array has one element and if that element is equal to the input mya or one less 
+//   for (let i = 0; i < dinosaurs.length; i ++){
+//     if (dinosaurs[i].mya.length === 1 && (dinosaurs[i].mya[0] === mya || dinosaurs[i].mya[0]-1 === mya)){
+      
+//       //push the return value of the helper function to myaDinoArr. It's using the input key and the element from the array that matches either by name or Id
+//       myaDinoArr.push(getNameOrId(key,dinosaurs[i]))
+      
+//     //check if the array has more than one element and create a range for the input mya 
+//     } else if (dinosaurs[i].mya[0] >= mya && dinosaurs[i].mya[1] <= mya){
+      
+//       //this is doing exactly the same process as before
+//       myaDinoArr.push(getNameOrId(key,dinosaurs[i]))
+//     }
+//   }
+//     //after loops and all dinosaurs have been checked, return new arr
+//     return myaDinoArr;
+
+// }
+
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  //initiliaze variable to an empty arr
+  let myaDinoArr = []
+  
+  //loop through the dinosaurs array
+  //check if the mya array for each dinosaur has one element([0] bracket notation is checking for 1st index) and if that element is equal to the input mya or one less 
+  for (let dino of dinosaurs){
+    if(dino.mya.length == 1 && (dino.mya[0] === mya || dino.mya[0]-1 === mya)){
+      
+  
+      
+      //push the return value of the helper function to myaDinoArr. It's using the input key and the element from the for of loop
+      myaDinoArr.push(getNameOrId(key,dino))
+    
+      
+    //check if the mya array has more than one element and create a range for the input mya 
+  } else if (dino.mya[0] >= mya && dino.mya[1] <= mya){
+      
+      //this is doing exactly the same process as before
+          myaDinoArr.push(getNameOrId(key,dino))
+
+    //after all dinosaurs have been checked, return new arr or empty arr
+  }
+}
+    return myaDinoArr;
+
+}
+
+getDinosaursAliveMya(exampleDinosaurData, 65,'name')
 
 module.exports = {
   getLongestDinosaur,

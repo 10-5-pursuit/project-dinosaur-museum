@@ -54,7 +54,40 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+    // const ticketInfo = {
+    //   ticketType: "membership",
+    //   entrantType: "senior",
+    //   extras: [],
+    //   };
+
+function calculateTicketPrice(ticketData, ticketInfo) {
+  if(ticketInfo.ticketType !== 'general' && ticketInfo.ticketType !== 'membership'){
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
+  }
+
+  if(ticketInfo.entrantType !== 'child' && ticketInfo.entrantType !== 'adult' && ticketInfo.entrantType !== 'senior'){
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
+  }
+
+  let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]
+
+  let extraFee = 0
+  
+  //  element = ticketData.extras[ticketInfo.extras[0]] which is the "extras" key in the ticketInfo obj. It's data type is an array so I have to loop through it to find its value
+  for (let element of ticketInfo.extras){
+    if(element !== 'movie' && element !== 'education' && element !== 'terrace'){
+      return `Extra type '${ticketInfo.extras}' cannot be found.`
+    }
+    extraFee += ticketData.extras[element].priceInCents[ticketInfo.entrantType];
+  }
+
+  
+  return ticketPrice += extraFee
+  
+
+  }
+
+// console.log(calculateTicketPrice(exampleTicketData, ticketInfo))
 
 /**
  * purchaseTickets()
@@ -109,7 +142,42 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+    // const purchases = [
+    //   {
+    //     ticketType: "discount",
+    //     entrantType: "adult",
+    //     extras: ["movie", "terrace"],
+    //   },
+    // ]
+
+
+
+
+
+function purchaseTickets(ticketData, purchases) {
+  
+  let receiptMsg = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n"
+
+
+  // let generalTicket = ticketData[purchases.ticketType].priceInCents[purchases.entrantType]
+  
+  // let membershipTicket = ticketData[purchases.ticketType].priceInCents[purchases.entrantType] 
+  
+  if(purchases.ticketType !== 'general' && purchases.ticketType !== 'membership'){
+    return `Ticket type '${purchases.ticketType}' cannot be found.`
+  } else {
+    purchases.push(generalTicket || membershipTicket)
+  }
+  
+  if(purchases.entrantType !== 'child' && purchases.entrantType !== 'adult' && purchases.entrantType !== 'senior'){
+    return `Entrant type '${purchases.entrantType}' cannot be found.`
+  }
+
+  console.log(purchases)
+
+}
+
+// purchaseTickets(exampleTicketData,purchases)
 
 // Do not change anything below this line.
 module.exports = {
